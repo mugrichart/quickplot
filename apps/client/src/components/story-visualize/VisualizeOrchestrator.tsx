@@ -10,6 +10,9 @@ import { PlaybackControls } from './PlaybackControls'
 import { CharacterControls } from './CharacterControls'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Button } from '@/components/ui/button'
+import { Users } from 'lucide-react'
 
 import { StoryReference } from './StoryReference'
 
@@ -64,84 +67,101 @@ export function VisualizeOrchestrator({ initialData }: Props) {
     const currentEvent = initialData.events[currentEventIndex]
 
     return (
-        <div className="h-screen flex flex-col bg-background overflow-hidden p-2 gap-2">
-            {/* Top Section: Timeline + Playback (approx 8%) */}
-            <div className="flex items-center gap-6 h-[8%] border rounded-lg px-4 bg-muted/10">
-                <div className="flex-1">
-                    <Timeline
+        <div className="h-screen flex flex-col bg-background overflow-hidden p-3 gap-3">
+            {/* 1. Global Navbar (Story Info + Central Playback + Character Focus) */}
+            <header className="flex items-center border rounded-xl px-6 py-2 bg-muted/10 h-[90px] shrink-0 shadow-sm backdrop-blur-sm relative">
+                {/* Left: Branding & Story Info */}
+                <div className="flex flex-col min-w-[220px]">
+                    <h1 className="text-[18px] font-black uppercase tracking-tight text-primary leading-tight">
+                        QuickPlot Story Map
+                    </h1>
+                    <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest opacity-70">
+                            The Hidden Legacy
+                        </span>
+                        <span className="text-[10px] text-primary/40 font-black">
+                            // {currentEvent.label}
+                        </span>
+                    </div>
+                </div>
+
+                {/* Center: Playback Controls (The Main Command) */}
+                <div className="flex-1 flex justify-center">
+                    <div className="flex items-center gap-4 bg-background border px-6 py-2 rounded-full shadow-md border-primary/20 scale-110">
+                        <PlaybackControls
+                            isPlaying={isPlaying}
+                            speed={speed}
+                            onTogglePlay={() => setIsPlaying(!isPlaying)}
+                            onToggleSpeed={toggleSpeed}
+                            onPrev={handlePrev}
+                            onNext={handleNext}
+                        />
+                        <div className="h-4 w-px bg-border/50 mx-1" />
+                        <Badge variant="outline" className="text-[11px] py-0 border-none bg-transparent font-mono tabular-nums h-6 font-bold">
+                            {currentEventIndex + 1} <span className="opacity-40 px-0.5">/</span> {initialData.events.length}
+                        </Badge>
+                    </div>
+                </div>
+
+                {/* Right: Character Focus Grid & Reference */}
+                <div className="flex items-center gap-6 min-w-[420px] justify-end border-l border-primary/5 pl-6">
+                    <CharacterControls
                         data={initialData}
-                        currentEventIndex={currentEventIndex}
-                        onEventSelect={setCurrentEventIndex}
+                        selectedIds={selectedCharacterIds}
+                        onToggle={toggleCharacter}
+                        onToggleAll={toggleAllCharacters}
                     />
-                </div>
-                <div className="flex items-center gap-4 border-l pl-6">
+                    <div className="h-12 w-px bg-border/30" />
                     <StoryReference />
-                    <Badge variant="outline" className="text-[10px] py-0 whitespace-nowrap">
-                        Step {currentEventIndex + 1} / {initialData.events.length}
-                    </Badge>
-                    <PlaybackControls
-                        isPlaying={isPlaying}
-                        speed={speed}
-                        onTogglePlay={() => setIsPlaying(!isPlaying)}
-                        onToggleSpeed={toggleSpeed}
-                        onPrev={handlePrev}
-                        onNext={handleNext}
-                    />
                 </div>
+            </header>
+
+            {/* 2. Story World (Full Color, No Dimming) */}
+            <main className="flex-3 min-h-0 relative">
+                <Card className="h-full border border-primary/10 shadow-sm bg-background overflow-hidden rounded-xl">
+                    <div className="absolute inset-0 z-0">
+                        <StoryWorld
+                            data={initialData}
+                            selectedCharacterIds={selectedCharacterIds}
+                            currentEventIndex={currentEventIndex}
+                        />
+                    </div>
+                    {/* Floating HUD info */}
+                    <div className="absolute bottom-4 left-4 pointer-events-none z-10">
+                        <div className="bg-background/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-primary/10 shadow-sm flex flex-col gap-0.5">
+                            <span className="text-[8px] font-black uppercase tracking-widest text-primary/60">Current Focus</span>
+                            <span className="text-[10px] font-bold text-foreground">{currentEvent.label}</span>
+                        </div>
+                    </div>
+                </Card>
+            </main>
+
+            {/* 3. Timeline (Transition layer) */}
+            <div className="h-[40px] px-8 flex items-center bg-muted/5 rounded-xl border border-transparent shrink-0">
+                <Timeline
+                    data={initialData}
+                    currentEventIndex={currentEventIndex}
+                    onEventSelect={setCurrentEventIndex}
+                />
             </div>
 
-            {/* Middle Section: Charts (approx 22%) */}
-            <div className="grid grid-cols-2 gap-2 h-[22%]">
-                {/* Box 1: Character Evolution */}
-                <div className="border rounded-lg bg-card/30">
+            {/* 4. Bottom Section: Analytics */}
+            <footer className="flex-[1.2] grid grid-cols-2 gap-3 min-h-0">
+                <div className="border border-primary/5 rounded-xl bg-card/10 backdrop-blur-[2px] overflow-hidden hover:bg-card/20 transition-colors">
                     <CharacterEvolutionChart
                         data={initialData}
                         selectedCharacterIds={selectedCharacterIds}
                         currentEventIndex={currentEventIndex}
                     />
                 </div>
-                {/* Box 2: Opportunity vs Bad */}
-                <div className="border rounded-lg bg-card/30">
+                <div className="border border-primary/5 rounded-xl bg-card/10 backdrop-blur-[2px] overflow-hidden hover:bg-card/20 transition-colors">
                     <EventsChart
                         data={initialData}
                         selectedCharacterIds={selectedCharacterIds}
                         currentEventIndex={currentEventIndex}
                     />
                 </div>
-            </div>
-
-            {/* Bottom Section: Story World (approx 68% - spans the rest) */}
-            <div className="flex-1 min-h-0 relative">
-                <Card className="h-full flex flex-col overflow-hidden">
-                    <div className="px-4 py-2 border-b bg-muted/30 flex items-center justify-between">
-                        <h2 className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                            Story World <span className="text-foreground">— {currentEvent.label}</span>
-                        </h2>
-                        <div className="flex items-center gap-4">
-                            <CharacterControls
-                                data={initialData}
-                                selectedIds={selectedCharacterIds}
-                                onToggle={toggleCharacter}
-                                onToggleAll={toggleAllCharacters}
-                            />
-                        </div>
-                    </div>
-                    <div className="flex-1 relative bg-slate-50/30 dark:bg-slate-900/10">
-                        <StoryWorld
-                            data={initialData}
-                            selectedCharacterIds={selectedCharacterIds}
-                            currentEventIndex={currentEventIndex}
-                        />
-
-                        {/* Context Tooltip/Badge instead of full card to save space */}
-                        <div className="absolute top-4 left-4 pointer-events-none">
-                            <Badge variant="secondary" className="bg-background/80 backdrop-blur px-3 py-1 text-[10px] border">
-                                Focus: {currentEvent.label}
-                            </Badge>
-                        </div>
-                    </div>
-                </Card>
-            </div>
+            </footer>
         </div>
     )
 }

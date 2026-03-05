@@ -14,11 +14,11 @@ export function Timeline({ data, currentEventIndex, onEventSelect }: Props) {
     return (
         <div className="relative w-full py-4 px-2">
             {/* The Line */}
-            <div className="absolute top-1/2 left-0 w-full h-0.5 bg-muted -translate-y-1/2" />
+            <div className="absolute top-1/2 left-0 w-full h-[1px] bg-muted/30 -translate-y-1/2" />
 
             {/* Active Line Progress */}
             <div
-                className="absolute top-1/2 left-0 h-0.5 bg-primary -translate-y-1/2 transition-all duration-300"
+                className="absolute top-1/2 left-0 h-[1px] bg-primary/30 -translate-y-1/2 transition-all duration-300"
                 style={{ width: `${(currentEventIndex / (data.events.length - 1)) * 100}%` }}
             />
 
@@ -30,10 +30,12 @@ export function Timeline({ data, currentEventIndex, onEventSelect }: Props) {
                                 <button
                                     onClick={() => onEventSelect(index)}
                                     className={cn(
-                                        "w-3 h-3 rounded-full border-2 transition-all duration-200 hover:scale-125 z-10",
-                                        index <= currentEventIndex
-                                            ? "bg-primary border-primary scale-110"
-                                            : "bg-background border-muted"
+                                        "w-2 h-2 rounded-full border transition-all duration-200 hover:scale-125 z-10",
+                                        index === currentEventIndex
+                                            ? "bg-primary border-primary scale-150 shadow-[0_0_10px_rgba(var(--primary),0.5)]"
+                                            : index < currentEventIndex
+                                                ? "bg-primary/40 border-primary/40"
+                                                : "bg-background border-muted/40"
                                     )}
                                 />
                             </TooltipTrigger>

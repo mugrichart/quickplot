@@ -2,7 +2,7 @@
 
 import { Checkbox } from '@/components/ui/checkbox'
 import { StoryData } from '@/types/story'
-import { Badge } from '@/components/ui/badge'
+import { cn } from '@/lib/utils'
 
 interface Props {
     data: StoryData
@@ -15,38 +15,45 @@ export function CharacterControls({ data, selectedIds, onToggle, onToggleAll }: 
     const allSelected = selectedIds.length === data.characters.length
 
     return (
-        <div className="space-y-4">
-            <div className="flex items-center justify-between">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground transition-colors">Characters</h3>
-                <button
-                    onClick={() => onToggleAll(!allSelected)}
-                    className="text-[10px] font-medium text-primary hover:underline"
-                >
-                    {allSelected ? 'Deselect All' : 'Select All'}
-                </button>
+        <div className="flex-1 min-w-0 space-y-2">
+            <div className="flex items-center justify-between border-b border-primary/10 pb-1.5 px-1">
+                <h3 className="text-[9px] font-black uppercase tracking-widest text-primary/50">Character Focus</h3>
+                <div className="flex items-center gap-2 pr-1">
+                    <span className="text-[8px] text-muted-foreground uppercase font-black">All</span>
+                    <Checkbox
+                        checked={allSelected}
+                        onCheckedChange={() => onToggleAll(!allSelected)}
+                        className="h-3 w-3 border-primary/30 data-[state=checked]:bg-primary"
+                    />
+                </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-5 gap-1">
                 {data.characters.map((char) => (
                     <div
                         key={char.id}
-                        className="flex items-center gap-2 p-2 rounded-md border bg-card/50 hover:bg-accent/50 transition-colors"
+                        className={cn(
+                            "flex items-center gap-1 p-1 rounded transition-all border",
+                            selectedIds.includes(char.id)
+                                ? "bg-primary/5 border-primary/20 shadow-sm"
+                                : "bg-muted/5 border-transparent opacity-40 grayscale-[0.5]"
+                        )}
                     >
                         <Checkbox
                             id={`char-${char.id}`}
                             checked={selectedIds.includes(char.id)}
                             onCheckedChange={() => onToggle(char.id)}
-                            className="border-primary data-[state=checked]:bg-primary"
+                            className="h-2.5 w-2.5 border-primary/40 data-[state=checked]:bg-primary"
                         />
                         <label
                             htmlFor={`char-${char.id}`}
-                            className="text-xs font-medium cursor-pointer flex items-center gap-2"
+                            className="text-[8px] font-bold cursor-pointer truncate flex items-center gap-1 min-w-0"
                         >
                             <div
-                                className="w-2 h-2 rounded-full"
+                                className="w-1.5 h-1.5 rounded-full shrink-0 shadow-sm"
                                 style={{ backgroundColor: char.color }}
                             />
-                            {char.name}
+                            <span className="truncate">{char.name}</span>
                         </label>
                     </div>
                 ))}
