@@ -1,0 +1,150 @@
+{
+    "characters": [
+        {
+            "id": "1",
+            "name": "Arthur",
+            "color": "#3b82f6"
+        },
+        {
+            "id": "2",
+            "name": "Morgana",
+            "color": "#ef4444"
+        },
+        {
+            "id": "3",
+            "name": "Merlin",
+            "color": "#a855f7"
+        }
+    ],
+    "places": [
+        {
+            "id": "p1",
+            "type": "castle",
+            "name": "Camelot",
+            "x": 20,
+            "y": 20,
+            "emoji": "🏰"
+        },
+        {
+            "id": "p2",
+            "type": "forest",
+            "name": "Dark Woods",
+            "x": 70,
+            "y": 30,
+            "emoji": "🌲"
+        },
+        {
+            "id": "p3",
+            "type": "village",
+            "name": "Humbleton",
+            "x": 40,
+            "y": 70,
+            "emoji": "🏘️"
+        },
+        {
+            "id": "p4",
+            "type": "hospital",
+            "name": "Healer's Tent",
+            "x": 80,
+            "y": 80,
+            "emoji": "🏥"
+        }
+    ],
+    "events": [
+        {
+            "id": "e1",
+            "label": "The Coronation",
+            "timestamp": 0,
+            "characterEvolution": {
+                "1": 10,
+                "2": -5,
+                "3": 20
+            },
+            "occurrences": {
+                "good": 5,
+                "bad": 1
+            },
+            "characterLocations": {
+                "1": "p1",
+                "2": "p1",
+                "3": "p1"
+            }
+        },
+        {
+            "id": "e2",
+            "label": "The Betrayal",
+            "timestamp": 1,
+            "characterEvolution": {
+                "1": 5,
+                "2": -25,
+                "3": 15
+            },
+            "occurrences": {
+                "good": 1,
+                "bad": 4
+            },
+            "characterLocations": {
+                "1": "p1",
+                "2": "p2",
+                "3": "p1"
+            }
+        },
+        {
+            "id": "e3",
+            "label": "Search for Cure",
+            "timestamp": 2,
+            "characterEvolution": {
+                "1": 15,
+                "2": -30,
+                "3": 10
+            },
+            "occurrences": {
+                "good": 2,
+                "bad": 2
+            },
+            "characterLocations": {
+                "1": "p2",
+                "2": "p2",
+                "3": "p4"
+            }
+        },
+        {
+            "id": "e4",
+            "label": "The Village Feast",
+            "timestamp": 3,
+            "characterEvolution": {
+                "1": 25,
+                "2": -20,
+                "3": 20
+            },
+            "occurrences": {
+                "good": 8,
+                "bad": 0
+            },
+            "characterLocations": {
+                "1": "p3",
+                "2": "p2",
+                "3": "p3"
+            }
+        },
+        {
+            "id": "e5",
+            "label": "The Final Battle",
+            "timestamp": 4,
+            "characterEvolution": {
+                "1": 40,
+                "2": -45,
+                "3": 35
+            },
+            "occurrences": {
+                "good": 3,
+                "bad": 10
+            },
+            "characterLocations": {
+                "1": "p1",
+                "2": "p1",
+                "3": "p1"
+            }
+        }
+    ]
+}
