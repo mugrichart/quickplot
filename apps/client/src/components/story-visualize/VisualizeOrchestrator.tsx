@@ -11,6 +11,8 @@ import { CharacterControls } from './CharacterControls'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
+import { StoryReference } from './StoryReference'
+
 interface Props {
     initialData: StoryData
 }
@@ -73,6 +75,7 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                     />
                 </div>
                 <div className="flex items-center gap-4 border-l pl-6">
+                    <StoryReference />
                     <Badge variant="outline" className="text-[10px] py-0 whitespace-nowrap">
                         Step {currentEventIndex + 1} / {initialData.events.length}
                     </Badge>
