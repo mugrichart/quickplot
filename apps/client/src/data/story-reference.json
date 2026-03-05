@@ -83,6 +83,62 @@
                     "description": "Absolute rock bottom; total loss of agency or life."
                 }
             ]
+        },
+        {
+            "id": "place_state",
+            "name": "Place Prosperity & Condition",
+            "description": "Measures the structural integrity, economical prosperity, and spiritual health of a location.",
+            "levels": [
+                {
+                    "min": 81,
+                    "max": 100,
+                    "label": "Glorious",
+                    "color": "#15803d",
+                    "description": "Peak prosperity, golden era, legendary status."
+                },
+                {
+                    "min": 51,
+                    "max": 80,
+                    "label": "Thriving",
+                    "color": "#22c55e",
+                    "description": "Rapid growth, safe borders, and happy population."
+                },
+                {
+                    "min": 21,
+                    "max": 50,
+                    "label": "Sturdy",
+                    "color": "#4ade80",
+                    "description": "Well-maintained, functional, and growing moderately."
+                },
+                {
+                    "min": -20,
+                    "max": 20,
+                    "label": "Average",
+                    "color": "#94a3b8",
+                    "description": "Stable condition, routine maintenance, neither booming nor decaying."
+                },
+                {
+                    "min": -50,
+                    "max": -21,
+                    "label": "Decaying",
+                    "color": "#fca5a5",
+                    "description": "Economic decline, crumbling infrastructure, sense of being forgotten."
+                },
+                {
+                    "min": -80,
+                    "max": -51,
+                    "label": "Ruined",
+                    "color": "#ef4444",
+                    "description": "Major structural damage, abandoned sectors, high danger."
+                },
+                {
+                    "min": -100,
+                    "max": -81,
+                    "label": "Annulled",
+                    "color": "#991b1b",
+                    "description": "Total destruction, erased from history, uninhabitable wasteland."
+                }
+            ]
         }
     ]
 }

@@ -14,6 +14,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Button } from '@/components/ui/button'
 import { Users } from 'lucide-react'
 
+import { PlaceStatesChart } from './PlaceStatesChart'
 import { StoryReference } from './StoryReference'
 
 interface Props {
@@ -146,7 +147,7 @@ export function VisualizeOrchestrator({ initialData }: Props) {
             </div>
 
             {/* 4. Bottom Section: Analytics */}
-            <footer className="flex-[1.2] grid grid-cols-2 gap-3 min-h-0">
+            <footer className="flex-[1.2] grid grid-cols-3 gap-3 min-h-0">
                 <div className="border border-primary/5 rounded-xl bg-card/10 backdrop-blur-[2px] overflow-hidden hover:bg-card/20 transition-colors">
                     <CharacterEvolutionChart
                         data={initialData}
@@ -158,6 +159,12 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                     <EventsChart
                         data={initialData}
                         selectedCharacterIds={selectedCharacterIds}
+                        currentEventIndex={currentEventIndex}
+                    />
+                </div>
+                <div className="border border-primary/5 rounded-xl bg-card/10 backdrop-blur-[2px] overflow-hidden hover:bg-card/20 transition-colors">
+                    <PlaceStatesChart
+                        data={initialData}
                         currentEventIndex={currentEventIndex}
                     />
                 </div>

@@ -137,6 +137,20 @@
                 "8": "p1",
                 "9": "p1",
                 "10": "p1"
+            },
+            "placeStates": {
+                "p1": "Intact",
+                "p2": "Under Siege",
+                "p3": "Intact",
+                "p4": "Intact",
+                "p5": "Intact"
+            },
+            "placeFortunes": {
+                "p1": 0,
+                "p2": -30,
+                "p3": 0,
+                "p4": 0,
+                "p5": 0
             }
         },
         {
@@ -182,6 +196,20 @@
                 "8": "p2",
                 "9": "p3",
                 "10": "p1"
+            },
+            "placeStates": {
+                "p1": "Intact",
+                "p2": "Blown Up",
+                "p3": "Intact",
+                "p4": "Intact",
+                "p5": "Intact"
+            },
+            "placeFortunes": {
+                "p1": 0,
+                "p2": -90,
+                "p3": 0,
+                "p4": 0,
+                "p5": 0
             }
         },
         {
@@ -227,6 +255,20 @@
                 "8": "p2",
                 "9": "p4",
                 "10": "p2"
+            },
+            "placeStates": {
+                "p1": "Abandoned",
+                "p2": "Blown Up",
+                "p3": "Plundered",
+                "p4": "Intact",
+                "p5": "Intact"
+            },
+            "placeFortunes": {
+                "p1": -50,
+                "p2": -90,
+                "p3": -60,
+                "p4": 0,
+                "p5": 0
             }
         },
         {
@@ -272,6 +314,20 @@
                 "8": "p2",
                 "9": "p5",
                 "10": "p5"
+            },
+            "placeStates": {
+                "p1": "Abandoned",
+                "p2": "Blown Up",
+                "p3": "Plundered",
+                "p4": "Intact",
+                "p5": "Enchanted"
+            },
+            "placeFortunes": {
+                "p1": -50,
+                "p2": -90,
+                "p3": -60,
+                "p4": 0,
+                "p5": 40
             }
         },
         {
@@ -317,6 +373,20 @@
                 "8": "p2",
                 "9": "p3",
                 "10": "p3"
+            },
+            "placeStates": {
+                "p1": "Renovated",
+                "p2": "Rebuilding",
+                "p3": "Renovated",
+                "p4": "Intact",
+                "p5": "Intact"
+            },
+            "placeFortunes": {
+                "p1": 50,
+                "p2": -20,
+                "p3": 70,
+                "p4": 0,
+                "p5": 0
             }
         },
         {
@@ -362,6 +432,20 @@
                 "8": "p1",
                 "9": "p4",
                 "10": "p1"
+            },
+            "placeStates": {
+                "p1": "Cursed",
+                "p2": "Rebuilding",
+                "p3": "Poisoned",
+                "p4": "Intact",
+                "p5": "Intact"
+            },
+            "placeFortunes": {
+                "p1": -40,
+                "p2": -20,
+                "p3": -80,
+                "p4": 10,
+                "p5": 0
             }
         },
         {
@@ -407,6 +491,20 @@
                 "8": "p2",
                 "9": "p1",
                 "10": "p1"
+            },
+            "placeStates": {
+                "p1": "Intact",
+                "p2": "Restored",
+                "p3": "Intact",
+                "p4": "Intact",
+                "p5": "Intact"
+            },
+            "placeFortunes": {
+                "p1": 20,
+                "p2": 60,
+                "p3": 10,
+                "p4": 10,
+                "p5": 0
             }
         },
         {
@@ -452,6 +550,20 @@
                 "8": "p1",
                 "9": "p1",
                 "10": "p1"
+            },
+            "placeStates": {
+                "p1": "Blown Up",
+                "p2": "Intact",
+                "p3": "Intact",
+                "p4": "Intact",
+                "p5": "Intact"
+            },
+            "placeFortunes": {
+                "p1": -100,
+                "p2": 50,
+                "p3": 20,
+                "p4": 10,
+                "p5": 0
             }
         },
         {
@@ -497,6 +609,20 @@
                 "8": "p1",
                 "9": "p1",
                 "10": "p1"
+            },
+            "placeStates": {
+                "p1": "Ruins",
+                "p2": "Intact",
+                "p3": "Intact",
+                "p4": "Intact",
+                "p5": "Intact"
+            },
+            "placeFortunes": {
+                "p1": -80,
+                "p2": 50,
+                "p3": 20,
+                "p4": 10,
+                "p5": 0
             }
         },
         {
@@ -542,6 +668,20 @@
                 "8": "p1",
                 "9": "p1",
                 "10": "p1"
+            },
+            "placeStates": {
+                "p1": "Glorious",
+                "p2": "Intact",
+                "p3": "Intact",
+                "p4": "Intact",
+                "p5": "Intact"
+            },
+            "placeFortunes": {
+                "p1": 100,
+                "p2": 80,
+                "p3": 60,
+                "p4": 90,
+                "p5": 70
             }
         }
     ]
