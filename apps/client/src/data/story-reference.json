@@ -1,0 +1,88 @@
+{
+    "scales": [
+        {
+            "id": "evolution",
+            "name": "Character's Character Evolution",
+            "description": "Measures the internal moral compass and developmental growth of a character.",
+            "levels": [
+                {
+                    "min": 71,
+                    "max": 100,
+                    "label": "Saintly",
+                    "color": "#22c55e",
+                    "description": "Acts of supreme altruism and moral clarity."
+                },
+                {
+                    "min": 31,
+                    "max": 70,
+                    "label": "Heroic",
+                    "color": "#4ade80",
+                    "description": "Principled behavior and positive community impact."
+                },
+                {
+                    "min": -30,
+                    "max": 30,
+                    "label": "Neutral",
+                    "color": "#94a3b8",
+                    "description": "Average human complexity; fluctuating motivations."
+                },
+                {
+                    "min": -70,
+                    "max": -31,
+                    "label": "Antagonistic",
+                    "color": "#fb7185",
+                    "description": "Self-serving actions, beginning of moral decay."
+                },
+                {
+                    "min": -100,
+                    "max": -71,
+                    "label": "Pure Evil",
+                    "color": "#ef4444",
+                    "description": "Total abandonment of empathy; destructive nature."
+                }
+            ]
+        },
+        {
+            "id": "fortune",
+            "name": "Character Fortune",
+            "description": "Measures the external well-being, luck, and life quality of a character.",
+            "levels": [
+                {
+                    "min": 71,
+                    "max": 100,
+                    "label": "Miraculous",
+                    "color": "#22c55e",
+                    "description": "Peak prosperity, incredible luck, or divine favor."
+                },
+                {
+                    "min": 31,
+                    "max": 70,
+                    "label": "Prosperous",
+                    "color": "#4ade80",
+                    "description": "Abundance of opportunities and stable health."
+                },
+                {
+                    "min": -30,
+                    "max": 30,
+                    "label": "Stable",
+                    "color": "#94a3b8",
+                    "description": "Ordinary life; balance of minor ups and downs."
+                },
+                {
+                    "min": -70,
+                    "max": -31,
+                    "label": "Adversity",
+                    "color": "#fb7185",
+                    "description": "Hardship, loss of family/status, or chronic ill-luck."
+                },
+                {
+                    "min": -100,
+                    "max": -71,
+                    "label": "Catastrophic",
+                    "color": "#ef4444",
+                    "description": "Absolute rock bottom; total loss of agency or life."
+                }
+            ]
+        }
+    ]
+}
