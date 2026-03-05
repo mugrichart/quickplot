@@ -1,39 +1,57 @@
 "use client"
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { StoryData } from '@/types/story'
 
 interface Props {
     data: StoryData
+    selectedCharacterIds: string[]
     currentEventIndex: number
 }
 
-export function EventsChart({ data, currentEventIndex }: Props) {
-    const chartData = data.events.map((event, index) => ({
+export function EventsChart({ data, selectedCharacterIds, currentEventIndex }: Props) {
+    const chartData = data.events.slice(0, currentEventIndex + 1).map((event, index) => ({
         name: event.label,
-        good: event.occurrences.good,
-        bad: event.occurrences.bad,
-        opacity: index === currentEventIndex ? 1 : 0.3
+        index,
+        ...event.characterFortunes
     }))
 
     return (
-        <Card className="h-full">
-            <CardHeader className="py-3 px-4">
-                <CardTitle className="text-sm font-medium">Events: Opportunity vs Conflict</CardTitle>
+        <Card className="h-full border-none shadow-none bg-transparent">
+            <CardHeader className="py-2 px-4">
+                <CardTitle className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Character Fortune (Opportunity vs Conflict)</CardTitle>
             </CardHeader>
-            <CardContent className="p-0 h-[200px]">
+            <CardContent className="p-0 h-full min-h-[120px]">
                 <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.2} />
+                    <LineChart data={chartData} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.1} />
                         <XAxis dataKey="name" hide />
-                        <YAxis hide />
+                        <YAxis hide domain={['auto', 'auto']} />
                         <Tooltip
-                            contentStyle={{ backgroundColor: 'hsl(var(--background))', borderColor: 'hsl(var(--border))', borderRadius: '8px', fontSize: '12px' }}
+                            contentStyle={{ backgroundColor: 'hsl(var(--background))', borderColor: 'hsl(var(--border))', borderRadius: '8px', fontSize: '10px' }}
+                            itemStyle={{ fontSize: '10px' }}
                         />
-                        <Bar dataKey="good" fill="#22c55e" radius={[4, 4, 0, 0]} name="Opportunities" />
-                        <Bar dataKey="bad" fill="#ef4444" radius={[4, 4, 0, 0]} name="Conflicts" />
-                    </BarChart>
+
+                        <ReferenceLine y={0} stroke="hsl(var(--border))" strokeDasharray="3 3" />
+
+                        {data.characters.filter(c => selectedCharacterIds.includes(c.id)).map(char => (
+                            <Line
+                                key={char.id}
+                                type="monotone"
+                                dataKey={char.id}
+                                name={char.name}
+                                stroke={char.color}
+                                strokeWidth={2}
+                                dot={{ r: 2 }}
+                                activeDot={{ r: 4 }}
+                                isAnimationActive={false}
+                            />
+                        ))}
+
+                        {/* Current step indicator */}
+                        <ReferenceLine x={chartData[currentEventIndex]?.name} stroke="hsl(var(--primary))" strokeWidth={1} />
+                    </LineChart>
                 </ResponsiveContainer>
             </CardContent>
         </Card>

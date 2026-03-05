@@ -11,19 +11,19 @@ interface Props {
 }
 
 export function CharacterEvolutionChart({ data, selectedCharacterIds, currentEventIndex }: Props) {
-    // Transform data for recharts
-    const chartData = data.events.map((event, index) => ({
+    // Transform data for recharts - only show up to current event
+    const chartData = data.events.slice(0, currentEventIndex + 1).map((event, index) => ({
         name: event.label,
         index,
         ...event.characterEvolution
     }))
 
     return (
-        <Card className="h-full">
-            <CardHeader className="py-3 px-4">
-                <CardTitle className="text-sm font-medium">Character Evolution</CardTitle>
+        <Card className="h-full border-none shadow-none bg-transparent">
+            <CardHeader className="py-2 px-4">
+                <CardTitle className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Character's Character Evolution</CardTitle>
             </CardHeader>
-            <CardContent className="p-0 h-[200px]">
+            <CardContent className="p-0 h-full min-h-[120px]">
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.2} />

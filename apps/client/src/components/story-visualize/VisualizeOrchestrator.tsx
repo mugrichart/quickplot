@@ -18,6 +18,7 @@ interface Props {
 export function VisualizeOrchestrator({ initialData }: Props) {
     const [currentEventIndex, setCurrentEventIndex] = useState(0)
     const [isPlaying, setIsPlaying] = useState(false)
+    const [speed, setSpeed] = useState(1)
     const [selectedCharacterIds, setSelectedCharacterIds] = useState<string[]>(
         initialData.characters.map(c => c.id)
     )
@@ -35,10 +36,18 @@ export function VisualizeOrchestrator({ initialData }: Props) {
         if (isPlaying) {
             interval = setInterval(() => {
                 handleNext()
-            }, 2000)
+            }, 2000 / speed)
         }
         return () => clearInterval(interval)
-    }, [isPlaying, handleNext])
+    }, [isPlaying, speed, handleNext])
+
+    const toggleSpeed = () => {
+        const speeds = [0.5, 1, 1.5, 2]
+        setSpeed(prev => {
+            const idx = speeds.indexOf(prev)
+            return speeds[(idx + 1) % speeds.length]
+        })
+    }
 
     const toggleCharacter = (id: string) => {
         setSelectedCharacterIds(prev =>
@@ -53,86 +62,83 @@ export function VisualizeOrchestrator({ initialData }: Props) {
     const currentEvent = initialData.events[currentEventIndex]
 
     return (
-        <div className="flex flex-col gap-6 max-w-7xl mx-auto p-6 animate-in fade-in duration-700">
-            {/* Header Area */}
-            <div className="flex items-center justify-between mb-2">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Story Visualize</h1>
-                    <p className="text-muted-foreground flex items-center gap-2 mt-1">
-                        <Badge variant="outline" className="text-[10px] py-0">{currentEventIndex + 1} / {initialData.events.length}</Badge>
-                        Exploration of &quot;{currentEvent.label}&quot;
-                    </p>
+        <div className="h-screen flex flex-col bg-background overflow-hidden p-4 gap-4">
+            {/* Top Section: Timeline + Playback (approx 8%) */}
+            <div className="flex items-center gap-6 h-[8%] border rounded-lg px-4 bg-muted/10">
+                <div className="flex-1">
+                    <Timeline
+                        data={initialData}
+                        currentEventIndex={currentEventIndex}
+                        onEventSelect={setCurrentEventIndex}
+                    />
                 </div>
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-4 border-l pl-6">
+                    <Badge variant="outline" className="text-[10px] py-0 whitespace-nowrap">
+                        Step {currentEventIndex + 1} / {initialData.events.length}
+                    </Badge>
                     <PlaybackControls
                         isPlaying={isPlaying}
+                        speed={speed}
                         onTogglePlay={() => setIsPlaying(!isPlaying)}
+                        onToggleSpeed={toggleSpeed}
                         onPrev={handlePrev}
                         onNext={handleNext}
                     />
                 </div>
             </div>
 
-            {/* Grid: 2 at the top, and one spanning the two at the bottom */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-[300px]">
+            {/* Middle Section: Charts (approx 22%) */}
+            <div className="grid grid-cols-2 gap-4 h-[22%]">
                 {/* Box 1: Character Evolution */}
-                <CharacterEvolutionChart
-                    data={initialData}
-                    selectedCharacterIds={selectedCharacterIds}
-                    currentEventIndex={currentEventIndex}
-                />
-                {/* Box 2: Opportunity vs Bad */}
-                <EventsChart
-                    data={initialData}
-                    currentEventIndex={currentEventIndex}
-                />
-            </div>
-
-            {/* Box 3: Story World (Spanning bottom) */}
-            <Card className="min-h-[600px] flex flex-col">
-                <div className="p-4 border-b bg-muted/30 flex items-center justify-between">
-                    <h2 className="text-sm font-semibold uppercase tracking-wider">Story World</h2>
-                    <div className="flex items-center gap-4">
-                        <CharacterControls
-                            data={initialData}
-                            selectedIds={selectedCharacterIds}
-                            onToggle={toggleCharacter}
-                            onToggleAll={toggleAllCharacters}
-                        />
-                    </div>
-                </div>
-                <div className="flex-1 relative">
-                    <StoryWorld
+                <div className="border rounded-lg bg-card/30">
+                    <CharacterEvolutionChart
                         data={initialData}
                         selectedCharacterIds={selectedCharacterIds}
                         currentEventIndex={currentEventIndex}
                     />
-
-                    {/* Legend/Intel Overlay */}
-                    <div className="absolute bottom-4 left-4 max-w-xs space-y-4 pointer-events-none">
-                        <Card className="bg-background/80 backdrop-blur pointer-events-auto">
-                            <CardContent className="p-3">
-                                <h4 className="text-[10px] font-bold uppercase tracking-wider text-primary mb-1">Observation</h4>
-                                <p className="text-xs leading-relaxed text-muted-foreground">
-                                    Narrative focus: <span className="font-semibold text-foreground">{currentEvent.label}</span>.
-                                    Observe character alignments and presence in {Object.keys(currentEvent.characterLocations).length} locations.
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </div>
                 </div>
-            </Card>
-
-            {/* Bottom Section: Timeline */}
-            <Card className="mt-2">
-                <CardContent className="p-2">
-                    <Timeline
+                {/* Box 2: Opportunity vs Bad */}
+                <div className="border rounded-lg bg-card/30">
+                    <EventsChart
                         data={initialData}
+                        selectedCharacterIds={selectedCharacterIds}
                         currentEventIndex={currentEventIndex}
-                        onEventSelect={setCurrentEventIndex}
                     />
-                </CardContent>
-            </Card>
+                </div>
+            </div>
+
+            {/* Bottom Section: Story World (approx 68% - spans the rest) */}
+            <div className="flex-1 min-h-0 relative">
+                <Card className="h-full flex flex-col overflow-hidden">
+                    <div className="px-4 py-2 border-b bg-muted/30 flex items-center justify-between">
+                        <h2 className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+                            Story World <span className="text-foreground">— {currentEvent.label}</span>
+                        </h2>
+                        <div className="flex items-center gap-4">
+                            <CharacterControls
+                                data={initialData}
+                                selectedIds={selectedCharacterIds}
+                                onToggle={toggleCharacter}
+                                onToggleAll={toggleAllCharacters}
+                            />
+                        </div>
+                    </div>
+                    <div className="flex-1 relative bg-slate-50/30 dark:bg-slate-900/10">
+                        <StoryWorld
+                            data={initialData}
+                            selectedCharacterIds={selectedCharacterIds}
+                            currentEventIndex={currentEventIndex}
+                        />
+
+                        {/* Context Tooltip/Badge instead of full card to save space */}
+                        <div className="absolute top-4 left-4 pointer-events-none">
+                            <Badge variant="secondary" className="bg-background/80 backdrop-blur px-3 py-1 text-[10px] border">
+                                Focus: {currentEvent.label}
+                            </Badge>
+                        </div>
+                    </div>
+                </Card>
+            </div>
         </div>
     )
 }

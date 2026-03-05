@@ -17,7 +17,8 @@ export interface StoryEvent {
   id: string;
   label: string;
   timestamp: number;
-  characterEvolution: Record<string, number>; // charId -> score
+  characterEvolution: Record<string, number>; // charId -> trait score (bad to good)
+  characterFortunes: Record<string, number>; // charId -> fortune score (unlucky to lucky)
   occurrences: {
     good: number;
     bad: number;
