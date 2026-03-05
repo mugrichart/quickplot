@@ -66,11 +66,14 @@ export function CharacterEvolutionChart({ data, selectedCharacterIds, currentEve
     const scale = referenceData.scales.find(s => s.id === 'evolution')
 
     return (
-        <Card className="h-full border-none shadow-none bg-transparent relative">
-            <CardHeader className="py-2 px-4">
-                <CardTitle className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Character&apos;s Character Evolution</CardTitle>
-            </CardHeader>
-            <CardContent className="p-0 h-full min-h-[120px] relative">
+        <Card className="h-full border-none shadow-none bg-transparent relative flex flex-col p-0">
+            <div className="absolute top-2 left-4 z-10 pointer-events-none">
+                <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/50">
+                    Character&apos;s Character Evolution
+                </span>
+            </div>
+            <CardContent className="p-0 flex-1 relative min-h-0">
+                {/* Auto-Tooltip Overlay (Matches Hover Style) */}
                 {/* Auto-Tooltip Overlay (Matches Hover Style) */}
                 <AnimatePresence>
                     {showAutoTooltip && (
@@ -113,7 +116,7 @@ export function CharacterEvolutionChart({ data, selectedCharacterIds, currentEve
                 </AnimatePresence>
 
                 <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                    <LineChart data={chartData} margin={{ top: 0, right: 10, left: 0, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.2} />
                         <XAxis dataKey="name" hide />
                         <YAxis hide domain={[-110, 110]} />

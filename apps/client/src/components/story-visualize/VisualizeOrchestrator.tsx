@@ -64,7 +64,7 @@ export function VisualizeOrchestrator({ initialData }: Props) {
     const currentEvent = initialData.events[currentEventIndex]
 
     return (
-        <div className="h-screen flex flex-col bg-background overflow-hidden p-4 gap-4">
+        <div className="h-screen flex flex-col bg-background overflow-hidden p-2 gap-2">
             {/* Top Section: Timeline + Playback (approx 8%) */}
             <div className="flex items-center gap-6 h-[8%] border rounded-lg px-4 bg-muted/10">
                 <div className="flex-1">
@@ -91,7 +91,7 @@ export function VisualizeOrchestrator({ initialData }: Props) {
             </div>
 
             {/* Middle Section: Charts (approx 22%) */}
-            <div className="grid grid-cols-2 gap-4 h-[22%]">
+            <div className="grid grid-cols-2 gap-2 h-[22%]">
                 {/* Box 1: Character Evolution */}
                 <div className="border rounded-lg bg-card/30">
                     <CharacterEvolutionChart
