@@ -1,0 +1,14 @@
+{
+  "name": "quickplot",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --parallel -r dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "server": "pnpm --filter @quickplot/server dev",
+    "client": "pnpm --filter @quickplot/client dev"
+  },
+  "devDependencies": {}
+}

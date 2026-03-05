@@ -1,0 +1,56 @@
+# ─── Dependencies ────────────────────────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+
+# ─── pnpm ────────────────────────────────────────────────────────────────────
+.pnpm-store/
+pnpm-lock.yaml
+
+# ─── Build outputs ───────────────────────────────────────────────────────────
+dist/
+build/
+out/
+.next/
+.nestjs/
+
+# ─── Environment & secrets ───────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ─── Logs ────────────────────────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# ─── Testing ─────────────────────────────────────────────────────────────────
+coverage/
+.nyc_output/
+
+# ─── TypeScript ──────────────────────────────────────────────────────────────
+*.tsbuildinfo
+
+# ─── OS ──────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Editors ─────────────────────────────────────────────────────────────────
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ─── Misc ────────────────────────────────────────────────────────────────────
+.cache/
+.turbo/
