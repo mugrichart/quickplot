@@ -17,6 +17,7 @@ import { PlaceStatesChart } from './PlaceStatesChart'
 import { MapImageUpload } from './MapImageUpload'
 import { StoryReference } from './StoryReference'
 import { AddPlaceDialog } from './AddPlaceDialog'
+import { AddCharacterDialog } from './AddCharacterDialog'
 import { AnimatePresence, motion } from 'framer-motion'
 import { TooltipProvider } from '@/components/ui/tooltip'
 
@@ -39,6 +40,8 @@ export function VisualizeOrchestrator({ initialData }: Props) {
     const [uiOpacity, setUiOpacity] = useState(0.85)
 
     const [places, setPlaces] = useState(initialData.places)
+    const [characters, setCharacters] = useState(initialData.characters)
+    const [events, setEvents] = useState(initialData.events)
 
     const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(false)
     const [isFooterCollapsed, setIsFooterCollapsed] = useState(false)
@@ -79,15 +82,18 @@ export function VisualizeOrchestrator({ initialData }: Props) {
         setSelectedCharacterIds(select ? initialData.characters.map(c => c.id) : [])
     }
 
-    const savePlaces = useCallback((updatedPlaces: any[]) => {
-        fetch('/api/story/update-places', {
+    const saveStory = useCallback((updatedStory: Partial<StoryData>) => {
+        // We'll use the generic story-update route eventually, 
+        // but for now we need a generic way to save characters/events too.
+        // Let's assume we'll create /api/story/update soon or just use the whole thing.
+        fetch('/api/story/update', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updatedPlaces)
+            body: JSON.stringify(updatedStory)
         }).then(() => {
-            console.log('Permanently saved places')
+            console.log('Permanently saved story data')
         }).catch(err => {
-            console.error('Failed to save places:', err)
+            console.error('Failed to save story data:', err)
         })
     }, [])
 
@@ -99,10 +105,10 @@ export function VisualizeOrchestrator({ initialData }: Props) {
             const updatedPlaces = prev.map(p =>
                 p.id === placeId ? { ...p, x: roundedX, y: roundedY } : p
             )
-            savePlaces(updatedPlaces)
+            saveStory({ ...initialData, places: updatedPlaces, characters, events })
             return updatedPlaces
         })
-    }, [savePlaces])
+    }, [saveStory, initialData, characters, events])
 
     const handleAddPlace = useCallback((name: string, emoji: string) => {
         const newPlace = {
@@ -116,35 +122,65 @@ export function VisualizeOrchestrator({ initialData }: Props) {
 
         setPlaces(prev => {
             const updatedPlaces = [...prev, newPlace]
-            savePlaces(updatedPlaces)
+            saveStory({ ...initialData, places: updatedPlaces, characters, events })
             return updatedPlaces
         })
-    }, [savePlaces])
+    }, [saveStory, initialData, characters, events])
 
     const handleUpdatePlace = useCallback((placeId: string, updates: { name: string, emoji: string }) => {
         setPlaces(prev => {
             const updatedPlaces = prev.map(p =>
                 p.id === placeId ? { ...p, ...updates } : p
             )
-            savePlaces(updatedPlaces)
+            saveStory({ ...initialData, places: updatedPlaces, characters, events })
             return updatedPlaces
         })
-    }, [savePlaces])
+    }, [saveStory, initialData, characters, events])
 
     const handleDeletePlace = useCallback((placeId: string) => {
         if (!confirm('Are you sure you want to delete this place?')) return
         setPlaces(prev => {
             const updatedPlaces = prev.filter(p => p.id !== placeId)
-            savePlaces(updatedPlaces)
+            saveStory({ ...initialData, places: updatedPlaces, characters, events })
             return updatedPlaces
         })
-    }, [savePlaces])
+    }, [saveStory, initialData, characters, events])
+
+    const handleAddCharacter = useCallback((name: string, color: string, initialPlaceId: string, initialFortune: number, initialEvolution: number) => {
+        const newId = `char-${Date.now()}`
+        const newChar = { id: newId, name, color }
+
+        setCharacters(prev => {
+            const updatedChars = [...prev, newChar]
+            setSelectedCharacterIds(ids => [...ids, newId])
+
+            setEvents(prevEvents => {
+                const updatedEvents = prevEvents.map(ev => ({
+                    ...ev,
+                    characterEvolution: { ...ev.characterEvolution, [newId]: initialEvolution },
+                    characterFortunes: { ...ev.characterFortunes, [newId]: initialFortune },
+                    characterLocations: { ...ev.characterLocations, [newId]: initialPlaceId }
+                }))
+
+                saveStory({
+                    ...initialData,
+                    places,
+                    characters: updatedChars,
+                    events: updatedEvents
+                })
+                return updatedEvents
+            })
+            return updatedChars
+        })
+    }, [saveStory, initialData, places])
 
 
     const storyData = useMemo(() => ({
         ...initialData,
-        places
-    }), [initialData, places])
+        places,
+        characters,
+        events
+    }), [initialData, places, characters, events])
 
     const currentEvent = storyData.events[currentEventIndex]
 
@@ -242,6 +278,10 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                             />
                             <div className="h-10 w-px bg-white/5" />
                             <AddPlaceDialog onAdd={handleAddPlace} />
+                            <AddCharacterDialog
+                                places={places.map(p => ({ id: p.id, name: p.name }))}
+                                onAdd={handleAddCharacter}
+                            />
                             <div className="h-10 w-px bg-white/5" />
                             <CharacterControls
                                 data={storyData}

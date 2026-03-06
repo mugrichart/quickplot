@@ -150,7 +150,7 @@ export const StoryWorld = memo(function StoryWorld({
                                                         <div className="w-full h-full rounded-full animate-pulse opacity-40 bg-white" />
                                                     </motion.div>
                                                 </TooltipTrigger>
-                                                <TooltipContent side="top" className="bg-background/95 backdrop-blur border-primary/20">
+                                                <TooltipContent side="top" className="bg-background/95 backdrop-blur border border-primary/20 text-foreground">
                                                     <p className="text-xs font-black uppercase tracking-tight">{char.name}</p>
                                                 </TooltipContent>
                                             </Tooltip>
