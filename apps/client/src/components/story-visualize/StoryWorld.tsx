@@ -1,5 +1,4 @@
-"use client"
-
+import { useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { StoryData } from '@/types/story'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
@@ -10,37 +9,20 @@ interface Props {
     currentEventIndex: number
     mapImageUrl: string | null
     opacity: number
+    onPlaceMove: (id: string, x: number, y: number) => void
 }
 
-export function StoryWorld({ data, selectedCharacterIds, currentEventIndex, mapImageUrl, opacity }: Props) {
+export function StoryWorld({ data, selectedCharacterIds, currentEventIndex, mapImageUrl, opacity, onPlaceMove }: Props) {
+    const containerRef = useRef<HTMLDivElement>(null)
     const currentEvent = data.events[currentEventIndex]
 
-    // Calculate character positions based on their place
-    const charactersToRender = data.characters
-        .filter(c => selectedCharacterIds.includes(c.id))
-        .map(char => {
-            const placeId = currentEvent.characterLocations[char.id]
-            const place = data.places.find(p => p.id === placeId)
-
-            // Calculate offset for overlapping characters
-            const charsInThisPlace = Object.entries(currentEvent.characterLocations)
-                .filter(([cid, pid]) => pid === placeId && selectedCharacterIds.includes(cid))
-                .map(([cid]) => cid)
-
-            const charIndex = charsInThisPlace.indexOf(char.id)
-            const offset = charIndex * 12
-
-            return {
-                ...char,
-                x: place ? place.x : 0,
-                y: place ? place.y : 0,
-                offset,
-                placeCount: charsInThisPlace.length
-            }
-        })
+    const selectedCharacters = data.characters.filter(c => selectedCharacterIds.includes(c.id))
 
     return (
-        <div className="h-full w-full relative overflow-hidden transition-all duration-700">
+        <div
+            ref={containerRef}
+            className="h-full w-full relative overflow-hidden bg-background"
+        >
             {/* Layer 0: World Map Image */}
             <AnimatePresence mode="wait">
                 {mapImageUrl && (
@@ -65,54 +47,98 @@ export function StoryWorld({ data, selectedCharacterIds, currentEventIndex, mapI
                 )}
             </AnimatePresence>
 
-            {/* Layer 1: Places (Static Background) */}
-            {data.places.map((place) => (
-                <div
-                    key={place.id}
-                    className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-none"
-                    style={{ left: `${place.x}%`, top: `${place.y}%` }}
-                >
-                    <div className="text-4xl mb-1 filter drop-shadow-xl select-none transition-transform hover:scale-110">
-                        {place.emoji}
-                    </div>
-                    <span className="text-[10px] font-black text-foreground/80 uppercase tracking-widest drop-shadow-sm bg-background/20 backdrop-blur-[1px] px-1.5 rounded">
-                        {place.name}
-                    </span>
-                </div>
-            ))}
+            {/* Layer 1: Places & Nested Characters */}
+            {data.places.map((place) => {
+                const charsInPlace = selectedCharacters.filter(c => currentEvent.characterLocations[c.id] === place.id)
 
-            {/* Layer 2: Characters (Animated Layer) */}
-            <div className="absolute inset-0">
-                {charactersToRender.map((char) => (
-                    <TooltipProvider key={char.id}>
-                        <Tooltip delayDuration={0}>
-                            <TooltipTrigger asChild>
-                                <motion.div
-                                    animate={{
-                                        left: `${char.x}%`,
-                                        top: `${char.y}%`,
-                                    }}
-                                    transition={{
-                                        type: "tween",
-                                        ease: "easeInOut",
-                                        duration: 0.8
-                                    }}
-                                    className="absolute w-5 h-5 rounded-full border-2 border-white dark:border-background shadow-2xl pointer-events-auto cursor-pointer flex items-center justify-center z-20"
-                                    style={{
-                                        backgroundColor: char.color,
-                                        transform: `translate(calc(-50% + ${char.offset - (char.placeCount - 1) * 6}px), 30px)`
-                                    }}
-                                >
-                                    <div className="w-full h-full rounded-full animate-pulse opacity-40 bg-white" />
-                                </motion.div>
-                            </TooltipTrigger>
-                            <TooltipContent side="top" className="bg-background/95 backdrop-blur border-primary/20">
-                                <p className="text-xs font-black uppercase tracking-tight">{char.name}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-                ))}
-            </div>
+                return (
+                    <motion.div
+                        key={place.id}
+                        data-place-id={place.id}
+                        drag
+                        dragMomentum={false}
+                        dragElastic={0}
+                        dragConstraints={containerRef}
+                        onDragEnd={(event) => {
+                            if (!containerRef.current) return
+                            const containerRect = containerRef.current.getBoundingClientRect()
+
+                            // Find the dragged element (could be nested target)
+                            const target = event.target as HTMLElement
+                            const el = target.closest('[data-place-id]') as HTMLElement
+                            if (!el) return
+
+                            const elRect = el.getBoundingClientRect()
+
+                            // Calculate the exact center of the element in the viewport
+                            const centerX = elRect.left + elRect.width / 2
+                            const centerY = elRect.top + elRect.height / 2
+
+                            // Map that center to the container percentages
+                            const x = ((centerX - containerRect.left) / containerRect.width) * 100
+                            const y = ((centerY - containerRect.top) / containerRect.height) * 100
+
+                            onPlaceMove(place.id, x, y)
+                        }}
+                        className="absolute flex flex-col items-center z-10 cursor-grab active:cursor-grabbing group pointer-events-auto"
+                        animate={{
+                            left: `${place.x}%`,
+                            top: `${place.y}%`,
+                        }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 500,
+                            damping: 40,
+                            mass: 0.5
+                        }}
+                        style={{
+                            x: "-50%",
+                            y: "-50%"
+                        }}
+                    >
+                        <div className="text-4xl mb-1 filter drop-shadow-xl select-none transition-transform group-hover:scale-110">
+                            {place.emoji}
+                        </div>
+                        <span className="text-[10px] font-black text-foreground/80 uppercase tracking-widest drop-shadow-sm bg-background/20 backdrop-blur-[1px] px-1.5 rounded pointer-events-none whitespace-nowrap">
+                            {place.name}
+                        </span>
+
+                        {/* Relative container for the characters, sitting exactly below the label */}
+                        <div className="absolute top-full mt-4 w-0 h-0 flex items-center justify-center pointer-events-none">
+                            {charsInPlace.map((char, index) => {
+                                const offset = (index * 14) - ((charsInPlace.length - 1) * 7)
+
+                                return (
+                                    <TooltipProvider key={char.id}>
+                                        <Tooltip delayDuration={0}>
+                                            <TooltipTrigger asChild>
+                                                <motion.div
+                                                    initial={false}
+                                                    animate={{ x: offset }}
+                                                    transition={{
+                                                        type: "spring",
+                                                        stiffness: 500,
+                                                        damping: 35
+                                                    }}
+                                                    className="absolute w-5 h-5 rounded-full border-2 border-white dark:border-background shadow-2xl pointer-events-auto cursor-pointer flex items-center justify-center z-20"
+                                                    style={{
+                                                        backgroundColor: char.color,
+                                                    }}
+                                                >
+                                                    <div className="w-full h-full rounded-full animate-pulse opacity-40 bg-white" />
+                                                </motion.div>
+                                            </TooltipTrigger>
+                                            <TooltipContent side="top" className="bg-background/95 backdrop-blur border-primary/20">
+                                                <p className="text-xs font-black uppercase tracking-tight">{char.name}</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                )
+                            })}
+                        </div>
+                    </motion.div>
+                )
+            })}
         </div>
     )
 }

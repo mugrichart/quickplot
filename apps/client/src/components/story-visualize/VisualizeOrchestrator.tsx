@@ -36,6 +36,8 @@ export function VisualizeOrchestrator({ initialData }: Props) {
     const [bgBlur, setBgBlur] = useState(8)
     const [uiOpacity, setUiOpacity] = useState(0.85)
 
+    const [places, setPlaces] = useState(initialData.places)
+
     const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(false)
     const [isFooterCollapsed, setIsFooterCollapsed] = useState(false)
 
@@ -75,7 +77,16 @@ export function VisualizeOrchestrator({ initialData }: Props) {
         setSelectedCharacterIds(select ? initialData.characters.map(c => c.id) : [])
     }
 
-    const currentEvent = initialData.events[currentEventIndex]
+    const handlePlaceMove = useCallback((placeId: string, x: number, y: number) => {
+        setPlaces(prev => prev.map(p => p.id === placeId ? { ...p, x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10 } : p))
+    }, [])
+
+    const storyData = useMemo(() => ({
+        ...initialData,
+        places
+    }), [initialData, places])
+
+    const currentEvent = storyData.events[currentEventIndex]
 
     return (
         <div className="h-screen w-screen overflow-hidden bg-background relative selection:bg-primary/20">
@@ -104,11 +115,12 @@ export function VisualizeOrchestrator({ initialData }: Props) {
             {/* 2. THE MAIN STAGE: Story World (Full Screen Background Layer) */}
             <div className="absolute inset-0 z-0">
                 <StoryWorld
-                    data={initialData}
+                    data={storyData}
                     selectedCharacterIds={selectedCharacterIds}
                     currentEventIndex={currentEventIndex}
                     mapImageUrl={mapImageUrl}
                     opacity={bgOpacity}
+                    onPlaceMove={handlePlaceMove}
                 />
             </div>
 
@@ -167,7 +179,7 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                         />
                         <div className="h-10 w-px bg-white/5" />
                         <CharacterControls
-                            data={initialData}
+                            data={storyData}
                             selectedIds={selectedCharacterIds}
                             onToggle={toggleCharacter}
                             onToggleAll={toggleAllCharacters}
@@ -240,21 +252,21 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                 <div className="grid grid-cols-3 gap-3 h-[200px]">
                     <div className="bg-background/60 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:bg-background/70 transition-colors shadow-2xl p-0">
                         <CharacterEvolutionChart
-                            data={initialData}
+                            data={storyData}
                             selectedCharacterIds={selectedCharacterIds}
                             currentEventIndex={currentEventIndex}
                         />
                     </div>
                     <div className="bg-background/60 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:bg-background/70 transition-colors shadow-2xl p-0 relative">
                         <EventsChart
-                            data={initialData}
+                            data={storyData}
                             selectedCharacterIds={selectedCharacterIds}
                             currentEventIndex={currentEventIndex}
                         />
                     </div>
                     <div className="bg-background/60 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:bg-background/70 transition-colors shadow-2xl p-0">
                         <PlaceStatesChart
-                            data={initialData}
+                            data={storyData}
                             currentEventIndex={currentEventIndex}
                         />
                     </div>
