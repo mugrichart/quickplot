@@ -17,11 +17,11 @@ export function Sidebar() {
 
     return (
         <aside className="fixed left-0 top-0 bottom-0 w-16 flex flex-col items-center py-6 bg-background/60 backdrop-blur-xl border-r border-primary/10 z-50">
-            <div className="mb-8 flex items-center justify-center">
-                <div className="size-10 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20">
+            <Link href="/story/write" className="mb-8 flex items-center justify-center group relative">
+                <div className="size-10 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20 transition-all duration-300 group-hover:bg-primary/20 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(var(--primary),0.3)]">
                     <Edit3 className="size-6 text-primary" />
                 </div>
-            </div>
+            </Link>
 
             <nav className="flex-1 flex flex-col gap-4">
                 {navItems.map((item) => {
