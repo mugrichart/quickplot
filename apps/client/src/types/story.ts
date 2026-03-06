@@ -24,6 +24,8 @@ export interface StoryEvent {
     bad: number;
   };
   characterLocations: Record<string, string>; // charId -> placeId
+  placeStates: Record<string, string>; // placeId -> state label
+  placeFortunes: Record<string, number>; // placeId -> status score (-100 to 100)
 }
 
 export interface StoryData {

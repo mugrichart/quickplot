@@ -28,7 +28,7 @@ export function CharacterControls({ data, selectedIds, onToggle, onToggleAll }: 
                 </div>
             </div>
 
-            <div className="grid grid-cols-5 gap-1">
+            <div className="grid grid-cols-10 gap-1">
                 {data.characters.map((char) => (
                     <div
                         key={char.id}
@@ -48,6 +48,7 @@ export function CharacterControls({ data, selectedIds, onToggle, onToggleAll }: 
                         <label
                             htmlFor={`char-${char.id}`}
                             className="text-[8px] font-bold cursor-pointer truncate flex items-center gap-1 min-w-0"
+                            title={char.name}
                         >
                             <div
                                 className="w-1.5 h-1.5 rounded-full shrink-0 shadow-sm"
