@@ -16,6 +16,7 @@ import { ChevronDown, ChevronUp, Maximize2, Minimize2, PanelBottomClose, PanelTo
 import { PlaceStatesChart } from './PlaceStatesChart'
 import { MapImageUpload } from './MapImageUpload'
 import { StoryReference } from './StoryReference'
+import { AddPlaceDialog } from './AddPlaceDialog'
 import { AnimatePresence, motion } from 'framer-motion'
 
 interface Props {
@@ -95,6 +96,34 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                 console.log('Permanently saved place position')
             }).catch(err => {
                 console.error('Failed to save place position:', err)
+            })
+
+            return updatedPlaces
+        })
+    }, [])
+
+    const handleAddPlace = useCallback((name: string, emoji: string) => {
+        const newPlace = {
+            id: `place-${Date.now()}`,
+            name,
+            emoji,
+            type: 'location',
+            x: 50 + (Math.random() * 10 - 5), // Near center with slight randomization
+            y: 50 + (Math.random() * 10 - 5)
+        }
+
+        setPlaces(prev => {
+            const updatedPlaces = [...prev, newPlace]
+
+            // Permanent save
+            fetch('/api/story/update-places', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedPlaces)
+            }).then(() => {
+                console.log('Permanently saved new place')
+            }).catch(err => {
+                console.error('Failed to save new place:', err)
             })
 
             return updatedPlaces
@@ -198,6 +227,8 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                             blur={bgBlur}
                             onBlurChange={setBgBlur}
                         />
+                        <div className="h-10 w-px bg-white/5" />
+                        <AddPlaceDialog onAdd={handleAddPlace} />
                         <div className="h-10 w-px bg-white/5" />
                         <CharacterControls
                             data={storyData}

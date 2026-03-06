@@ -91,6 +91,14 @@
       "x": 27.4,
       "y": 32.4,
       "emoji": "🌊"
+    },
+    {
+      "id": "place-1772804168589",
+      "name": "Whispering woods",
+      "emoji": "🌲",
+      "type": "location",
+      "x": 77,
+      "y": 41.7
     }
   ],
   "events": [
