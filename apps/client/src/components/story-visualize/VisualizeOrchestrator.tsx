@@ -242,7 +242,7 @@ export function VisualizeOrchestrator({ initialData }: Props) {
 
     return (
         <TooltipProvider>
-            <div className="h-screen w-screen overflow-hidden bg-background relative selection:bg-primary/20">
+            <div className="h-screen w-full overflow-hidden bg-background relative selection:bg-primary/20">
                 {/* 1. Global Background Residue (Full Screen) */}
                 <AnimatePresence>
                     {mapImageUrl && (
