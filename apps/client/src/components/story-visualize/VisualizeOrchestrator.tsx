@@ -78,8 +78,29 @@ export function VisualizeOrchestrator({ initialData }: Props) {
     }
 
     const handlePlaceMove = useCallback((placeId: string, x: number, y: number) => {
-        setPlaces(prev => prev.map(p => p.id === placeId ? { ...p, x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10 } : p))
+        const roundedX = Math.round(x * 10) / 10
+        const roundedY = Math.round(y * 10) / 10
+
+        setPlaces(prev => {
+            const updatedPlaces = prev.map(p =>
+                p.id === placeId ? { ...p, x: roundedX, y: roundedY } : p
+            )
+
+            // Permanent save to mock-story.json via the Next.js API route
+            fetch('/api/story/update-places', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedPlaces)
+            }).then(() => {
+                console.log('Permanently saved place position')
+            }).catch(err => {
+                console.error('Failed to save place position:', err)
+            })
+
+            return updatedPlaces
+        })
     }, [])
+
 
     const storyData = useMemo(() => ({
         ...initialData,
