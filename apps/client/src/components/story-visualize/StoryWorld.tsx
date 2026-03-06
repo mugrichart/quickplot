@@ -1,7 +1,7 @@
-import { useRef } from 'react'
+import { useRef, memo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { StoryData } from '@/types/story'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 interface Props {
     data: StoryData
@@ -12,7 +12,7 @@ interface Props {
     onPlaceMove: (id: string, x: number, y: number) => void
 }
 
-export function StoryWorld({ data, selectedCharacterIds, currentEventIndex, mapImageUrl, opacity, onPlaceMove }: Props) {
+export const StoryWorld = memo(function StoryWorld({ data, selectedCharacterIds, currentEventIndex, mapImageUrl, opacity, onPlaceMove }: Props) {
     const containerRef = useRef<HTMLDivElement>(null)
     const currentEvent = data.events[currentEventIndex]
 
@@ -109,30 +109,28 @@ export function StoryWorld({ data, selectedCharacterIds, currentEventIndex, mapI
                                 const offset = (index * 14) - ((charsInPlace.length - 1) * 7)
 
                                 return (
-                                    <TooltipProvider key={char.id}>
-                                        <Tooltip delayDuration={0}>
-                                            <TooltipTrigger asChild>
-                                                <motion.div
-                                                    initial={false}
-                                                    animate={{ x: offset }}
-                                                    transition={{
-                                                        type: "spring",
-                                                        stiffness: 500,
-                                                        damping: 35
-                                                    }}
-                                                    className="absolute w-5 h-5 rounded-full border-2 border-white dark:border-background shadow-2xl pointer-events-auto cursor-pointer flex items-center justify-center z-20"
-                                                    style={{
-                                                        backgroundColor: char.color,
-                                                    }}
-                                                >
-                                                    <div className="w-full h-full rounded-full animate-pulse opacity-40 bg-white" />
-                                                </motion.div>
-                                            </TooltipTrigger>
-                                            <TooltipContent side="top" className="bg-background/95 backdrop-blur border-primary/20">
-                                                <p className="text-xs font-black uppercase tracking-tight">{char.name}</p>
-                                            </TooltipContent>
-                                        </Tooltip>
-                                    </TooltipProvider>
+                                    <Tooltip key={char.id} delayDuration={0}>
+                                        <TooltipTrigger asChild>
+                                            <motion.div
+                                                initial={false}
+                                                animate={{ x: offset }}
+                                                transition={{
+                                                    type: "spring",
+                                                    stiffness: 500,
+                                                    damping: 35
+                                                }}
+                                                className="absolute w-5 h-5 rounded-full border-2 border-white dark:border-background shadow-2xl pointer-events-auto cursor-pointer flex items-center justify-center z-20"
+                                                style={{
+                                                    backgroundColor: char.color,
+                                                }}
+                                            >
+                                                <div className="w-full h-full rounded-full animate-pulse opacity-40 bg-white" />
+                                            </motion.div>
+                                        </TooltipTrigger>
+                                        <TooltipContent side="top" className="bg-background/95 backdrop-blur border-primary/20">
+                                            <p className="text-xs font-black uppercase tracking-tight">{char.name}</p>
+                                        </TooltipContent>
+                                    </Tooltip>
                                 )
                             })}
                         </div>
@@ -141,4 +139,4 @@ export function StoryWorld({ data, selectedCharacterIds, currentEventIndex, mapI
             })}
         </div>
     )
-}
+})

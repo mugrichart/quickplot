@@ -99,6 +99,30 @@
       "type": "location",
       "x": 77,
       "y": 41.7
+    },
+    {
+      "id": "place-1772805451376",
+      "name": "Water gates",
+      "emoji": "🌊",
+      "type": "location",
+      "x": 35.3,
+      "y": 55.6
+    },
+    {
+      "id": "place-1772805545503",
+      "name": "Enchanted",
+      "emoji": "️",
+      "type": "location",
+      "x": 25.4,
+      "y": 78.7
+    },
+    {
+      "id": "place-1772805597981",
+      "name": "man tower",
+      "emoji": "🗼",
+      "type": "location",
+      "x": 49.5,
+      "y": 81.6
     }
   ],
   "events": [
