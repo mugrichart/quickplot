@@ -47,13 +47,68 @@ export function VisualizeOrchestrator({ initialData }: Props) {
     const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(false)
     const [isFooterCollapsed, setIsFooterCollapsed] = useState(false)
 
+    const saveStory = useCallback((updatedStory: Partial<StoryData>) => {
+        // We'll use the generic story-update route eventually, 
+        // but for now we need a generic way to save characters/events too.
+        // Let's assume we'll create /api/story/update soon or just use the whole thing.
+        fetch('/api/story/update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedStory)
+        }).then(() => {
+            console.log('Permanently saved story data')
+        }).catch(err => {
+            console.error('Failed to save story data:', err)
+        })
+    }, [])
+
     const handleNext = useCallback(() => {
-        setCurrentEventIndex(prev => (prev + 1) % initialData.events.length)
-    }, [initialData.events.length])
+        if (currentEventIndex + 1 >= events.length) {
+            // Generate chaos
+            const newEventIndex = events.length
+            const newEvent: StoryEvent = {
+                id: `event-${Date.now()}`,
+                label: `Phase ${newEventIndex + 1}: The Chaos`,
+                timestamp: Date.now(),
+                occurrences: { good: 0, bad: 0 },
+                placeStates: {} as Record<string, string>, // Optional string state if needed
+                placeFortunes: {} as Record<string, number>,
+                characterLocations: {} as Record<string, string>,
+                characterFortunes: {} as Record<string, number>,
+                characterEvolution: {} as Record<string, number>
+            }
+
+            places.forEach(p => {
+                newEvent.placeFortunes[p.id] = Math.floor(Math.random() * 201) - 100
+                newEvent.placeStates[p.id] = "Chaotic Anomaly" // Placeholder state name
+            })
+
+            characters.forEach(c => {
+                const randomPlace = places[Math.floor(Math.random() * places.length)]
+                newEvent.characterLocations[c.id] = randomPlace ? randomPlace.id : ''
+
+                const fortune = Math.floor(Math.random() * 201) - 100
+                const evolution = Math.floor(Math.random() * 201) - 100
+
+                newEvent.characterFortunes[c.id] = fortune
+                newEvent.characterEvolution[c.id] = evolution
+
+                if (fortune > 0) newEvent.occurrences.good++
+                else newEvent.occurrences.bad++
+            })
+
+            const updatedEvents = [...events, newEvent]
+            setEvents(updatedEvents)
+            saveStory({ ...initialData, places, characters, events: updatedEvents })
+            setCurrentEventIndex(events.length)
+        } else {
+            setCurrentEventIndex(prev => prev + 1)
+        }
+    }, [currentEventIndex, events, places, characters, initialData, saveStory])
 
     const handlePrev = useCallback(() => {
-        setCurrentEventIndex(prev => (prev - 1 + initialData.events.length) % initialData.events.length)
-    }, [initialData.events.length])
+        setCurrentEventIndex(prev => prev > 0 ? prev - 1 : events.length - 1)
+    }, [events.length])
 
     useEffect(() => {
         let interval: NodeJS.Timeout
@@ -82,21 +137,6 @@ export function VisualizeOrchestrator({ initialData }: Props) {
     const toggleAllCharacters = (select: boolean) => {
         setSelectedCharacterIds(select ? initialData.characters.map(c => c.id) : [])
     }
-
-    const saveStory = useCallback((updatedStory: Partial<StoryData>) => {
-        // We'll use the generic story-update route eventually, 
-        // but for now we need a generic way to save characters/events too.
-        // Let's assume we'll create /api/story/update soon or just use the whole thing.
-        fetch('/api/story/update', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updatedStory)
-        }).then(() => {
-            console.log('Permanently saved story data')
-        }).catch(err => {
-            console.error('Failed to save story data:', err)
-        })
-    }, [])
 
     const handlePlaceMove = useCallback((placeId: string, x: number, y: number) => {
         const roundedX = Math.round(x * 10) / 10
@@ -260,7 +300,7 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                                 />
                                 <div className="h-4 w-px bg-white/10 mx-1" />
                                 <Badge variant="outline" className="text-[11px] py-0 border-none bg-transparent font-mono tabular-nums h-6 font-bold text-primary">
-                                    {currentEventIndex + 1} <span className="opacity-30 px-0.5">/</span> {initialData.events.length}
+                                    {currentEventIndex + 1} <span className="opacity-30 px-0.5">/</span> {events.length}
                                 </Badge>
                             </div>
                         </div>

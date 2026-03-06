@@ -734,6 +734,1194 @@
         "p4": 90,
         "p5": 70
       }
+    },
+    {
+      "id": "event-1772809098039",
+      "label": "Phase 11: The Chaos",
+      "timestamp": 1772809098039,
+      "occurrences": {
+        "good": 7,
+        "bad": 4
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": -17,
+        "p2": 33,
+        "p3": -28,
+        "p4": -3,
+        "p5": 46,
+        "place-1772804168589": 56,
+        "place-1772805545503": 39
+      },
+      "characterLocations": {
+        "1": "p4",
+        "2": "p3",
+        "3": "p4",
+        "4": "p2",
+        "5": "place-1772804168589",
+        "6": "p4",
+        "7": "p5",
+        "8": "p3",
+        "9": "p2",
+        "10": "place-1772804168589",
+        "char-1772807308227": "p4"
+      },
+      "characterFortunes": {
+        "1": 56,
+        "2": -11,
+        "3": -84,
+        "4": 25,
+        "5": -46,
+        "6": 28,
+        "7": 81,
+        "8": 53,
+        "9": -75,
+        "10": 62,
+        "char-1772807308227": 54
+      },
+      "characterEvolution": {
+        "1": 93,
+        "2": 100,
+        "3": 100,
+        "4": 98,
+        "5": -22,
+        "6": -45,
+        "7": -69,
+        "8": 96,
+        "9": -5,
+        "10": 12,
+        "char-1772807308227": 10
+      }
+    },
+    {
+      "id": "event-1772809105463",
+      "label": "Phase 12: The Chaos",
+      "timestamp": 1772809105463,
+      "occurrences": {
+        "good": 5,
+        "bad": 6
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": -45,
+        "p2": -89,
+        "p3": -87,
+        "p4": -86,
+        "p5": 86,
+        "place-1772804168589": 96,
+        "place-1772805545503": 15
+      },
+      "characterLocations": {
+        "1": "p2",
+        "2": "p2",
+        "3": "p1",
+        "4": "place-1772805545503",
+        "5": "p4",
+        "6": "p5",
+        "7": "p1",
+        "8": "place-1772805545503",
+        "9": "p5",
+        "10": "p5",
+        "char-1772807308227": "p4"
+      },
+      "characterFortunes": {
+        "1": -76,
+        "2": -38,
+        "3": 85,
+        "4": -32,
+        "5": -42,
+        "6": 24,
+        "7": -74,
+        "8": -37,
+        "9": 6,
+        "10": 24,
+        "char-1772807308227": 84
+      },
+      "characterEvolution": {
+        "1": -97,
+        "2": 2,
+        "3": -42,
+        "4": -44,
+        "5": -20,
+        "6": -78,
+        "7": -35,
+        "8": -49,
+        "9": 66,
+        "10": 61,
+        "char-1772807308227": -60
+      }
+    },
+    {
+      "id": "event-1772809107805",
+      "label": "Phase 13: The Chaos",
+      "timestamp": 1772809107805,
+      "occurrences": {
+        "good": 8,
+        "bad": 3
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": -58,
+        "p2": -80,
+        "p3": -2,
+        "p4": -73,
+        "p5": 76,
+        "place-1772804168589": 65,
+        "place-1772805545503": -59
+      },
+      "characterLocations": {
+        "1": "place-1772804168589",
+        "2": "p3",
+        "3": "p4",
+        "4": "p1",
+        "5": "p4",
+        "6": "p1",
+        "7": "p3",
+        "8": "p3",
+        "9": "p1",
+        "10": "place-1772805545503",
+        "char-1772807308227": "p3"
+      },
+      "characterFortunes": {
+        "1": 28,
+        "2": 6,
+        "3": 34,
+        "4": -94,
+        "5": -90,
+        "6": 49,
+        "7": 41,
+        "8": 13,
+        "9": -82,
+        "10": 46,
+        "char-1772807308227": 20
+      },
+      "characterEvolution": {
+        "1": 78,
+        "2": 20,
+        "3": 14,
+        "4": 75,
+        "5": -24,
+        "6": 73,
+        "7": -40,
+        "8": 75,
+        "9": -21,
+        "10": 88,
+        "char-1772807308227": -97
+      }
+    },
+    {
+      "id": "event-1772809111231",
+      "label": "Phase 14: The Chaos",
+      "timestamp": 1772809111231,
+      "occurrences": {
+        "good": 6,
+        "bad": 5
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": 63,
+        "p2": 41,
+        "p3": 13,
+        "p4": -57,
+        "p5": 62,
+        "place-1772804168589": -52,
+        "place-1772805545503": 21
+      },
+      "characterLocations": {
+        "1": "place-1772805545503",
+        "2": "p4",
+        "3": "p1",
+        "4": "p4",
+        "5": "place-1772805545503",
+        "6": "p1",
+        "7": "p2",
+        "8": "place-1772805545503",
+        "9": "p5",
+        "10": "place-1772805545503",
+        "char-1772807308227": "place-1772805545503"
+      },
+      "characterFortunes": {
+        "1": 5,
+        "2": -80,
+        "3": 57,
+        "4": -46,
+        "5": -72,
+        "6": 56,
+        "7": 24,
+        "8": -54,
+        "9": 21,
+        "10": -44,
+        "char-1772807308227": 89
+      },
+      "characterEvolution": {
+        "1": -47,
+        "2": 23,
+        "3": 95,
+        "4": -66,
+        "5": 89,
+        "6": 54,
+        "7": 62,
+        "8": 17,
+        "9": -77,
+        "10": 37,
+        "char-1772807308227": 88
+      }
+    },
+    {
+      "id": "event-1772809114162",
+      "label": "Phase 15: The Chaos",
+      "timestamp": 1772809114162,
+      "occurrences": {
+        "good": 5,
+        "bad": 6
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": 47,
+        "p2": 22,
+        "p3": -97,
+        "p4": 93,
+        "p5": 24,
+        "place-1772804168589": -67,
+        "place-1772805545503": 93
+      },
+      "characterLocations": {
+        "1": "p3",
+        "2": "p1",
+        "3": "p1",
+        "4": "p2",
+        "5": "p1",
+        "6": "place-1772805545503",
+        "7": "p4",
+        "8": "place-1772805545503",
+        "9": "p4",
+        "10": "p1",
+        "char-1772807308227": "place-1772805545503"
+      },
+      "characterFortunes": {
+        "1": -51,
+        "2": -45,
+        "3": 11,
+        "4": -74,
+        "5": -18,
+        "6": -52,
+        "7": 22,
+        "8": -15,
+        "9": 94,
+        "10": 17,
+        "char-1772807308227": 6
+      },
+      "characterEvolution": {
+        "1": 94,
+        "2": 52,
+        "3": -50,
+        "4": 71,
+        "5": -15,
+        "6": -83,
+        "7": 23,
+        "8": -9,
+        "9": -37,
+        "10": 50,
+        "char-1772807308227": -2
+      }
+    },
+    {
+      "id": "event-1772809117130",
+      "label": "Phase 16: The Chaos",
+      "timestamp": 1772809117130,
+      "occurrences": {
+        "good": 7,
+        "bad": 4
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": -9,
+        "p2": -54,
+        "p3": 37,
+        "p4": 53,
+        "p5": -35,
+        "place-1772804168589": -75,
+        "place-1772805545503": 87
+      },
+      "characterLocations": {
+        "1": "p2",
+        "2": "place-1772804168589",
+        "3": "p3",
+        "4": "place-1772805545503",
+        "5": "p4",
+        "6": "p3",
+        "7": "place-1772804168589",
+        "8": "p5",
+        "9": "p5",
+        "10": "p4",
+        "char-1772807308227": "p3"
+      },
+      "characterFortunes": {
+        "1": 17,
+        "2": -89,
+        "3": 18,
+        "4": 80,
+        "5": 43,
+        "6": -23,
+        "7": 72,
+        "8": 89,
+        "9": 43,
+        "10": -30,
+        "char-1772807308227": -91
+      },
+      "characterEvolution": {
+        "1": 1,
+        "2": 19,
+        "3": 76,
+        "4": -31,
+        "5": -77,
+        "6": -2,
+        "7": -4,
+        "8": 76,
+        "9": 50,
+        "10": -50,
+        "char-1772807308227": 10
+      }
+    },
+    {
+      "id": "event-1772809120295",
+      "label": "Phase 17: The Chaos",
+      "timestamp": 1772809120295,
+      "occurrences": {
+        "good": 4,
+        "bad": 7
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": -54,
+        "p2": 19,
+        "p3": -5,
+        "p4": 88,
+        "p5": -81,
+        "place-1772804168589": -82,
+        "place-1772805545503": 24
+      },
+      "characterLocations": {
+        "1": "p2",
+        "2": "place-1772804168589",
+        "3": "place-1772804168589",
+        "4": "p3",
+        "5": "place-1772805545503",
+        "6": "p5",
+        "7": "p3",
+        "8": "place-1772805545503",
+        "9": "p4",
+        "10": "place-1772804168589",
+        "char-1772807308227": "p2"
+      },
+      "characterFortunes": {
+        "1": -53,
+        "2": 67,
+        "3": 76,
+        "4": -23,
+        "5": -94,
+        "6": -28,
+        "7": 16,
+        "8": 32,
+        "9": -74,
+        "10": -21,
+        "char-1772807308227": -89
+      },
+      "characterEvolution": {
+        "1": 29,
+        "2": -67,
+        "3": 35,
+        "4": 54,
+        "5": 85,
+        "6": 69,
+        "7": 76,
+        "8": 64,
+        "9": -87,
+        "10": 50,
+        "char-1772807308227": -92
+      }
+    },
+    {
+      "id": "event-1772809123002",
+      "label": "Phase 18: The Chaos",
+      "timestamp": 1772809123002,
+      "occurrences": {
+        "good": 6,
+        "bad": 5
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": -55,
+        "p2": -53,
+        "p3": -40,
+        "p4": -2,
+        "p5": 69,
+        "place-1772804168589": -5,
+        "place-1772805545503": -32
+      },
+      "characterLocations": {
+        "1": "place-1772805545503",
+        "2": "place-1772805545503",
+        "3": "p5",
+        "4": "p3",
+        "5": "p2",
+        "6": "p2",
+        "7": "p5",
+        "8": "p3",
+        "9": "place-1772804168589",
+        "10": "place-1772805545503",
+        "char-1772807308227": "p2"
+      },
+      "characterFortunes": {
+        "1": -16,
+        "2": -50,
+        "3": -99,
+        "4": 74,
+        "5": 21,
+        "6": 100,
+        "7": 69,
+        "8": -27,
+        "9": 88,
+        "10": -41,
+        "char-1772807308227": 22
+      },
+      "characterEvolution": {
+        "1": -98,
+        "2": 16,
+        "3": 14,
+        "4": -10,
+        "5": 48,
+        "6": -48,
+        "7": 8,
+        "8": 89,
+        "9": -41,
+        "10": 95,
+        "char-1772807308227": -29
+      }
+    },
+    {
+      "id": "event-1772809126521",
+      "label": "Phase 19: The Chaos",
+      "timestamp": 1772809126521,
+      "occurrences": {
+        "good": 4,
+        "bad": 7
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": -2,
+        "p2": -90,
+        "p3": -59,
+        "p4": 96,
+        "p5": 94,
+        "place-1772804168589": 51,
+        "place-1772805545503": -30
+      },
+      "characterLocations": {
+        "1": "p4",
+        "2": "p1",
+        "3": "p5",
+        "4": "p3",
+        "5": "p1",
+        "6": "p2",
+        "7": "p5",
+        "8": "p2",
+        "9": "place-1772804168589",
+        "10": "place-1772805545503",
+        "char-1772807308227": "p4"
+      },
+      "characterFortunes": {
+        "1": -87,
+        "2": -79,
+        "3": 61,
+        "4": -91,
+        "5": 44,
+        "6": -37,
+        "7": -60,
+        "8": 14,
+        "9": -89,
+        "10": 36,
+        "char-1772807308227": -50
+      },
+      "characterEvolution": {
+        "1": -15,
+        "2": 75,
+        "3": 90,
+        "4": -45,
+        "5": -30,
+        "6": -39,
+        "7": -25,
+        "8": -21,
+        "9": 65,
+        "10": -60,
+        "char-1772807308227": -14
+      }
+    },
+    {
+      "id": "event-1772809129484",
+      "label": "Phase 20: The Chaos",
+      "timestamp": 1772809129484,
+      "occurrences": {
+        "good": 4,
+        "bad": 7
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": 43,
+        "p2": -34,
+        "p3": -66,
+        "p4": 41,
+        "p5": -22,
+        "place-1772804168589": 57,
+        "place-1772805545503": 49
+      },
+      "characterLocations": {
+        "1": "p5",
+        "2": "p5",
+        "3": "p5",
+        "4": "p5",
+        "5": "p3",
+        "6": "p4",
+        "7": "p1",
+        "8": "p2",
+        "9": "place-1772805545503",
+        "10": "p5",
+        "char-1772807308227": "p2"
+      },
+      "characterFortunes": {
+        "1": 9,
+        "2": -70,
+        "3": -100,
+        "4": -71,
+        "5": -77,
+        "6": 43,
+        "7": -91,
+        "8": -93,
+        "9": 53,
+        "10": 73,
+        "char-1772807308227": -23
+      },
+      "characterEvolution": {
+        "1": 14,
+        "2": 87,
+        "3": 88,
+        "4": 3,
+        "5": -34,
+        "6": 46,
+        "7": 44,
+        "8": -52,
+        "9": -92,
+        "10": -7,
+        "char-1772807308227": 23
+      }
+    },
+    {
+      "id": "event-1772809232468",
+      "label": "Phase 21: The Chaos",
+      "timestamp": 1772809232468,
+      "occurrences": {
+        "good": 4,
+        "bad": 7
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": -14,
+        "p2": -65,
+        "p3": -87,
+        "p4": -54,
+        "p5": -1,
+        "place-1772804168589": 78,
+        "place-1772805545503": -10
+      },
+      "characterLocations": {
+        "1": "p3",
+        "2": "p1",
+        "3": "p4",
+        "4": "place-1772804168589",
+        "5": "place-1772805545503",
+        "6": "place-1772804168589",
+        "7": "p5",
+        "8": "place-1772804168589",
+        "9": "place-1772804168589",
+        "10": "p1",
+        "char-1772807308227": "place-1772805545503"
+      },
+      "characterFortunes": {
+        "1": 79,
+        "2": -60,
+        "3": -18,
+        "4": 65,
+        "5": 64,
+        "6": -25,
+        "7": -27,
+        "8": -96,
+        "9": -99,
+        "10": -19,
+        "char-1772807308227": 87
+      },
+      "characterEvolution": {
+        "1": 31,
+        "2": -42,
+        "3": 60,
+        "4": -100,
+        "5": 25,
+        "6": -33,
+        "7": 92,
+        "8": 48,
+        "9": 77,
+        "10": 61,
+        "char-1772807308227": 74
+      }
+    },
+    {
+      "id": "event-1772809236708",
+      "label": "Phase 22: The Chaos",
+      "timestamp": 1772809236708,
+      "occurrences": {
+        "good": 4,
+        "bad": 7
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": 38,
+        "p2": -88,
+        "p3": 87,
+        "p4": -93,
+        "p5": 90,
+        "place-1772804168589": -50,
+        "place-1772805545503": -89
+      },
+      "characterLocations": {
+        "1": "p4",
+        "2": "p1",
+        "3": "p5",
+        "4": "p5",
+        "5": "p1",
+        "6": "p2",
+        "7": "place-1772805545503",
+        "8": "place-1772804168589",
+        "9": "p5",
+        "10": "p4",
+        "char-1772807308227": "p5"
+      },
+      "characterFortunes": {
+        "1": 51,
+        "2": -4,
+        "3": -50,
+        "4": -13,
+        "5": -28,
+        "6": -14,
+        "7": 79,
+        "8": -54,
+        "9": -35,
+        "10": 83,
+        "char-1772807308227": 59
+      },
+      "characterEvolution": {
+        "1": -63,
+        "2": -81,
+        "3": -27,
+        "4": 19,
+        "5": 100,
+        "6": 94,
+        "7": 39,
+        "8": 2,
+        "9": 47,
+        "10": 22,
+        "char-1772807308227": 61
+      }
+    },
+    {
+      "id": "event-1772809241272",
+      "label": "Phase 23: The Chaos",
+      "timestamp": 1772809241272,
+      "occurrences": {
+        "good": 8,
+        "bad": 3
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": 33,
+        "p2": 3,
+        "p3": 62,
+        "p4": 37,
+        "p5": 1,
+        "place-1772804168589": -28,
+        "place-1772805545503": -64
+      },
+      "characterLocations": {
+        "1": "p1",
+        "2": "p1",
+        "3": "p4",
+        "4": "place-1772804168589",
+        "5": "p1",
+        "6": "p3",
+        "7": "place-1772804168589",
+        "8": "p5",
+        "9": "place-1772804168589",
+        "10": "p2",
+        "char-1772807308227": "p5"
+      },
+      "characterFortunes": {
+        "1": 63,
+        "2": 51,
+        "3": 71,
+        "4": 4,
+        "5": 8,
+        "6": -5,
+        "7": -83,
+        "8": 10,
+        "9": 3,
+        "10": -94,
+        "char-1772807308227": 92
+      },
+      "characterEvolution": {
+        "1": 26,
+        "2": -92,
+        "3": -48,
+        "4": 37,
+        "5": -49,
+        "6": -58,
+        "7": 27,
+        "8": -83,
+        "9": -58,
+        "10": 6,
+        "char-1772807308227": 59
+      }
+    },
+    {
+      "id": "event-1772809247102",
+      "label": "Phase 24: The Chaos",
+      "timestamp": 1772809247103,
+      "occurrences": {
+        "good": 6,
+        "bad": 5
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": 48,
+        "p2": 63,
+        "p3": 89,
+        "p4": -13,
+        "p5": -57,
+        "place-1772804168589": -10,
+        "place-1772805545503": 58
+      },
+      "characterLocations": {
+        "1": "p2",
+        "2": "p5",
+        "3": "p5",
+        "4": "p3",
+        "5": "p3",
+        "6": "p4",
+        "7": "place-1772804168589",
+        "8": "p2",
+        "9": "p3",
+        "10": "place-1772805545503",
+        "char-1772807308227": "p3"
+      },
+      "characterFortunes": {
+        "1": 19,
+        "2": -5,
+        "3": 27,
+        "4": 37,
+        "5": 91,
+        "6": -45,
+        "7": -60,
+        "8": 6,
+        "9": -43,
+        "10": 41,
+        "char-1772807308227": -62
+      },
+      "characterEvolution": {
+        "1": -6,
+        "2": -45,
+        "3": 64,
+        "4": 7,
+        "5": 17,
+        "6": 48,
+        "7": 28,
+        "8": -55,
+        "9": -83,
+        "10": -33,
+        "char-1772807308227": -22
+      }
+    },
+    {
+      "id": "event-1772809252963",
+      "label": "Phase 25: The Chaos",
+      "timestamp": 1772809252963,
+      "occurrences": {
+        "good": 6,
+        "bad": 5
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": 31,
+        "p2": -52,
+        "p3": 24,
+        "p4": -79,
+        "p5": 45,
+        "place-1772804168589": 95,
+        "place-1772805545503": 85
+      },
+      "characterLocations": {
+        "1": "place-1772805545503",
+        "2": "p3",
+        "3": "p4",
+        "4": "p5",
+        "5": "p4",
+        "6": "place-1772804168589",
+        "7": "place-1772804168589",
+        "8": "p5",
+        "9": "place-1772805545503",
+        "10": "place-1772805545503",
+        "char-1772807308227": "p2"
+      },
+      "characterFortunes": {
+        "1": 6,
+        "2": -21,
+        "3": -36,
+        "4": 75,
+        "5": 89,
+        "6": -64,
+        "7": 86,
+        "8": 92,
+        "9": -27,
+        "10": -99,
+        "char-1772807308227": 36
+      },
+      "characterEvolution": {
+        "1": 92,
+        "2": 24,
+        "3": -99,
+        "4": 93,
+        "5": -11,
+        "6": 9,
+        "7": -15,
+        "8": -76,
+        "9": 50,
+        "10": 14,
+        "char-1772807308227": -25
+      }
+    },
+    {
+      "id": "event-1772809256241",
+      "label": "Phase 26: The Chaos",
+      "timestamp": 1772809256241,
+      "occurrences": {
+        "good": 5,
+        "bad": 6
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": -18,
+        "p2": -80,
+        "p3": -28,
+        "p4": -24,
+        "p5": -29,
+        "place-1772804168589": 28,
+        "place-1772805545503": 18
+      },
+      "characterLocations": {
+        "1": "p1",
+        "2": "p2",
+        "3": "place-1772805545503",
+        "4": "p1",
+        "5": "p2",
+        "6": "place-1772804168589",
+        "7": "p2",
+        "8": "p3",
+        "9": "place-1772804168589",
+        "10": "p5",
+        "char-1772807308227": "p2"
+      },
+      "characterFortunes": {
+        "1": 77,
+        "2": 32,
+        "3": 50,
+        "4": -71,
+        "5": -21,
+        "6": -68,
+        "7": -60,
+        "8": 58,
+        "9": -97,
+        "10": 4,
+        "char-1772807308227": -7
+      },
+      "characterEvolution": {
+        "1": -96,
+        "2": 30,
+        "3": -44,
+        "4": 6,
+        "5": -70,
+        "6": -4,
+        "7": -15,
+        "8": -45,
+        "9": 67,
+        "10": 87,
+        "char-1772807308227": 4
+      }
+    },
+    {
+      "id": "event-1772809260069",
+      "label": "Phase 27: The Chaos",
+      "timestamp": 1772809260069,
+      "occurrences": {
+        "good": 5,
+        "bad": 6
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": 47,
+        "p2": -16,
+        "p3": 79,
+        "p4": 17,
+        "p5": 4,
+        "place-1772804168589": -94,
+        "place-1772805545503": -91
+      },
+      "characterLocations": {
+        "1": "p2",
+        "2": "p1",
+        "3": "p5",
+        "4": "p5",
+        "5": "p4",
+        "6": "p1",
+        "7": "p5",
+        "8": "p1",
+        "9": "place-1772805545503",
+        "10": "p4",
+        "char-1772807308227": "place-1772804168589"
+      },
+      "characterFortunes": {
+        "1": 50,
+        "2": 52,
+        "3": 1,
+        "4": -50,
+        "5": 98,
+        "6": 14,
+        "7": -75,
+        "8": -31,
+        "9": -100,
+        "10": -40,
+        "char-1772807308227": -1
+      },
+      "characterEvolution": {
+        "1": 70,
+        "2": 91,
+        "3": 18,
+        "4": -84,
+        "5": -92,
+        "6": -1,
+        "7": -51,
+        "8": 0,
+        "9": 20,
+        "10": -11,
+        "char-1772807308227": 73
+      }
+    },
+    {
+      "id": "event-1772809263912",
+      "label": "Phase 28: The Chaos",
+      "timestamp": 1772809263912,
+      "occurrences": {
+        "good": 3,
+        "bad": 8
+      },
+      "placeStates": {
+        "p1": "Chaotic Anomaly",
+        "p2": "Chaotic Anomaly",
+        "p3": "Chaotic Anomaly",
+        "p4": "Chaotic Anomaly",
+        "p5": "Chaotic Anomaly",
+        "place-1772804168589": "Chaotic Anomaly",
+        "place-1772805545503": "Chaotic Anomaly"
+      },
+      "placeFortunes": {
+        "p1": -2,
+        "p2": 82,
+        "p3": -31,
+        "p4": -55,
+        "p5": 46,
+        "place-1772804168589": -13,
+        "place-1772805545503": -95
+      },
+      "characterLocations": {
+        "1": "place-1772804168589",
+        "2": "p2",
+        "3": "place-1772804168589",
+        "4": "p4",
+        "5": "place-1772805545503",
+        "6": "p4",
+        "7": "p2",
+        "8": "place-1772805545503",
+        "9": "p3",
+        "10": "p3",
+        "char-1772807308227": "p4"
+      },
+      "characterFortunes": {
+        "1": 16,
+        "2": -19,
+        "3": -9,
+        "4": -36,
+        "5": 50,
+        "6": -37,
+        "7": 21,
+        "8": -84,
+        "9": -55,
+        "10": -4,
+        "char-1772807308227": -97
+      },
+      "characterEvolution": {
+        "1": 12,
+        "2": 91,
+        "3": -46,
+        "4": -88,
+        "5": -31,
+        "6": -97,
+        "7": -71,
+        "8": -38,
+        "9": -56,
+        "10": -34,
+        "char-1772807308227": 86
+      }
     }
   ]
 }
