@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { StoryData } from '@/types/story'
+import { StoryData, StoryEvent } from '@/types/story'
 import { CharacterEvolutionChart } from './CharacterEvolutionChart'
 import { EventsChart } from './EventsChart'
 import { StoryWorld } from './StoryWorld'
@@ -11,7 +11,7 @@ import { CharacterControls } from './CharacterControls'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ChevronDown, ChevronUp, Maximize2, Minimize2, PanelBottomClose, PanelTopClose, Plus } from 'lucide-react'
+import { ChevronDown, ChevronUp, Maximize2, Minimize2, PanelBottomClose, PanelTopClose, Plus, Pencil } from 'lucide-react'
 
 import { PlaceStatesChart } from './PlaceStatesChart'
 import { MapImageUpload } from './MapImageUpload'
@@ -47,6 +47,9 @@ export function VisualizeOrchestrator({ initialData }: Props) {
     const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(false)
     const [isFooterCollapsed, setIsFooterCollapsed] = useState(false)
 
+    const [isEditingFocus, setIsEditingFocus] = useState(false)
+    const [editFocusValue, setEditFocusValue] = useState("")
+
     const saveStory = useCallback((updatedStory: Partial<StoryData>) => {
         // We'll use the generic story-update route eventually, 
         // but for now we need a generic way to save characters/events too.
@@ -68,7 +71,7 @@ export function VisualizeOrchestrator({ initialData }: Props) {
             const newEventIndex = events.length
             const newEvent: StoryEvent = {
                 id: `event-${Date.now()}`,
-                label: `Phase ${newEventIndex + 1}: The Chaos`,
+                label: `Unnamed ...`,
                 timestamp: Date.now(),
                 occurrences: { good: 0, bad: 0 },
                 placeStates: {} as Record<string, string>, // Optional string state if needed
@@ -137,6 +140,18 @@ export function VisualizeOrchestrator({ initialData }: Props) {
     const toggleAllCharacters = (select: boolean) => {
         setSelectedCharacterIds(select ? initialData.characters.map(c => c.id) : [])
     }
+
+    const saveEditingFocus = useCallback(() => {
+        setIsEditingFocus(false)
+        if (editFocusValue.trim() && editFocusValue !== events[currentEventIndex].label) {
+            setEvents(prev => {
+                const updated = [...prev]
+                updated[currentEventIndex] = { ...updated[currentEventIndex], label: editFocusValue.trim() }
+                saveStory({ ...initialData, places, characters, events: updated })
+                return updated
+            })
+        }
+    }, [editFocusValue, currentEventIndex, events, saveStory, initialData, places, characters])
 
     const handlePlaceMove = useCallback((placeId: string, x: number, y: number) => {
         const roundedX = Math.round(x * 10) / 10
@@ -458,9 +473,29 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                         top: isHeaderCollapsed ? '2rem' : '120px',
                     }}
                 >
-                    <div className="bg-background/40 backdrop-blur-md px-4 py-2 rounded-xl border border-white/5 shadow-2xl flex flex-col gap-0.5 pointer-events-none">
+                    <div className="bg-background/40 backdrop-blur-md px-4 py-2 rounded-xl border border-white/5 shadow-2xl flex flex-col gap-0.5">
                         <span className="text-[9px] font-black uppercase tracking-widest text-primary/40">Current Focus</span>
-                        <span className="text-[12px] font-black text-foreground drop-shadow-sm">{currentEvent.label}</span>
+                        {isEditingFocus ? (
+                            <input
+                                type="text"
+                                value={editFocusValue}
+                                onChange={(e) => setEditFocusValue(e.target.value)}
+                                onBlur={saveEditingFocus}
+                                onKeyDown={(e) => e.key === 'Enter' && saveEditingFocus()}
+                                className="text-[12px] font-black text-foreground drop-shadow-sm bg-transparent border-b border-primary/50 outline-hidden w-48"
+                                autoFocus
+                            />
+                        ) : (
+                            <div className="group flex items-center gap-2 cursor-pointer" onClick={() => {
+                                setEditFocusValue(currentEvent.label)
+                                setIsEditingFocus(true)
+                            }}>
+                                <span className="text-[12px] font-black text-foreground drop-shadow-sm">{currentEvent.label}</span>
+                                <button className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-primary">
+                                    <Pencil className="size-3" />
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
