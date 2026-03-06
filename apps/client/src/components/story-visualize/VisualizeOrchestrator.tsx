@@ -11,7 +11,7 @@ import { CharacterControls } from './CharacterControls'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ChevronDown, ChevronUp, Maximize2, Minimize2, PanelBottomClose, PanelTopClose } from 'lucide-react'
+import { ChevronDown, ChevronUp, Maximize2, Minimize2, PanelBottomClose, PanelTopClose, Plus } from 'lucide-react'
 
 import { PlaceStatesChart } from './PlaceStatesChart'
 import { MapImageUpload } from './MapImageUpload'
@@ -20,6 +20,7 @@ import { AddPlaceDialog } from './AddPlaceDialog'
 import { AddCharacterDialog } from './AddCharacterDialog'
 import { AnimatePresence, motion } from 'framer-motion'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 interface Props {
     initialData: StoryData
@@ -277,11 +278,22 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                                 onBlurChange={setBgBlur}
                             />
                             <div className="h-10 w-px bg-white/5" />
-                            <AddPlaceDialog onAdd={handleAddPlace} />
-                            <AddCharacterDialog
-                                places={places.map(p => ({ id: p.id, name: p.name }))}
-                                onAdd={handleAddCharacter}
-                            />
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button variant="outline" size="sm" className="gap-2 border-primary/20 hover:bg-primary/10 hover:text-primary transition-none">
+                                        <Plus className="size-4" />
+                                        <span>Add Details</span>
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-48 p-2 flex flex-col gap-1 bg-background/95 backdrop-blur-md border-primary/20" align="start">
+                                    <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-2 py-1.5 opacity-60">Spawn Entity</div>
+                                    <AddCharacterDialog
+                                        places={places.map(p => ({ id: p.id, name: p.name }))}
+                                        onAdd={handleAddCharacter}
+                                    />
+                                    <AddPlaceDialog onAdd={handleAddPlace} />
+                                </PopoverContent>
+                            </Popover>
                             <div className="h-10 w-px bg-white/5" />
                             <CharacterControls
                                 data={storyData}

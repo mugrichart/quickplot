@@ -64,7 +64,7 @@ export const AddCharacterDialog = memo(function AddCharacterDialog({ places, onA
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2 border-primary/20 hover:bg-primary/10 hover:text-primary transition-none">
+                <Button variant="ghost" size="sm" className="gap-2 w-full justify-start hover:bg-primary/10 hover:text-primary transition-none">
                     <UserPlus className="size-4" />
                     <span>Add Character</span>
                 </Button>

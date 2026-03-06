@@ -37,9 +37,9 @@ export const AddPlaceDialog = memo(function AddPlaceDialog({ onAdd }: AddPlaceDi
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2 border-primary/20 hover:bg-primary/10 hover:text-primary transition-none">
+                <Button variant="ghost" size="sm" className="gap-2 w-full justify-start hover:bg-primary/10 hover:text-primary transition-none">
                     <Plus className="size-4" />
-                    <span>Add New Place</span>
+                    <span>Add Place</span>
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px] bg-background border-primary/20 shadow-2xl">
