@@ -79,6 +79,18 @@ export function VisualizeOrchestrator({ initialData }: Props) {
         setSelectedCharacterIds(select ? initialData.characters.map(c => c.id) : [])
     }
 
+    const savePlaces = useCallback((updatedPlaces: any[]) => {
+        fetch('/api/story/update-places', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedPlaces)
+        }).then(() => {
+            console.log('Permanently saved places')
+        }).catch(err => {
+            console.error('Failed to save places:', err)
+        })
+    }, [])
+
     const handlePlaceMove = useCallback((placeId: string, x: number, y: number) => {
         const roundedX = Math.round(x * 10) / 10
         const roundedY = Math.round(y * 10) / 10
@@ -87,21 +99,10 @@ export function VisualizeOrchestrator({ initialData }: Props) {
             const updatedPlaces = prev.map(p =>
                 p.id === placeId ? { ...p, x: roundedX, y: roundedY } : p
             )
-
-            // Permanent save to mock-story.json via the Next.js API route
-            fetch('/api/story/update-places', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(updatedPlaces)
-            }).then(() => {
-                console.log('Permanently saved place position')
-            }).catch(err => {
-                console.error('Failed to save place position:', err)
-            })
-
+            savePlaces(updatedPlaces)
             return updatedPlaces
         })
-    }, [])
+    }, [savePlaces])
 
     const handleAddPlace = useCallback((name: string, emoji: string) => {
         const newPlace = {
@@ -109,27 +110,35 @@ export function VisualizeOrchestrator({ initialData }: Props) {
             name,
             emoji,
             type: 'location',
-            x: 50 + (Math.random() * 10 - 5), // Near center with slight randomization
+            x: 50 + (Math.random() * 10 - 5),
             y: 50 + (Math.random() * 10 - 5)
         }
 
         setPlaces(prev => {
             const updatedPlaces = [...prev, newPlace]
-
-            // Permanent save
-            fetch('/api/story/update-places', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(updatedPlaces)
-            }).then(() => {
-                console.log('Permanently saved new place')
-            }).catch(err => {
-                console.error('Failed to save new place:', err)
-            })
-
+            savePlaces(updatedPlaces)
             return updatedPlaces
         })
-    }, [])
+    }, [savePlaces])
+
+    const handleUpdatePlace = useCallback((placeId: string, updates: { name: string, emoji: string }) => {
+        setPlaces(prev => {
+            const updatedPlaces = prev.map(p =>
+                p.id === placeId ? { ...p, ...updates } : p
+            )
+            savePlaces(updatedPlaces)
+            return updatedPlaces
+        })
+    }, [savePlaces])
+
+    const handleDeletePlace = useCallback((placeId: string) => {
+        if (!confirm('Are you sure you want to delete this place?')) return
+        setPlaces(prev => {
+            const updatedPlaces = prev.filter(p => p.id !== placeId)
+            savePlaces(updatedPlaces)
+            return updatedPlaces
+        })
+    }, [savePlaces])
 
 
     const storyData = useMemo(() => ({
@@ -173,6 +182,8 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                         mapImageUrl={mapImageUrl}
                         opacity={bgOpacity}
                         onPlaceMove={handlePlaceMove}
+                        onPlaceUpdate={handleUpdatePlace}
+                        onPlaceDelete={handleDeletePlace}
                     />
                 </div>
 
