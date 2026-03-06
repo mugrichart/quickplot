@@ -16,9 +16,9 @@ const CustomTooltip = ({ active, payload, label }: any) => {
         const scale = referenceData.scales.find(s => s.id === 'fortune');
 
         return (
-            <div className="bg-background border rounded-lg shadow-xl p-3 text-[10px] space-y-2 min-w-[150px]">
+            <div className="bg-background border rounded-lg shadow-xl p-3 text-[10px] space-y-2 min-w-[150px] pointer-events-auto">
                 <p className="font-bold border-b pb-1 mb-1">{label}</p>
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 max-h-[100px] overflow-y-auto pr-1 pb-1 overscroll-contain scrollbar-thin">
                     {payload.map((entry: any) => {
                         const level = scale?.levels.find(l => entry.value >= l.min && entry.value <= l.max);
                         return (
@@ -80,11 +80,11 @@ export function EventsChart({ data, selectedCharacterIds, currentEventIndex }: P
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
-                            className="absolute top-2 right-4 z-50 pointer-events-none"
+                            className="absolute top-2 right-4 z-50 pointer-events-auto"
                         >
                             <div className="bg-background/95 border rounded-lg shadow-xl p-3 text-[10px] space-y-2 min-w-[160px] backdrop-blur-md border-primary/20">
                                 <p className="font-bold border-b pb-1 mb-1 text-primary">{currentEvent.label}</p>
-                                <div className="space-y-1.5">
+                                <div className="space-y-1.5 max-h-[100px] overflow-y-auto pr-1 pb-1 overscroll-contain scrollbar-thin">
                                     {data.characters
                                         .filter(c => selectedCharacterIds.includes(c.id))
                                         .map(char => {
