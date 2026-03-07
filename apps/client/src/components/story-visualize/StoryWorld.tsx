@@ -70,7 +70,7 @@ export const StoryWorld = memo(function StoryWorld({
 
             {/* Layer 1: Places & Nested Characters */}
             {data.places.map((place) => {
-                const charsInPlace = selectedCharacters.filter(c => currentEvent.characterLocations[c.id] === place.id)
+                const charsInPlace = selectedCharacters.filter(c => currentEvent?.characterLocations?.[c.id] === place.id)
 
                 return (
                     <ContextMenu key={place.id}>

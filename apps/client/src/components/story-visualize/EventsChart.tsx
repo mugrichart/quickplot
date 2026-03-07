@@ -19,7 +19,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
             <div className="bg-background border rounded-lg shadow-xl p-3 text-[10px] space-y-2 min-w-[150px] pointer-events-auto">
                 <p className="font-bold border-b pb-1 mb-1">{label}</p>
                 <div className="space-y-1.5 max-h-[100px] overflow-y-auto pr-1 pb-1 overscroll-contain scrollbar-thin">
-                    {payload.map((entry: any) => {
+                    {[...payload].sort((a, b) => a.name.localeCompare(b.name)).map((entry: any) => {
                         const level = scale?.levels.find(l => entry.value >= l.min && entry.value <= l.max);
                         return (
                             <div key={entry.name} className="flex flex-col gap-0.5">
@@ -64,6 +64,14 @@ export function EventsChart({ data, selectedCharacterIds, currentEventIndex }: P
     const currentEvent = data.events[currentEventIndex]
     const scale = referenceData.scales.find(s => s.id === 'fortune')
 
+    if (!currentEvent) {
+        return (
+            <div className="h-full flex items-center justify-center text-muted-foreground text-[10px]">
+                No event data available
+            </div>
+        )
+    }
+
     return (
         <Card className="h-full border-none shadow-none bg-transparent relative flex flex-col p-0">
             <div className="absolute top-2 left-4 z-10 pointer-events-none">
@@ -87,6 +95,7 @@ export function EventsChart({ data, selectedCharacterIds, currentEventIndex }: P
                                 <div className="space-y-1.5 max-h-[100px] overflow-y-auto pr-1 pb-1 overscroll-contain scrollbar-thin">
                                     {data.characters
                                         .filter(c => selectedCharacterIds.includes(c.id))
+                                        .sort((a, b) => a.name.localeCompare(b.name))
                                         .map(char => {
                                             const val = currentEvent.characterFortunes[char.id]
                                             const level = scale?.levels.find(l => val >= l.min && val <= l.max)
@@ -118,13 +127,25 @@ export function EventsChart({ data, selectedCharacterIds, currentEventIndex }: P
                     <LineChart data={chartData} margin={{ top: 0, right: 10, left: 0, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.1} />
                         <XAxis dataKey="name" hide />
-                        <YAxis hide domain={[-110, 110]} />
+                        <YAxis
+                            width={30}
+                            fontSize={8}
+                            tick={{ fill: 'hsl(var(--muted-foreground))', opacity: 0.4 }}
+                            axisLine={false}
+                            tickLine={false}
+                            domain={[-110, 110]}
+                            ticks={[-100, -50, 0, 50, 100]}
+                        />
                         <Tooltip
                             content={<CustomTooltip />}
-                            offset={-60} // Raised more to avoid clipping Merlin at the bottom
+                            offset={-60}
                         />
 
-                        <ReferenceLine y={0} stroke="hsl(var(--border))" strokeDasharray="3 3" />
+                        <ReferenceLine y={100} stroke="hsl(var(--muted-foreground))" strokeDasharray="3 3" opacity={0.1} />
+                        <ReferenceLine y={50} stroke="hsl(var(--muted-foreground))" strokeDasharray="3 3" opacity={0.1} />
+                        <ReferenceLine y={0} stroke="hsl(var(--border))" strokeDasharray="3 3" opacity={0.3} />
+                        <ReferenceLine y={-50} stroke="hsl(var(--muted-foreground))" strokeDasharray="3 3" opacity={0.1} />
+                        <ReferenceLine y={-100} stroke="hsl(var(--muted-foreground))" strokeDasharray="3 3" opacity={0.1} />
 
                         {data.characters.filter(c => selectedCharacterIds.includes(c.id)).map(char => (
                             <Line

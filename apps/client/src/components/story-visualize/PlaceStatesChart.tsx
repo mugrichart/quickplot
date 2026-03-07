@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo } from 'react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, ReferenceLine } from 'recharts'
 import { Card, CardContent } from '@/components/ui/card'
 import { StoryData } from '@/types/story'
 import referenceData from '@/data/story-reference.json'
@@ -14,6 +14,14 @@ interface Props {
 export function PlaceStatesChart({ data, currentEventIndex }: Props) {
     const currentEvent = data.events[currentEventIndex]
     const placeScale = referenceData.scales.find(s => s.id === 'place_state')
+
+    if (!currentEvent || !currentEvent.placeFortunes) {
+        return (
+            <div className="h-full flex items-center justify-center text-muted-foreground text-[10px]">
+                No place data available
+            </div>
+        )
+    }
 
     const chartData = useMemo(() => {
         const fortunes = currentEvent.placeFortunes || {}
@@ -30,15 +38,7 @@ export function PlaceStatesChart({ data, currentEventIndex }: Props) {
                 color: level?.color ?? '#94a3b8'
             }
         })
-    }, [currentEvent.placeFortunes, currentEvent.placeStates, data.places, placeScale])
-
-    if (!currentEvent.placeFortunes) {
-        return (
-            <div className="h-full flex items-center justify-center text-muted-foreground text-[10px]">
-                No place data available
-            </div>
-        )
-    }
+    }, [currentEvent, data.places, placeScale])
 
     return (
         <Card className="h-full border-none shadow-none bg-transparent relative flex flex-col p-0">
@@ -59,12 +59,19 @@ export function PlaceStatesChart({ data, currentEventIndex }: Props) {
                             tickLine={false}
                         />
                         <YAxis
-                            fontSize={9}
-                            tick={{ fill: 'hsl(var(--muted-foreground))' }}
+                            width={30}
+                            fontSize={8}
+                            tick={{ fill: 'hsl(var(--muted-foreground))', opacity: 0.4 }}
                             axisLine={false}
                             tickLine={false}
                             domain={[-100, 100]}
+                            ticks={[-100, -50, 0, 50, 100]}
                         />
+                        <ReferenceLine y={100} stroke="hsl(var(--muted-foreground))" strokeDasharray="3 3" opacity={0.1} />
+                        <ReferenceLine y={50} stroke="hsl(var(--muted-foreground))" strokeDasharray="3 3" opacity={0.1} />
+                        <ReferenceLine y={0} stroke="hsl(var(--border))" strokeDasharray="3 3" opacity={0.3} />
+                        <ReferenceLine y={-50} stroke="hsl(var(--muted-foreground))" strokeDasharray="3 3" opacity={0.1} />
+                        <ReferenceLine y={-100} stroke="hsl(var(--muted-foreground))" strokeDasharray="3 3" opacity={0.1} />
                         <Tooltip
                             content={({ active, payload }: any) => {
                                 if (active && payload && payload.length) {

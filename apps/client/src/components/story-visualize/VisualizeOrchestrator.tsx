@@ -21,6 +21,7 @@ import { AddCharacterDialog } from './AddCharacterDialog'
 import { AnimatePresence, motion } from 'framer-motion'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { storySteps } from '@/lib/constants'
 
 interface Props {
     initialData: StoryData
@@ -49,6 +50,8 @@ export function VisualizeOrchestrator({ initialData }: Props) {
 
     const [isEditingFocus, setIsEditingFocus] = useState(false)
     const [editFocusValue, setEditFocusValue] = useState("")
+
+    const [currentStructure, setCurrentStructure] = useState<keyof typeof storySteps>("heroJourney")
 
     const saveStory = useCallback((updatedStory: Partial<StoryData>) => {
         // We'll use the generic story-update route eventually, 
@@ -90,7 +93,20 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                 const randomPlace = places[Math.floor(Math.random() * places.length)]
                 newEvent.characterLocations[c.id] = randomPlace ? randomPlace.id : ''
 
-                const fortune = Math.floor(Math.random() * 201) - 100
+                // Story Structure Logic for Fortune
+                const steps = storySteps[currentStructure]
+                const stepIndex = newEventIndex % steps.length
+                const roll = Math.floor(Math.random() * 5) + 1 // 1-5
+
+                let fortune: number
+                if (roll <= 4) {
+                    // Follow structure
+                    fortune = steps[stepIndex]
+                } else {
+                    // Outlier / Chaos
+                    fortune = Math.floor(Math.random() * 201) - 100
+                }
+
                 const evolution = Math.floor(Math.random() * 201) - 100
 
                 newEvent.characterFortunes[c.id] = fortune
@@ -107,9 +123,10 @@ export function VisualizeOrchestrator({ initialData }: Props) {
         } else {
             setCurrentEventIndex(prev => prev + 1)
         }
-    }, [currentEventIndex, events, places, characters, initialData, saveStory])
+    }, [currentEventIndex, events, places, characters, initialData, saveStory, currentStructure])
 
     const handlePrev = useCallback(() => {
+        if (events.length === 0) return
         setCurrentEventIndex(prev => prev > 0 ? prev - 1 : events.length - 1)
     }, [events.length])
 
@@ -143,7 +160,7 @@ export function VisualizeOrchestrator({ initialData }: Props) {
 
     const saveEditingFocus = useCallback(() => {
         setIsEditingFocus(false)
-        if (editFocusValue.trim() && editFocusValue !== events[currentEventIndex].label) {
+        if (editFocusValue.trim() && events[currentEventIndex] && editFocusValue !== events[currentEventIndex].label) {
             setEvents(prev => {
                 const updated = [...prev]
                 updated[currentEventIndex] = { ...updated[currentEventIndex], label: editFocusValue.trim() }
@@ -238,7 +255,7 @@ export function VisualizeOrchestrator({ initialData }: Props) {
         events
     }), [initialData, places, characters, events])
 
-    const currentEvent = storyData.events[currentEventIndex]
+    const currentEvent = storyData.events[currentEventIndex] || { label: 'The Void', id: 'void', characterLocations: {}, characterEvolution: {}, characterFortunes: {}, occurrences: { good: 0, bad: 0 }, placeStates: {}, placeFortunes: {}, timestamp: Date.now() } as StoryEvent
 
     return (
         <TooltipProvider>
@@ -298,7 +315,7 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                             </h1>
                             <div className="flex items-center gap-2">
                                 <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest opacity-60">The Hidden Legacy</span>
-                                <span className="text-[9px] text-primary/60 font-black">// {currentEvent.label}</span>
+                                <span className="text-[9px] text-primary/60 font-black">// {currentEvent?.label || 'Not Started'}</span>
                             </div>
                         </div>
 
@@ -487,10 +504,12 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                             />
                         ) : (
                             <div className="group flex items-center gap-2 cursor-pointer" onClick={() => {
-                                setEditFocusValue(currentEvent.label)
-                                setIsEditingFocus(true)
+                                if (currentEvent) {
+                                    setEditFocusValue(currentEvent.label)
+                                    setIsEditingFocus(true)
+                                }
                             }}>
-                                <span className="text-[12px] font-black text-foreground drop-shadow-sm">{currentEvent.label}</span>
+                                <span className="text-[12px] font-black text-foreground drop-shadow-sm">{currentEvent?.label || 'The Beginning'}</span>
                                 <button className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-primary">
                                     <Pencil className="size-3" />
                                 </button>
