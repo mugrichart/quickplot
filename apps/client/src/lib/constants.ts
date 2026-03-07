@@ -1,5 +1,5 @@
 
-const storySteps = {
+export const storySteps = {
     heroJourney: [
         10, // The Ordinary World
         25, // Call to Adventure

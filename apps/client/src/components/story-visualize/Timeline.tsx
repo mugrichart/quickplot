@@ -20,7 +20,7 @@ export const Timeline = memo(function Timeline({ data, currentEventIndex, onEven
             {/* Active Line Progress */}
             <div
                 className="absolute top-1/2 left-0 h-px bg-primary/30 -translate-y-1/2 transition-all duration-300"
-                style={{ width: `${(currentEventIndex / (data.events.length - 1)) * 100}%` }}
+                style={{ width: `${data.events.length > 1 ? (currentEventIndex / (data.events.length - 1)) * 100 : 0}%` }}
             />
 
             <div className="relative flex justify-between items-center w-full px-1">
