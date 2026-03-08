@@ -96,10 +96,9 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                 // Story Structure Logic for Fortune
                 const steps = storySteps[currentStructure]
                 const stepIndex = newEventIndex % steps.length
-                const roll = Math.floor(Math.random() * 5) + 1 // 1-5
-
+                const roll = Math.random() * 5 // 0-4.999
                 let fortune: number
-                if (roll <= 4) {
+                if (roll <= 4.8) {
                     // Follow structure
                     fortune = steps[stepIndex]
                 } else {
