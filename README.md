@@ -70,8 +70,6 @@ The system eliminates many of the decisions that cause writers to stall.
 -   Narrative twist generator
 -   RPG-style story mechanics
 -   Collaborative storytelling
--   Multiplayer story sessions
--   Session history and story tracking
 
 ------------------------------------------------------------------------
 
