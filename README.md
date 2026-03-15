@@ -48,7 +48,7 @@ what happens next."
 
 ## Core Principles
 
-**1. Writing first, planning later**\
+**1. Writing first**\
 The goal is to get words on the page as quickly as possible.
 
 **2. Momentum over perfection**\
