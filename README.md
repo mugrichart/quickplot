@@ -42,7 +42,7 @@ The writer's job is simply to **interpret the result and write the
 scene**.
 
 This keeps momentum high and removes the mental barrier of "figuring out
-what happens next."
+what happens next"
 
 ------------------------------------------------------------------------
 
