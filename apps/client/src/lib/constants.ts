@@ -1,4 +1,3 @@
-
 export const storySteps = {
     heroJourney: [
         10, // The Ordinary World
@@ -15,3 +14,69 @@ export const storySteps = {
         100 // Return with the Elixir
     ]
 }
+
+export const heroJourneyDetails = [
+    { name: "The Ordinary World", description: "The hero is introduced in their normal life." },
+    { name: "Call to Adventure", description: "A challenge or quest is presented to the hero." },
+    { name: "Refusal of the Call", description: "The hero hesitates or refuses due to fear or insecurity." },
+    { name: "Meeting the Mentor", description: "The hero meets someone who gives them guidance or training." },
+    { name: "Crossing the First Threshold", description: "The hero commits to the quest and enters the special world." },
+    { name: "Tests, Allies, Enemies", description: "The hero faces trials, makes friends, and encounters foes." },
+    { name: "Approach to the Inmost Cave", description: "The hero prepares for the deepest challenge." },
+    { name: "Ordeal (major setback)", description: "The hero confronts their greatest fear or a major obstacle." },
+    { name: "Reward (Seizing the Sword)", description: "The hero gains the treasure, knowledge, or power." },
+    { name: "The Road Back", description: "The hero begins the journey back to the ordinary world." },
+    { name: "Resurrection", description: "The final, most dangerous test where the hero is reborn." },
+    { name: "Return with the Elixir", description: "The hero returns home altered, bringing a boon to their world." }
+]
+
+export interface InterpretationDetails {
+    label: string;
+    examples: string[];
+}
+
+export function getFortuneInterpretation(level: number): InterpretationDetails {
+    if (level <= -50) return {
+        label: "Devastating Setback",
+        examples: ["Death or critical injury", "Total loss of status or fortune"]
+    };
+    if (level < -10) return {
+        label: "Hardship",
+        examples: ["Minor injury or sickness", "Losing a minor conflict or item"]
+    };
+    if (level <= 10) return {
+        label: "Stable / Neutral",
+        examples: ["Routine daily activities", "Waiting or traveling without event"]
+    };
+    if (level < 50) return {
+        label: "Favorable Turn",
+        examples: ["Finding a useful item", "Winning a minor skirmish or argument"]
+    };
+    return {
+        label: "Major Triumph",
+        examples: ["Achieving a life-long goal", "Defeating a major antagonist"]
+    };
+}
+
+export function getEvolutionInterpretation(level: number): InterpretationDetails {
+    if (level <= -50) return {
+        label: "Deep Regression",
+        examples: ["Betraying core morals or friends", "Succumbing to a fatal flaw"]
+    };
+    if (level < -10) return {
+        label: "Doubt / Stumbling",
+        examples: ["Questioning their own beliefs", "Briefly giving in to temptation"]
+    };
+    if (level <= 10) return {
+        label: "Static / Processing",
+        examples: ["Maintaining current perspective", "Internalizing recent events"]
+    };
+    if (level < 50) return {
+        label: "Learning / Growth",
+        examples: ["Overcoming a minor fear", "Adopting a new, better perspective"]
+    };
+    return {
+        label: "Transformation",
+        examples: ["Complete rebirth into a better self", "Self-sacrifice for the greater good"]
+    };
+}

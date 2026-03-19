@@ -11,11 +11,12 @@ import { CharacterControls } from './CharacterControls'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ChevronDown, ChevronUp, Maximize2, Minimize2, PanelBottomClose, PanelTopClose, Plus, Pencil } from 'lucide-react'
+import { ChevronDown, ChevronUp, Maximize2, Minimize2, PanelBottomClose, PanelTopClose, Plus, Pencil, Sparkles } from 'lucide-react'
 
 import { PlaceStatesChart } from './PlaceStatesChart'
 import { MapImageUpload } from './MapImageUpload'
 import { StoryReference } from './StoryReference'
+import { SceneSuggestionsCard } from './SceneSuggestionsCard'
 import { AddPlaceDialog } from './AddPlaceDialog'
 import { AddCharacterDialog } from './AddCharacterDialog'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -50,6 +51,8 @@ export function VisualizeOrchestrator({ initialData }: Props) {
 
     const [isEditingFocus, setIsEditingFocus] = useState(false)
     const [editFocusValue, setEditFocusValue] = useState("")
+
+    const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false)
 
     const [currentStructure, setCurrentStructure] = useState<keyof typeof storySteps>("heroJourney")
 
@@ -358,6 +361,16 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                                 onBlurChange={setBgBlur}
                             />
                             <div className="h-10 w-px bg-white/5" />
+                            <Button
+                                variant={isSuggestionsOpen ? "secondary" : "outline"}
+                                size="sm"
+                                className="gap-2 border-primary/20 hover:bg-primary/10 transition-none"
+                                onClick={() => setIsSuggestionsOpen(prev => !prev)}
+                            >
+                                <Sparkles className="size-4 text-primary" />
+                                <span>Beats</span>
+                            </Button>
+                            <div className="h-10 w-px bg-white/5" />
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button variant="outline" size="sm" className="gap-2 border-primary/20 hover:bg-primary/10 hover:text-primary transition-none">
@@ -525,6 +538,27 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                         )}
                     </div>
                 </div>
+
+                {/* 6. Suggestions Card Panel */}
+                <AnimatePresence>
+                    {isSuggestionsOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 20 }}
+                            className="absolute z-40 right-6 pointer-events-none"
+                            style={{
+                                top: isHeaderCollapsed ? '2rem' : '120px',
+                            }}
+                        >
+                            <SceneSuggestionsCard 
+                                data={storyData} 
+                                currentEventIndex={currentEventIndex} 
+                                onClose={() => setIsSuggestionsOpen(false)} 
+                            />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
         </TooltipProvider>
     )
