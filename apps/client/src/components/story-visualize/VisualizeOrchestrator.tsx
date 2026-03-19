@@ -93,12 +93,13 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                 const randomPlace = places[Math.floor(Math.random() * places.length)]
                 newEvent.characterLocations[c.id] = randomPlace ? randomPlace.id : ''
 
-                // Story Structure Logic for Fortune
+                // Story Structure Logic for Fortune and Evolution
                 const steps = storySteps[currentStructure]
                 const stepIndex = newEventIndex % steps.length
-                const roll = Math.random() * 5 // 0-4.999
+
+                const fortuneRoll = Math.random() * 5 // 0-4.999
                 let fortune: number
-                if (roll <= 4.8) {
+                if (fortuneRoll <= 4.8) {
                     // Follow structure
                     fortune = steps[stepIndex]
                 } else {
@@ -106,7 +107,15 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                     fortune = Math.floor(Math.random() * 201) - 100
                 }
 
-                const evolution = Math.floor(Math.random() * 201) - 100
+                const evolutionRoll = Math.random() * 5 // 0-4.999
+                let evolution: number
+                if (evolutionRoll <= 4.8) {
+                    // Follow structure
+                    evolution = steps[stepIndex]
+                } else {
+                    // Outlier / Chaos
+                    evolution = Math.floor(Math.random() * 201) - 100
+                }
 
                 newEvent.characterFortunes[c.id] = fortune
                 newEvent.characterEvolution[c.id] = evolution
