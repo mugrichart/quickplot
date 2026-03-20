@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/context-menu'
 import { Pencil, Trash2 } from 'lucide-react'
 import { EditPlaceDialog } from './EditPlaceDialog'
-
+import { EditCharacterDialog } from './EditCharacterDialog'
 interface Props {
     data: StoryData
     selectedCharacterIds: string[]
@@ -21,6 +21,8 @@ interface Props {
     onPlaceMove: (id: string, x: number, y: number) => void
     onPlaceUpdate?: (id: string, updates: { name: string, emoji: string }) => void
     onPlaceDelete?: (id: string) => void
+    onCharacterUpdate?: (id: string, updates: { name: string, color: string }) => void
+    onCharacterDelete?: (id: string) => void
 }
 
 export const StoryWorld = memo(function StoryWorld({
@@ -31,10 +33,13 @@ export const StoryWorld = memo(function StoryWorld({
     opacity,
     onPlaceMove,
     onPlaceUpdate,
-    onPlaceDelete
+    onPlaceDelete,
+    onCharacterUpdate,
+    onCharacterDelete
 }: Props) {
     const containerRef = useRef<HTMLDivElement>(null)
     const [editingPlace, setEditingPlace] = useState<{ id: string; name: string; emoji: string } | null>(null)
+    const [editingCharacter, setEditingCharacter] = useState<{ id: string; name: string; color: string } | null>(null)
     const currentEvent = data.events[currentEventIndex]
 
     const selectedCharacters = data.characters.filter(c => selectedCharacterIds.includes(c.id))
@@ -133,26 +138,47 @@ export const StoryWorld = memo(function StoryWorld({
 
                                         return (
                                             <Tooltip key={char.id} delayDuration={0}>
-                                                <TooltipTrigger asChild>
-                                                    <motion.div
-                                                        initial={false}
-                                                        animate={{ x: offset }}
-                                                        transition={{
-                                                            type: "spring",
-                                                            stiffness: 500,
-                                                            damping: 35
-                                                        }}
-                                                        className="absolute w-5 h-5 rounded-full border-2 border-white dark:border-background shadow-2xl pointer-events-auto cursor-pointer flex items-center justify-center z-20"
-                                                        style={{
-                                                            backgroundColor: char.color,
-                                                        }}
-                                                    >
-                                                        <div className="w-full h-full rounded-full animate-pulse opacity-40 bg-white" />
-                                                    </motion.div>
-                                                </TooltipTrigger>
-                                                <TooltipContent side="top" className="bg-background/95 backdrop-blur border border-primary/20 text-foreground">
-                                                    <p className="text-xs font-black uppercase tracking-tight">{char.name}</p>
-                                                </TooltipContent>
+                                                <ContextMenu>
+                                                    <TooltipTrigger asChild>
+                                                        <ContextMenuTrigger asChild>
+                                                            <motion.div
+                                                                initial={false}
+                                                                animate={{ x: offset }}
+                                                                transition={{
+                                                                    type: "spring",
+                                                                    stiffness: 500,
+                                                                    damping: 35
+                                                                }}
+                                                                className="absolute w-5 h-5 rounded-full border-2 border-white dark:border-background shadow-2xl pointer-events-auto cursor-pointer flex items-center justify-center z-20"
+                                                                style={{
+                                                                    backgroundColor: char.color,
+                                                                }}
+                                                            >
+                                                                <div className="w-full h-full rounded-full animate-pulse opacity-40 bg-white" />
+                                                            </motion.div>
+                                                        </ContextMenuTrigger>
+                                                    </TooltipTrigger>
+                                                    <TooltipContent side="top" className="bg-background/95 backdrop-blur border border-primary/20 text-foreground z-60">
+                                                        <p className="text-xs font-black uppercase tracking-tight">{char.name}</p>
+                                                    </TooltipContent>
+                                                    <ContextMenuContent className="min-w-32 bg-background/90 backdrop-blur-md border-primary/20 z-70">
+                                                        <ContextMenuItem
+                                                            onClick={(e) => { e.stopPropagation(); setEditingCharacter({ id: char.id, name: char.name, color: char.color }) }}
+                                                            className="flex items-center gap-2 font-bold text-[11px] uppercase tracking-wider"
+                                                        >
+                                                            <Pencil className="size-3.5 text-primary" />
+                                                            Edit Character
+                                                        </ContextMenuItem>
+                                                        <ContextMenuSeparator className="bg-primary/10" />
+                                                        <ContextMenuItem
+                                                            onClick={(e) => { e.stopPropagation(); onCharacterDelete?.(char.id) }}
+                                                            className="flex items-center gap-2 font-bold text-[11px] uppercase tracking-wider text-destructive hover:text-destructive focus:text-destructive hover:bg-destructive/10 focus:bg-destructive/10"
+                                                        >
+                                                            <Trash2 className="size-3.5" />
+                                                            Delete Character
+                                                        </ContextMenuItem>
+                                                    </ContextMenuContent>
+                                                </ContextMenu>
                                             </Tooltip>
                                         )
                                     })}
@@ -186,6 +212,15 @@ export const StoryWorld = memo(function StoryWorld({
                 onUpdate={(id, updates) => {
                     onPlaceUpdate?.(id, updates)
                     setEditingPlace(null)
+                }}
+            />
+
+            <EditCharacterDialog
+                character={editingCharacter}
+                onOpenChange={(open) => !open && setEditingCharacter(null)}
+                onUpdate={(id, updates) => {
+                    onCharacterUpdate?.(id, updates)
+                    setEditingCharacter(null)
                 }}
             />
         </div>

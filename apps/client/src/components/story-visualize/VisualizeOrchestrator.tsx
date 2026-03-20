@@ -257,6 +257,52 @@ export function VisualizeOrchestrator({ initialData }: Props) {
             return updatedChars
         })
     }, [saveStory, initialData, places])
+    const handleUpdateCharacter = useCallback((characterId: string, updates: { name: string, color: string }) => {
+        setCharacters(prev => {
+            const updatedChars = prev.map(c =>
+                c.id === characterId ? { ...c, ...updates } : c
+            )
+            saveStory({ ...initialData, places, characters: updatedChars, events })
+            return updatedChars
+        })
+    }, [saveStory, initialData, places, events])
+
+    const handleDeleteCharacter = useCallback((characterId: string) => {
+        if (!confirm('Are you sure you want to delete this character?')) return
+
+        setCharacters(prev => {
+            const updatedChars = prev.filter(c => c.id !== characterId)
+            setSelectedCharacterIds(ids => ids.filter(id => id !== characterId))
+
+            setEvents(prevEvents => {
+                const updatedEvents = prevEvents.map(ev => {
+                    const newEv = { ...ev }
+                    const charLocs = { ...newEv.characterLocations }
+                    delete charLocs[characterId]
+                    newEv.characterLocations = charLocs
+
+                    const charEvol = { ...newEv.characterEvolution }
+                    delete charEvol[characterId]
+                    newEv.characterEvolution = charEvol
+
+                    const charFort = { ...newEv.characterFortunes }
+                    delete charFort[characterId]
+                    newEv.characterFortunes = charFort
+
+                    return newEv
+                })
+
+                saveStory({
+                    ...initialData,
+                    places,
+                    characters: updatedChars,
+                    events: updatedEvents
+                })
+                return updatedEvents
+            })
+            return updatedChars
+        })
+    }, [saveStory, initialData, places])
 
 
     const storyData = useMemo(() => ({
@@ -304,6 +350,8 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                         onPlaceMove={handlePlaceMove}
                         onPlaceUpdate={handleUpdatePlace}
                         onPlaceDelete={handleDeletePlace}
+                        onCharacterUpdate={handleUpdateCharacter}
+                        onCharacterDelete={handleDeleteCharacter}
                     />
                 </div>
 

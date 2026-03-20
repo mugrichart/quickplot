@@ -1,448 +1,252 @@
 {
   "characters": [
     {
-      "id": "1",
-      "name": "Arthur",
+      "id": "char-1774030703167",
+      "name": "King Richard",
       "color": "#3b82f6"
     },
     {
-      "id": "2",
-      "name": "Morgana",
-      "color": "#ef4444"
-    },
-    {
-      "id": "3",
-      "name": "Merlin",
-      "color": "#a855f7"
-    },
-    {
-      "id": "4",
-      "name": "Galahad",
-      "color": "#10b981"
-    },
-    {
-      "id": "5",
-      "name": "Lancelot",
-      "color": "#f59e0b"
-    },
-    {
-      "id": "6",
-      "name": "Guinevere",
+      "id": "char-1774030729507",
+      "name": "Queen Lina",
       "color": "#ec4899"
     },
     {
-      "id": "7",
-      "name": "Percival",
-      "color": "#06b6d4"
-    },
-    {
-      "id": "8",
-      "name": "Gareth",
-      "color": "#8b5cf6"
-    },
-    {
-      "id": "9",
-      "name": "Bedivere",
-      "color": "#f97316"
-    },
-    {
-      "id": "10",
-      "name": "Kay",
-      "color": "#64748b"
-    },
-    {
-      "id": "char-1772807308227",
-      "name": "Richard",
-      "color": "#3b82f6"
+      "id": "char-1774030875036",
+      "name": "Peter",
+      "color": "#f59e0b"
     }
   ],
   "places": [
     {
-      "id": "p1",
-      "type": "castle",
-      "name": "Camelot",
-      "x": 44.3,
-      "y": 45.7,
-      "emoji": "🏰"
-    },
-    {
-      "id": "p2",
-      "type": "forest",
-      "name": "Dark Woods",
-      "x": 62.7,
-      "y": 56.7,
-      "emoji": "🌲"
-    },
-    {
-      "id": "p3",
-      "type": "village",
-      "name": "Humbleton",
-      "x": 47.9,
-      "y": 66.2,
-      "emoji": "🏘️"
-    },
-    {
-      "id": "p4",
-      "type": "hospital",
-      "name": "Healer's Tent",
-      "x": 71.9,
-      "y": 53.4,
-      "emoji": "🏥"
-    },
-    {
-      "id": "p5",
-      "type": "lake",
-      "name": "Mystic Lake",
-      "x": 26.9,
-      "y": 30.9,
-      "emoji": "🌊"
-    },
-    {
-      "id": "place-1772804168589",
+      "id": "place-1774029746070",
       "name": "Whispering woods",
       "emoji": "🌲",
       "type": "location",
-      "x": 77,
-      "y": 41.7
+      "x": 25.5,
+      "y": 54.7
     },
     {
-      "id": "place-1772805545503",
-      "name": "Enchanted Glade",
-      "emoji": "🪙",
+      "id": "place-1774029781937",
+      "name": "castle",
+      "emoji": "🏰",
       "type": "location",
-      "x": 26.6,
-      "y": 73
+      "x": 72,
+      "y": 48.3
+    },
+    {
+      "id": "place-1774029809795",
+      "name": "church",
+      "emoji": "💒",
+      "type": "location",
+      "x": 64.9,
+      "y": 77.5
+    },
+    {
+      "id": "place-1774029872226",
+      "name": "store",
+      "emoji": "🏪",
+      "type": "location",
+      "x": 42.6,
+      "y": 68.2
+    },
+    {
+      "id": "place-1774029900421",
+      "name": "school",
+      "emoji": "🏫",
+      "type": "location",
+      "x": 83.6,
+      "y": 74.8
     }
   ],
   "events": [
     {
-      "id": "event-1773961654901",
+      "id": "event-1774030755187",
       "label": "Unnamed ...",
-      "timestamp": 1773961654901,
+      "timestamp": 1774030755187,
       "occurrences": {
-        "good": 11,
+        "good": 2,
         "bad": 0
       },
       "placeStates": {
-        "p1": "Chaotic Anomaly",
-        "p2": "Chaotic Anomaly",
-        "p3": "Chaotic Anomaly",
-        "p4": "Chaotic Anomaly",
-        "p5": "Chaotic Anomaly",
-        "place-1772804168589": "Chaotic Anomaly",
-        "place-1772805545503": "Chaotic Anomaly"
+        "place-1774029746070": "Chaotic Anomaly",
+        "place-1774029781937": "Chaotic Anomaly",
+        "place-1774029809795": "Chaotic Anomaly",
+        "place-1774029872226": "Chaotic Anomaly",
+        "place-1774029900421": "Chaotic Anomaly"
       },
       "placeFortunes": {
-        "p1": -41,
-        "p2": 28,
-        "p3": -46,
-        "p4": -52,
-        "p5": -65,
-        "place-1772804168589": -80,
-        "place-1772805545503": -14
+        "place-1774029746070": -46,
+        "place-1774029781937": -41,
+        "place-1774029809795": 15,
+        "place-1774029872226": 90,
+        "place-1774029900421": 2
       },
       "characterLocations": {
-        "1": "p5",
-        "2": "place-1772804168589",
-        "3": "p5",
-        "4": "place-1772804168589",
-        "5": "place-1772804168589",
-        "6": "place-1772804168589",
-        "7": "p4",
-        "8": "p3",
-        "9": "p2",
-        "10": "p2",
-        "char-1772807308227": "p1"
+        "char-1774030703167": "place-1774029900421",
+        "char-1774030729507": "place-1774029781937",
+        "char-1774030875036": "place-1774029746070"
       },
       "characterFortunes": {
-        "1": 10,
-        "2": 10,
-        "3": 10,
-        "4": 10,
-        "5": 10,
-        "6": 10,
-        "7": 10,
-        "8": 10,
-        "9": 10,
-        "10": 10,
-        "char-1772807308227": 10
+        "char-1774030703167": 10,
+        "char-1774030729507": 10,
+        "char-1774030875036": 0
       },
       "characterEvolution": {
-        "1": 10,
-        "2": 10,
-        "3": 10,
-        "4": 10,
-        "5": 10,
-        "6": 10,
-        "7": 10,
-        "8": 10,
-        "9": 10,
-        "10": 10,
-        "char-1772807308227": 10
+        "char-1774030703167": 10,
+        "char-1774030729507": 10,
+        "char-1774030875036": 0
       }
     },
     {
-      "id": "event-1773961707048",
+      "id": "event-1774030814950",
       "label": "Unnamed ...",
-      "timestamp": 1773961707048,
+      "timestamp": 1774030814950,
       "occurrences": {
-        "good": 11,
+        "good": 2,
         "bad": 0
       },
       "placeStates": {
-        "p1": "Chaotic Anomaly",
-        "p2": "Chaotic Anomaly",
-        "p3": "Chaotic Anomaly",
-        "p4": "Chaotic Anomaly",
-        "p5": "Chaotic Anomaly",
-        "place-1772804168589": "Chaotic Anomaly",
-        "place-1772805545503": "Chaotic Anomaly"
+        "place-1774029746070": "Chaotic Anomaly",
+        "place-1774029781937": "Chaotic Anomaly",
+        "place-1774029809795": "Chaotic Anomaly",
+        "place-1774029872226": "Chaotic Anomaly",
+        "place-1774029900421": "Chaotic Anomaly"
       },
       "placeFortunes": {
-        "p1": 92,
-        "p2": 21,
-        "p3": 94,
-        "p4": 80,
-        "p5": 40,
-        "place-1772804168589": -31,
-        "place-1772805545503": 63
+        "place-1774029746070": -63,
+        "place-1774029781937": -81,
+        "place-1774029809795": -36,
+        "place-1774029872226": 81,
+        "place-1774029900421": 24
       },
       "characterLocations": {
-        "1": "p1",
-        "2": "place-1772805545503",
-        "3": "p2",
-        "4": "p2",
-        "5": "p5",
-        "6": "p3",
-        "7": "p1",
-        "8": "p1",
-        "9": "p5",
-        "10": "place-1772804168589",
-        "char-1772807308227": "p5"
+        "char-1774030703167": "place-1774029900421",
+        "char-1774030729507": "place-1774029781937",
+        "char-1774030875036": "place-1774029746070"
       },
       "characterFortunes": {
-        "1": 25,
-        "2": 25,
-        "3": 25,
-        "4": 25,
-        "5": 25,
-        "6": 25,
-        "7": 25,
-        "8": 25,
-        "9": 25,
-        "10": 25,
-        "char-1772807308227": 25
+        "char-1774030703167": 25,
+        "char-1774030729507": 25,
+        "char-1774030875036": 0
       },
       "characterEvolution": {
-        "1": 25,
-        "2": 25,
-        "3": 25,
-        "4": 25,
-        "5": 25,
-        "6": 25,
-        "7": 25,
-        "8": 25,
-        "9": 25,
-        "10": 25,
-        "char-1772807308227": 25
+        "char-1774030703167": 25,
+        "char-1774030729507": 25,
+        "char-1774030875036": 0
       }
     },
     {
-      "id": "event-1773961726033",
+      "id": "event-1774030843687",
       "label": "Unnamed ...",
-      "timestamp": 1773961726033,
+      "timestamp": 1774030843687,
       "occurrences": {
-        "good": 11,
+        "good": 2,
         "bad": 0
       },
       "placeStates": {
-        "p1": "Chaotic Anomaly",
-        "p2": "Chaotic Anomaly",
-        "p3": "Chaotic Anomaly",
-        "p4": "Chaotic Anomaly",
-        "p5": "Chaotic Anomaly",
-        "place-1772804168589": "Chaotic Anomaly",
-        "place-1772805545503": "Chaotic Anomaly"
+        "place-1774029746070": "Chaotic Anomaly",
+        "place-1774029781937": "Chaotic Anomaly",
+        "place-1774029809795": "Chaotic Anomaly",
+        "place-1774029872226": "Chaotic Anomaly",
+        "place-1774029900421": "Chaotic Anomaly"
       },
       "placeFortunes": {
-        "p1": 38,
-        "p2": 44,
-        "p3": -12,
-        "p4": 98,
-        "p5": -48,
-        "place-1772804168589": 5,
-        "place-1772805545503": 19
+        "place-1774029746070": -19,
+        "place-1774029781937": -80,
+        "place-1774029809795": -37,
+        "place-1774029872226": -63,
+        "place-1774029900421": 66
       },
       "characterLocations": {
-        "1": "p1",
-        "2": "p2",
-        "3": "p3",
-        "4": "p4",
-        "5": "place-1772804168589",
-        "6": "place-1772805545503",
-        "7": "place-1772804168589",
-        "8": "p5",
-        "9": "place-1772805545503",
-        "10": "p4",
-        "char-1772807308227": "place-1772805545503"
+        "char-1774030703167": "place-1774029900421",
+        "char-1774030729507": "place-1774029746070",
+        "char-1774030875036": "place-1774029746070"
       },
       "characterFortunes": {
-        "1": 20,
-        "2": 20,
-        "3": 20,
-        "4": 20,
-        "5": 20,
-        "6": 20,
-        "7": 20,
-        "8": 20,
-        "9": 20,
-        "10": 20,
-        "char-1772807308227": 20
+        "char-1774030703167": 20,
+        "char-1774030729507": 20,
+        "char-1774030875036": 0
       },
       "characterEvolution": {
-        "1": 20,
-        "2": 20,
-        "3": 20,
-        "4": 20,
-        "5": 20,
-        "6": 20,
-        "7": 19,
-        "8": 20,
-        "9": 20,
-        "10": 20,
-        "char-1772807308227": 20
+        "char-1774030703167": 20,
+        "char-1774030729507": 20,
+        "char-1774030875036": 0
       }
     },
     {
-      "id": "event-1773961739016",
+      "id": "event-1774031385383",
       "label": "Unnamed ...",
-      "timestamp": 1773961739016,
+      "timestamp": 1774031385383,
       "occurrences": {
-        "good": 11,
+        "good": 3,
         "bad": 0
       },
       "placeStates": {
-        "p1": "Chaotic Anomaly",
-        "p2": "Chaotic Anomaly",
-        "p3": "Chaotic Anomaly",
-        "p4": "Chaotic Anomaly",
-        "p5": "Chaotic Anomaly",
-        "place-1772804168589": "Chaotic Anomaly",
-        "place-1772805545503": "Chaotic Anomaly"
+        "place-1774029746070": "Chaotic Anomaly",
+        "place-1774029781937": "Chaotic Anomaly",
+        "place-1774029809795": "Chaotic Anomaly",
+        "place-1774029872226": "Chaotic Anomaly",
+        "place-1774029900421": "Chaotic Anomaly"
       },
       "placeFortunes": {
-        "p1": -99,
-        "p2": 62,
-        "p3": -81,
-        "p4": -14,
-        "p5": -24,
-        "place-1772804168589": 71,
-        "place-1772805545503": -74
+        "place-1774029746070": -11,
+        "place-1774029781937": -49,
+        "place-1774029809795": -25,
+        "place-1774029872226": -53,
+        "place-1774029900421": 97
       },
       "characterLocations": {
-        "1": "place-1772805545503",
-        "2": "p1",
-        "3": "p2",
-        "4": "p1",
-        "5": "place-1772804168589",
-        "6": "place-1772804168589",
-        "7": "place-1772804168589",
-        "8": "p2",
-        "9": "p5",
-        "10": "p2",
-        "char-1772807308227": "p2"
+        "char-1774030703167": "place-1774029746070",
+        "char-1774030729507": "place-1774029809795",
+        "char-1774030875036": "place-1774029900421"
       },
       "characterFortunes": {
-        "1": 35,
-        "2": 35,
-        "3": 35,
-        "4": 35,
-        "5": 35,
-        "6": 35,
-        "7": 35,
-        "8": 35,
-        "9": 35,
-        "10": 35,
-        "char-1772807308227": 35
+        "char-1774030703167": 35,
+        "char-1774030729507": 35,
+        "char-1774030875036": 35
       },
       "characterEvolution": {
-        "1": 35,
-        "2": 35,
-        "3": 35,
-        "4": 35,
-        "5": 35,
-        "6": 35,
-        "7": 35,
-        "8": 35,
-        "9": 35,
-        "10": -18,
-        "char-1772807308227": -31
+        "char-1774030703167": 35,
+        "char-1774030729507": 35,
+        "char-1774030875036": 35
       }
     },
     {
-      "id": "event-1773961783114",
+      "id": "event-1774031394956",
       "label": "Unnamed ...",
-      "timestamp": 1773961783114,
+      "timestamp": 1774031394956,
       "occurrences": {
-        "good": 10,
-        "bad": 1
+        "good": 3,
+        "bad": 0
       },
       "placeStates": {
-        "p1": "Chaotic Anomaly",
-        "p2": "Chaotic Anomaly",
-        "p3": "Chaotic Anomaly",
-        "p4": "Chaotic Anomaly",
-        "p5": "Chaotic Anomaly",
-        "place-1772804168589": "Chaotic Anomaly",
-        "place-1772805545503": "Chaotic Anomaly"
+        "place-1774029746070": "Chaotic Anomaly",
+        "place-1774029781937": "Chaotic Anomaly",
+        "place-1774029809795": "Chaotic Anomaly",
+        "place-1774029872226": "Chaotic Anomaly",
+        "place-1774029900421": "Chaotic Anomaly"
       },
       "placeFortunes": {
-        "p1": -1,
-        "p2": 74,
-        "p3": 76,
-        "p4": -38,
-        "p5": -53,
-        "place-1772804168589": -84,
-        "place-1772805545503": 69
+        "place-1774029746070": 92,
+        "place-1774029781937": -10,
+        "place-1774029809795": -21,
+        "place-1774029872226": 56,
+        "place-1774029900421": -4
       },
       "characterLocations": {
-        "1": "p1",
-        "2": "p5",
-        "3": "p1",
-        "4": "p4",
-        "5": "p1",
-        "6": "p3",
-        "7": "p3",
-        "8": "p2",
-        "9": "place-1772805545503",
-        "10": "p4",
-        "char-1772807308227": "p1"
+        "char-1774030703167": "place-1774029746070",
+        "char-1774030729507": "place-1774029809795",
+        "char-1774030875036": "place-1774029872226"
       },
       "characterFortunes": {
-        "1": 50,
-        "2": 50,
-        "3": -98,
-        "4": 50,
-        "5": 50,
-        "6": 50,
-        "7": 50,
-        "8": 50,
-        "9": 50,
-        "10": 50,
-        "char-1772807308227": 50
+        "char-1774030703167": 50,
+        "char-1774030729507": 50,
+        "char-1774030875036": 50
       },
       "characterEvolution": {
-        "1": 50,
-        "2": 50,
-        "3": 50,
-        "4": 50,
-        "5": 50,
-        "6": 50,
-        "7": 50,
-        "8": 50,
-        "9": 50,
-        "10": 50,
-        "char-1772807308227": -40
+        "char-1774030703167": 50,
+        "char-1774030729507": 50,
+        "char-1774030875036": 50
       }
     }
   ]
