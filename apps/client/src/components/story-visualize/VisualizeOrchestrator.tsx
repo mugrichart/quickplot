@@ -19,6 +19,7 @@ import { StoryReference } from './StoryReference'
 import { SceneSuggestionsCard } from './SceneSuggestionsCard'
 import { AddPlaceDialog } from './AddPlaceDialog'
 import { AddCharacterDialog } from './AddCharacterDialog'
+import { EditBeatDialog } from './EditBeatDialog'
 import { AnimatePresence, motion } from 'framer-motion'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -53,6 +54,7 @@ export function VisualizeOrchestrator({ initialData }: Props) {
     const [editFocusValue, setEditFocusValue] = useState("")
 
     const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false)
+    const [editingEventIndex, setEditingEventIndex] = useState<number | null>(null)
 
     const [currentStructure, setCurrentStructure] = useState<keyof typeof storySteps>("heroJourney")
 
@@ -180,6 +182,16 @@ export function VisualizeOrchestrator({ initialData }: Props) {
             })
         }
     }, [editFocusValue, currentEventIndex, events, saveStory, initialData, places, characters])
+
+    const handleUpdateEvent = useCallback((eventId: string, updates: { label: string; summary?: string }) => {
+        setEvents(prev => {
+            const updated = prev.map(ev => 
+                ev.id === eventId ? { ...ev, label: updates.label, summary: updates.summary } : ev
+            )
+            saveStory({ ...initialData, places, characters, events: updated })
+            return updated
+        })
+    }, [saveStory, initialData, places, characters])
 
     const handlePlaceMove = useCallback((placeId: string, x: number, y: number) => {
         const roundedX = Math.round(x * 10) / 10
@@ -495,6 +507,7 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                             data={initialData}
                             currentEventIndex={currentEventIndex}
                             onEventSelect={setCurrentEventIndex}
+                            onEditEvent={setEditingEventIndex}
                         />
                         <Button
                             variant="ghost"
@@ -607,6 +620,15 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                         </motion.div>
                     )}
                 </AnimatePresence>
+
+                <EditBeatDialog
+                    event={editingEventIndex !== null ? storyData.events[editingEventIndex] : null}
+                    onOpenChange={(open) => !open && setEditingEventIndex(null)}
+                    onUpdate={(id, updates) => {
+                        handleUpdateEvent(id, updates)
+                        setEditingEventIndex(null)
+                    }}
+                />
             </div>
         </TooltipProvider>
     )

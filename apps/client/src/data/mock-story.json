@@ -99,7 +99,7 @@
     },
     {
       "id": "event-1774030814950",
-      "label": "Unnamed ...",
+      "label": "The queen dies",
       "timestamp": 1774030814950,
       "occurrences": {
         "good": 2,
@@ -133,7 +133,8 @@
         "char-1774030703167": 25,
         "char-1774030729507": 25,
         "char-1774030875036": 0
-      }
+      },
+      "summary": "Because of age, she dies"
     },
     {
       "id": "event-1774030843687",

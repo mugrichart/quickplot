@@ -16,6 +16,7 @@ export interface Place {
 export interface StoryEvent {
   id: string;
   label: string;
+  summary?: string;
   timestamp: number;
   characterEvolution: Record<string, number>; // charId -> trait score (bad to good)
   characterFortunes: Record<string, number>; // charId -> fortune score (unlucky to lucky)

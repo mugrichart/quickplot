@@ -9,9 +9,10 @@ interface Props {
     data: StoryData
     currentEventIndex: number
     onEventSelect: (index: number) => void
+    onEditEvent?: (index: number) => void
 }
 
-export const Timeline = memo(function Timeline({ data, currentEventIndex, onEventSelect }: Props) {
+export const Timeline = memo(function Timeline({ data, currentEventIndex, onEventSelect, onEditEvent }: Props) {
     return (
         <div className="relative w-full py-4 px-2">
             {/* The Line */}
@@ -28,7 +29,13 @@ export const Timeline = memo(function Timeline({ data, currentEventIndex, onEven
                     <Tooltip key={event.id} delayDuration={0}>
                         <TooltipTrigger asChild>
                             <button
-                                onClick={() => onEventSelect(index)}
+                                onClick={() => {
+                                    if (currentEventIndex === index) {
+                                        onEditEvent?.(index)
+                                    } else {
+                                        onEventSelect(index)
+                                    }
+                                }}
                                 className={cn(
                                     "w-2 h-2 rounded-full border transition-all duration-200 hover:scale-125 z-10",
                                     index === currentEventIndex
@@ -39,8 +46,11 @@ export const Timeline = memo(function Timeline({ data, currentEventIndex, onEven
                                 )}
                             />
                         </TooltipTrigger>
-                        <TooltipContent>
-                            <p className="text-xs font-bold">{event.label}</p>
+                        <TooltipContent className="flex flex-col gap-1 max-w-[200px] bg-background/95 backdrop-blur border border-primary/20 text-foreground shadow-2xl p-3 z-50">
+                            <p className="text-xs font-black uppercase tracking-tight text-primary drop-shadow-sm">{event.label}</p>
+                            {event.summary && (
+                                <p className="text-[10px] text-muted-foreground whitespace-pre-wrap leading-relaxed">{event.summary}</p>
+                            )}
                         </TooltipContent>
                     </Tooltip>
                 ))}
