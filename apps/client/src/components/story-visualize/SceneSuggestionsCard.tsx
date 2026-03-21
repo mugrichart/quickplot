@@ -45,44 +45,58 @@ export function SceneSuggestionsCard({ data, currentEventIndex, onClose }: Props
                     {data.characters.map(char => {
                         const fortuneVal = currentEvent.characterFortunes?.[char.id] ?? 0
                         const evolutionVal = currentEvent.characterEvolution?.[char.id] ?? 0
-                        
-                        const fortuneDesc = getFortuneInterpretation(fortuneVal)
-                        const evolutionDesc = getEvolutionInterpretation(evolutionVal)
+                        const lenses = ['socio', 'econo', 'politico'] as const;
                         
                         return (
-                            <div key={char.id} className="flex items-start p-3 rounded-lg bg-background/50 border border-white/5 gap-4">
-                                {/* Character Left */}
-                                <div className="flex items-center gap-2 w-28 shrink-0 mt-1">
+                            <div key={char.id} className="p-3 rounded-lg bg-background/50 border border-white/5 space-y-3">
+                                {/* Character Header */}
+                                <div className="flex items-center gap-2">
                                     <div 
                                         className="size-2 rounded-full shadow-sm shrink-0"
                                         style={{ backgroundColor: char.color }}
                                     />
-                                    <span className="text-sm font-bold truncate">{char.name}</span>
+                                    <span className="text-sm font-black text-foreground">{char.name}</span>
                                 </div>
                                 
-                                {/* Stats Right */}
-                                <div className="flex-1 grid grid-cols-2 gap-3">
-                                    <div className="flex flex-col gap-1.5">
-                                        <div className="text-[9px] font-semibold text-muted-foreground uppercase">Fortune ({fortuneVal})</div>
-                                        <Badge variant="outline" className="text-[10px] bg-background justify-center border-primary/20 py-1 pointer-events-none text-center h-auto leading-tight whitespace-normal">
-                                            {fortuneDesc.label}
-                                        </Badge>
-                                        <ul className="list-disc pl-3 text-[9px] text-muted-foreground/80 space-y-0.5 ml-0.5">
-                                            {fortuneDesc.examples.map((ex, i) => (
-                                                <li key={i} className="leading-snug">{ex}</li>
-                                            ))}
-                                        </ul>
+                                <div className="grid grid-cols-1 gap-4">
+                                    {/* Fortune Section */}
+                                    <div className="space-y-2">
+                                        <div className="text-[9px] font-black text-primary uppercase tracking-tighter border-b border-primary/10 pb-0.5 flex justify-between">
+                                            <span>External Fortune</span>
+                                            <span className="opacity-60">{fortuneVal}</span>
+                                        </div>
+                                        <div className="grid grid-cols-3 gap-3">
+                                            {lenses.map(l => {
+                                                const d = getFortuneInterpretation(fortuneVal, l);
+                                                return (
+                                                    <div key={l} className="space-y-1">
+                                                        <div className="text-[7px] font-black text-muted-foreground uppercase tracking-widest">{l}</div>
+                                                        <div className="text-[10px] font-bold text-foreground leading-tight">{d.label}</div>
+                                                        <p className="text-[8px] text-muted-foreground leading-tight italic line-clamp-2">"{d.examples[0]}"</p>
+                                                    </div>
+                                                )
+                                            })}
+                                        </div>
                                     </div>
-                                    <div className="flex flex-col gap-1.5">
-                                        <div className="text-[9px] font-semibold text-muted-foreground uppercase">Dev ({evolutionVal})</div>
-                                        <Badge variant="outline" className="text-[10px] bg-background justify-center border-primary/20 py-1 pointer-events-none text-center h-auto leading-tight whitespace-normal">
-                                            {evolutionDesc.label}
-                                        </Badge>
-                                        <ul className="list-disc pl-3 text-[9px] text-muted-foreground/80 space-y-0.5 ml-0.5">
-                                            {evolutionDesc.examples.map((ex, i) => (
-                                                <li key={i} className="leading-snug">{ex}</li>
-                                            ))}
-                                        </ul>
+
+                                    {/* Evolution Section */}
+                                    <div className="space-y-2">
+                                        <div className="text-[9px] font-black text-emerald-500 uppercase tracking-tighter border-b border-emerald-500/10 pb-0.5 flex justify-between">
+                                            <span>Internal Evolution</span>
+                                            <span className="opacity-60">{evolutionVal}</span>
+                                        </div>
+                                        <div className="grid grid-cols-3 gap-3">
+                                            {lenses.map(l => {
+                                                const d = getEvolutionInterpretation(evolutionVal, l);
+                                                return (
+                                                    <div key={l} className="space-y-1">
+                                                        <div className="text-[7px] font-black text-muted-foreground uppercase tracking-widest">{l}</div>
+                                                        <div className="text-[10px] font-bold text-foreground leading-tight">{d.label}</div>
+                                                        <p className="text-[8px] text-muted-foreground leading-tight italic line-clamp-2">"{d.examples[0]}"</p>
+                                                    </div>
+                                                )
+                                            })}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

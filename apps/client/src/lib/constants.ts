@@ -1,3 +1,12 @@
+
+import { 
+    getLevelInterpretation, 
+    getDeltaInterpretation, 
+    RootType,
+    Lens,
+    Interpretation
+} from './interpretations';
+
 export const storySteps = {
     heroJourney: [
         10, // The Ordinary World
@@ -35,48 +44,36 @@ export interface InterpretationDetails {
     examples: string[];
 }
 
-export function getFortuneInterpretation(level: number): InterpretationDetails {
-    if (level <= -50) return {
-        label: "Devastating Setback",
-        examples: ["Death or critical injury", "Total loss of status or fortune"]
-    };
-    if (level < -10) return {
-        label: "Hardship",
-        examples: ["Minor injury or sickness", "Losing a minor conflict or item"]
-    };
-    if (level <= 10) return {
-        label: "Stable / Neutral",
-        examples: ["Routine daily activities", "Waiting or traveling without event"]
-    };
-    if (level < 50) return {
-        label: "Favorable Turn",
-        examples: ["Finding a useful item", "Winning a minor skirmish or argument"]
-    };
+export function getFortuneInterpretation(level: number, lens: Lens = 'generic'): InterpretationDetails {
+    const inter = getLevelInterpretation('fortune', level, lens);
     return {
-        label: "Major Triumph",
-        examples: ["Achieving a life-long goal", "Defeating a major antagonist"]
+        label: inter.label,
+        examples: inter.examples
     };
 }
 
-export function getEvolutionInterpretation(level: number): InterpretationDetails {
-    if (level <= -50) return {
-        label: "Deep Regression",
-        examples: ["Betraying core morals or friends", "Succumbing to a fatal flaw"]
-    };
-    if (level < -10) return {
-        label: "Doubt / Stumbling",
-        examples: ["Questioning their own beliefs", "Briefly giving in to temptation"]
-    };
-    if (level <= 10) return {
-        label: "Static / Processing",
-        examples: ["Maintaining current perspective", "Internalizing recent events"]
-    };
-    if (level < 50) return {
-        label: "Learning / Growth",
-        examples: ["Overcoming a minor fear", "Adopting a new, better perspective"]
-    };
+export function getEvolutionInterpretation(level: number, lens: Lens = 'generic'): InterpretationDetails {
+    const inter = getLevelInterpretation('evolution', level, lens);
     return {
-        label: "Transformation",
-        examples: ["Complete rebirth into a better self", "Self-sacrifice for the greater good"]
+        label: inter.label,
+        examples: inter.examples
     };
 }
+
+export function getPlaceAuraInterpretation(level: number): InterpretationDetails {
+    const inter = getLevelInterpretation('place', level);
+    return {
+        label: inter.label,
+        examples: inter.examples
+    };
+}
+
+export {
+    getLevelInterpretation,
+    getDeltaInterpretation,
+    type RootType,
+    type Lens,
+    type Interpretation
+};
+
+

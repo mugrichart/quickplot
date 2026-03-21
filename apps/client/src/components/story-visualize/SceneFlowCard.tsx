@@ -3,7 +3,7 @@ import { StoryData } from '@/types/story'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { X, ChevronLeft, ChevronRight, Activity, MapPin, Navigation, Orbit, ArrowRight, Sparkles, Edit3 } from 'lucide-react'
-import { heroJourneyDetails, getFortuneInterpretation, getEvolutionInterpretation } from '@/lib/constants'
+import { heroJourneyDetails, getFortuneInterpretation, getEvolutionInterpretation, getDeltaInterpretation, getLevelInterpretation, Lens } from '@/lib/constants'
 import { Badge } from '@/components/ui/badge'
 import { motion, AnimatePresence, Variants } from 'framer-motion'
 
@@ -185,15 +185,17 @@ export function SceneFlowCard({ data, currentEventIndex, onClose, onWrite }: Pro
         const endLoc = item.location?.name || "their destination";
 
         const getFortuneWords = (delta: number) => {
-            if (delta > 0) return `found a surge of fortune (+${delta})`;
-            if (delta < 0) return `suffered a loss in fortune (${delta})`;
-            return "maintained a steady fortune";
+            if (delta === 0) return "maintained a steady fortune";
+            const inter = getDeltaInterpretation('fortune', delta, 'generic');
+            const verb = delta > 0 ? "experienced a" : "suffered an";
+            return `${verb} ${inter.label.toLowerCase()} (${delta > 0 ? '+' : ''}${delta})`;
         };
 
         const getEvolutionWords = (delta: number) => {
-            if (delta > 0) return `felt a sense of growth (+${delta})`;
-            if (delta < 0) return `experienced a setback in development (${delta})`;
-            return "remained steadfast in their resolve";
+            if (delta === 0) return "remained steadfast in their resolve";
+            const inter = getDeltaInterpretation('evolution', delta, 'generic');
+            const verb = delta > 0 ? "made a" : "faced a";
+            return `${verb} ${inter.label.toLowerCase()} (${delta >= 0 ? '+' : ''}${delta})`;
         };
 
         const fWords = getFortuneWords(item.deltaFortune);
@@ -340,116 +342,117 @@ export function SceneFlowCard({ data, currentEventIndex, onClose, onWrite }: Pro
 
                         {currentItem.type === 'character' && (
                             <div className="w-full flex flex-col items-center gap-4">
-                                {/* Character Identity Header */}
-                                <div className="flex flex-col items-center">
+                                {/* Character Identity Header - Compact */}
+                                <div className="flex items-center gap-3 w-full max-w-[440px] px-2 mt-2">
                                     <div
-                                        className="size-14 rounded-full shadow-xl border-2 border-background ring-2 ring-primary/20 relative overflow-hidden"
+                                        className="size-8 rounded-full shadow-lg border-2 border-background ring-1 ring-primary/20 shrink-0"
                                         style={{ backgroundColor: currentItem.character.color }}
-                                    >
-                                        <div className="absolute inset-x-0 top-0 h-1/2 bg-white/10" />
-                                    </div>
-                                    <h3 className="text-xl font-black tracking-tight text-foreground">{currentItem.character.name}</h3>
+                                    />
+                                    <h3 className="text-lg font-black tracking-tight text-foreground truncate">{currentItem.character.name}</h3>
                                 </div>
 
-                                {/* The "Table" Structure */}
-                                <div className="w-full max-w-[440px] space-y-2 px-2">
+                                {/* Compact Stats Rows */}
+                                <div className="w-full max-w-[440px] space-y-1.5 px-2">
                                     {/* Row 1: Location */}
-                                    <div className="grid grid-cols-[90px_1fr_80px_1fr] items-center gap-2 bg-muted/20 hover:bg-muted/30 p-2.5 rounded-2xl border border-white/5 shadow-sm transition-colors">
-                                        <div className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/30 px-2 select-none">Location</div>
-                                        <div className="text-right pr-4 border-r border-white/5">
-                                            <span className="text-xl">{currentItem.prevLocation?.emoji || '📍'}</span>
-                                        </div>
-                                        <div className="flex flex-col items-center justify-center relative">
-                                            <ArrowRight className={`size-3.5 ${currentItem.moved ? 'text-primary animate-pulse' : 'text-muted-foreground/10'}`} />
-                                            {currentItem.moved && (
-                                                <span className="text-[6px] font-black text-primary/40 uppercase tracking-tighter">Travel</span>
-                                            )}
-                                        </div>
-                                        <div className="text-left pl-4 border-l border-white/5">
-                                            <span className="text-xl">{currentItem.location?.emoji || '📍'}</span>
-                                        </div>
+                                    <div className="grid grid-cols-[80px_1fr_60px_1fr] items-center gap-2 bg-muted/10 p-2 rounded-xl border border-white/5">
+                                        <div className="text-[8px] font-black uppercase text-muted-foreground/40 px-1">Location</div>
+                                        <div className="text-right text-lg">{currentItem.prevLocation?.emoji || '📍'}</div>
+                                        <div className="flex justify-center"><ArrowRight className="size-3 text-muted-foreground/20" /></div>
+                                        <div className="text-left text-lg">{currentItem.location?.emoji || '📍'}</div>
                                     </div>
 
                                     {/* Row 2: Fortune */}
-                                    <div className="grid grid-cols-[90px_1fr_80px_1fr] items-center gap-2 bg-muted/20 hover:bg-muted/30 p-2.5 rounded-2xl border border-white/5 shadow-sm relative transition-colors">
-                                        <div className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/30 px-2 select-none">Fortune</div>
-                                        <div className="text-right flex items-center justify-end gap-2.5 pr-4 border-r border-white/5 relative">
-                                            <Activity className="size-3 text-muted-foreground/10" />
-                                            <span className="text-md font-bold font-mono text-muted-foreground/40">{currentItem.prevFortune}</span>
+                                    <div className="grid grid-cols-[80px_1fr_60px_1fr] items-center gap-2 bg-muted/10 p-2 rounded-xl border border-white/5 relative">
+                                        <div className="text-[8px] font-black uppercase text-muted-foreground/40 px-1">Fortune</div>
+                                        <div className="text-right font-mono font-bold text-muted-foreground/60 relative">
+                                            {currentItem.prevFortune}
                                             {currentItem.timingTypeFortune === 'prev' && (
-                                                <sup className={`absolute -top-1 -right-4 text-[9px] font-black ${currentItem.deltaFortune >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                                    {currentItem.deltaFortune >= 0 ? `+${currentItem.deltaFortune}` : currentItem.deltaFortune}
-                                                </sup>
+                                                <sup className="text-[8px] ml-0.5 text-primary/60">{currentItem.deltaFortune >= 0 ? '+' : ''}{currentItem.deltaFortune}</sup>
                                             )}
                                         </div>
-                                        <div className="relative h-full flex flex-col items-center justify-center">
-                                            <ArrowRight className="size-3.5 text-muted-foreground/10" />
+                                        <div className="flex justify-center relative">
+                                            <ArrowRight className="size-3 text-muted-foreground/20" />
                                             {currentItem.timingTypeFortune === 'trip' && (
-                                                <div className={`text-[9px] font-black ${currentItem.deltaFortune >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                                    ({currentItem.deltaFortune >= 0 ? `+${currentItem.deltaFortune}` : currentItem.deltaFortune})
-                                                </div>
+                                                <div className="absolute -top-3 text-[8px] font-black text-primary">{currentItem.deltaFortune >= 0 ? '+' : ''}{currentItem.deltaFortune}</div>
                                             )}
                                         </div>
-                                        <div className="text-left flex items-center gap-2.5 pl-4 border-l border-white/5">
-                                            <div className="relative">
-                                                <span className="text-lg font-black text-foreground font-mono">{currentItem.fortune}</span>
-                                                {currentItem.timingTypeFortune === 'next' && (
-                                                    <sup className={`absolute -top-1 -right-6 text-[9px] font-black ${currentItem.deltaFortune >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                                        {currentItem.deltaFortune >= 0 ? `+${currentItem.deltaFortune}` : currentItem.deltaFortune}
-                                                    </sup>
-                                                )}
-                                            </div>
+                                        <div className="text-left font-mono font-black text-foreground relative">
+                                            {currentItem.fortune}
+                                            {currentItem.timingTypeFortune === 'next' && (
+                                                <sup className="text-[8px] ml-0.5 text-primary">{currentItem.deltaFortune >= 0 ? '+' : ''}{currentItem.deltaFortune}</sup>
+                                            )}
                                         </div>
                                     </div>
 
-                                    {/* Row 3: Development */}
-                                    <div className="grid grid-cols-[90px_1fr_80px_1fr] items-center gap-2 bg-muted/20 hover:bg-muted/30 p-2.5 rounded-2xl border border-white/5 shadow-sm relative transition-colors">
-                                        <div className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/30 px-2 select-none">Dev</div>
-                                        <div className="text-right flex items-center justify-end gap-2.5 pr-4 border-r border-white/5 relative">
-                                            <Orbit className="size-3 text-muted-foreground/10" />
-                                            <span className="text-md font-bold font-mono text-muted-foreground/40">{currentItem.prevEvolution}</span>
+                                    {/* Row 3: Dev */}
+                                    <div className="grid grid-cols-[80px_1fr_60px_1fr] items-center gap-2 bg-muted/10 p-2 rounded-xl border border-white/5 relative">
+                                        <div className="text-[8px] font-black uppercase text-muted-foreground/40 px-1">Evolution</div>
+                                        <div className="text-right font-mono font-bold text-muted-foreground/60 relative">
+                                            {currentItem.prevEvolution}
                                             {currentItem.timingTypeEvolution === 'prev' && (
-                                                <sup className={`absolute -top-1 -right-4 text-[9px] font-black ${currentItem.deltaEvolution >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                                    {currentItem.deltaEvolution >= 0 ? `+${currentItem.deltaEvolution}` : currentItem.deltaEvolution}
-                                                </sup>
+                                                <sup className="text-[8px] ml-0.5 text-emerald-500/60">{currentItem.deltaEvolution >= 0 ? '+' : ''}{currentItem.deltaEvolution}</sup>
                                             )}
                                         </div>
-                                        <div className="relative h-full flex flex-col items-center justify-center">
-                                            <ArrowRight className="size-3.5 text-muted-foreground/10" />
+                                        <div className="flex justify-center relative">
+                                            <ArrowRight className="size-3 text-muted-foreground/20" />
                                             {currentItem.timingTypeEvolution === 'trip' && (
-                                                <div className={`text-[9px] font-black ${currentItem.deltaEvolution >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                                    ({currentItem.deltaEvolution >= 0 ? `+${currentItem.deltaEvolution}` : currentItem.deltaEvolution})
-                                                </div>
+                                                <div className="absolute -top-3 text-[8px] font-black text-emerald-500">{currentItem.deltaEvolution >= 0 ? '+' : ''}{currentItem.deltaEvolution}</div>
                                             )}
                                         </div>
-                                        <div className="text-left flex items-center gap-2.5 pl-4 border-l border-white/5">
-                                            <div className="relative">
-                                                <span className="text-lg font-black text-foreground font-mono">{currentItem.evolution}</span>
-                                                {currentItem.timingTypeEvolution === 'next' && (
-                                                    <sup className={`absolute -top-1 -right-6 text-[9px] font-black ${currentItem.deltaEvolution >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                                        {currentItem.deltaEvolution >= 0 ? `+${currentItem.deltaEvolution}` : currentItem.deltaEvolution}
-                                                    </sup>
-                                                )}
-                                            </div>
+                                        <div className="text-left font-mono font-black text-foreground relative">
+                                            {currentItem.evolution}
+                                            {currentItem.timingTypeEvolution === 'next' && (
+                                                <sup className="text-[8px] ml-0.5 text-emerald-500">{currentItem.deltaEvolution >= 0 ? '+' : ''}{currentItem.deltaEvolution}</sup>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                {/* Re-overhauled Interpretation Section with More Space */}
+                                <div className="flex flex-col gap-1.5 w-full max-w-[440px] px-2 mb-2 grow min-h-0">
+                                    <div className="grid grid-cols-2 gap-2 shrink-0">
+                                        <div className="bg-primary/5 rounded-xl p-3 border border-primary/10 space-y-1">
+                                            <span className="text-[8px] uppercase font-black text-primary/60 block tracking-tight">
+                                                Jump ({currentItem.deltaFortune >= 0 ? '+' : ''}{currentItem.deltaFortune}):
+                                            </span>
+                                            <p className="text-[10px] text-foreground font-bold leading-tight italic">
+                                                "{(['socio', 'econo', 'politico'] as const).map(l => getDeltaInterpretation('fortune', currentItem.deltaFortune, l).examples[0]).join(', ')}"
+                                            </p>
+                                        </div>
+                                        <div className="bg-emerald-500/5 rounded-xl p-3 border border-emerald-500/10 space-y-1">
+                                            <span className="text-[8px] uppercase font-black text-emerald-500/60 block tracking-tight">
+                                                Jump ({currentItem.deltaEvolution >= 0 ? '+' : ''}{currentItem.deltaEvolution}):
+                                            </span>
+                                            <p className="text-[10px] text-foreground font-bold leading-tight italic">
+                                                "{(['socio', 'econo', 'politico'] as const).map(l => getDeltaInterpretation('evolution', currentItem.deltaEvolution, l).examples[0]).join(', ')}"
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-2 grow overflow-y-auto custom-scrollbar pr-1">
+                                        <div className="bg-primary/5 rounded-xl p-3 border border-primary/10 space-y-1">
+                                            <span className="text-[8px] uppercase font-black text-primary/60 block tracking-tight">
+                                                Fortune Level ({currentItem.fortune}):
+                                            </span>
+                                            <p className="text-[10px] text-foreground font-bold leading-tight italic">
+                                                "{(['socio', 'econo', 'politico'] as const).map(l => getFortuneInterpretation(currentItem.fortune, l).examples[0]).join(', ')}"
+                                            </p>
+                                        </div>
+                                        <div className="bg-emerald-500/5 rounded-xl p-3 border border-emerald-500/10 space-y-1">
+                                            <span className="text-[8px] uppercase font-black text-emerald-500/60 block tracking-tight">
+                                                Evolution Level ({currentItem.evolution}):
+                                            </span>
+                                            <p className="text-[10px] text-foreground font-bold leading-tight italic">
+                                                "{(['socio', 'econo', 'politico'] as const).map(l => getEvolutionInterpretation(currentItem.evolution, l).examples[0]).join(', ')}"
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Interpretation Footer Card */}
-                                <div className="grid grid-cols-2 gap-2.5 w-full max-w-[440px] px-2 mb-2">
-                                    <div className="bg-primary/5 rounded-xl p-2.5 border border-primary/10">
-                                        <span className="text-[8px] uppercase font-black text-primary/60 block mb-0.5">State</span>
-                                        <span className="text-[10px] text-foreground font-bold leading-tight line-clamp-1">{getFortuneInterpretation(currentItem.fortune).label}</span>
-                                    </div>
-                                    <div className="bg-primary/5 rounded-xl p-2.5 border border-primary/10">
-                                        <span className="text-[8px] uppercase font-black text-primary/60 block mb-0.5">Phase</span>
-                                        <span className="text-[10px] text-foreground font-bold leading-tight line-clamp-1">{getEvolutionInterpretation(currentItem.evolution).label}</span>
-                                    </div>
-                                </div>
-
-                                {/* Narrative Summary Section */}
-                                <div className="w-full bg-primary/10 border-t border-primary/20 p-5 mt-auto">
-                                    <p className="text-[12px] leading-relaxed text-foreground font-medium italic text-center px-2">
+                                {/* Narrative Summary Section - Fixed Height */}
+                                <div className="w-full bg-primary/10 border-t border-primary/20 p-4 shrink-0 mt-auto">
+                                    <p className="text-[11px] leading-relaxed text-foreground font-medium italic text-center">
                                         "{generateSummary(currentItem as Extract<FlowItem, { type: 'character' }>)}"
                                     </p>
                                 </div>
