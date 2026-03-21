@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { StoryData } from '@/types/story'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -35,6 +35,11 @@ type FlowItem =
 export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
     const [currentIndex, setCurrentIndex] = useState(0)
     const [direction, setDirection] = useState(1)
+
+    // Reset index when switching events
+    useEffect(() => {
+        setCurrentIndex(0)
+    }, [currentEventIndex])
 
     const currentEvent = data.events[currentEventIndex]
     
