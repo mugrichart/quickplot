@@ -15,7 +15,7 @@ interface Props {
 
 type FlowItem =
     | { type: 'intro'; beatName: string; beatDesc: string }
-    | { type: 'place'; place: StoryData['places'][0]; state: string; fortune: number }
+    | { type: 'place'; place: StoryData['places'][0]; state: string; fortune: number; prevFortune: number; deltaFortune: number }
     | { 
         type: 'character'; 
         character: StoryData['characters'][0]; 
@@ -42,27 +42,29 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
     }, [currentEventIndex])
 
     const currentEvent = data.events[currentEventIndex]
-    
+
     const items = useMemo<FlowItem[]>(() => {
         if (!currentEvent) return []
-        
+
         const stepIndex = currentEventIndex % heroJourneyDetails.length
         const beat = heroJourneyDetails[stepIndex]
 
         const introItems: FlowItem[] = [
             { type: 'intro', beatName: beat.name, beatDesc: beat.description }
         ]
-        
+
         const entityItems: FlowItem[] = []
+
+        const prevEvent = currentEventIndex > 0 ? data.events[currentEventIndex - 1] : null;
 
         // Add places
         data.places.forEach(p => {
             const fortune = currentEvent.placeFortunes?.[p.id] ?? 0
             const state = currentEvent.placeStates?.[p.id] ?? "Unknown"
-            entityItems.push({ type: 'place', place: p, state, fortune })
+            const prevFortune = prevEvent?.placeFortunes?.[p.id] ?? fortune
+            const deltaFortune = fortune - prevFortune
+            entityItems.push({ type: 'place', place: p, state, fortune, prevFortune, deltaFortune })
         })
-
-        const prevEvent = currentEventIndex > 0 ? data.events[currentEventIndex - 1] : null;
 
         // Add characters
         data.characters.forEach(c => {
@@ -70,7 +72,7 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
             const evolutionVal = currentEvent.characterEvolution?.[c.id] ?? 0
             const locId = currentEvent.characterLocations?.[c.id]
             const loc = data.places.find(p => p.id === locId)
-            
+
             const prevLocId = prevEvent?.characterLocations?.[c.id]
             const prevLoc = data.places.find(p => p.id === prevLocId)
             const moved = prevEvent !== null && prevLocId !== undefined && prevLocId !== locId
@@ -80,7 +82,7 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
 
             const prevEvolution = prevEvent?.characterEvolution?.[c.id] ?? evolutionVal
             const deltaEvolution = evolutionVal - prevEvolution
-            
+
             let timingTypeFortune: 'prev' | 'trip' | 'next' = 'next'
             let timingTypeEvolution: 'prev' | 'trip' | 'next' = 'next'
 
@@ -92,7 +94,7 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
                 timingTypeFortune = 'next';
                 timingTypeEvolution = 'next';
             }
-            
+
             entityItems.push({
                 type: 'character',
                 character: c,
@@ -109,7 +111,7 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
                 timingTypeEvolution
             })
         })
-        
+
         // Shuffle entity items
         for (let i = entityItems.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -175,7 +177,7 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
         const charName = item.character.name;
         const startLoc = item.prevLocation?.name || "their starting point";
         const endLoc = item.location?.name || "their destination";
-        
+
         const getFortuneWords = (delta: number) => {
             if (delta > 0) return `found a surge of fortune (+${delta})`;
             if (delta < 0) return `suffered a loss in fortune (${delta})`;
@@ -203,7 +205,7 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
         const startEvents: string[] = [];
         if (fTiming === 'prev') startEvents.push(fWords);
         if (eTiming === 'prev') startEvents.push(eWords);
-        
+
         if (startEvents.length > 0) {
             narrative += `${charName} ${startEvents.join(' and ')} while at ${startLoc}. `;
         }
@@ -214,7 +216,7 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
         if (eTiming === 'trip') tripEvents.push(eWords);
 
         const travelVerb = startEvents.length > 0 ? "Then, they headed" : `${charName} headed`;
-        
+
         if (tripEvents.length > 0) {
             narrative += `${travelVerb} to ${endLoc}, ${tripEvents.join(' and ')} during the journey. `;
         } else {
@@ -225,7 +227,7 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
         const endEvents: string[] = [];
         if (fTiming === 'next') endEvents.push(fWords);
         if (eTiming === 'next') endEvents.push(eTiming === fTiming ? eWords : `they also ${eWords}`);
-        
+
         if (endEvents.length > 0) {
             const arrivalPhrase = (startEvents.length > 0 || tripEvents.length > 0) ? "Upon reaching" : "After reaching";
             narrative += `${arrivalPhrase} ${endLoc}, they ${endEvents.join(' and ')}.`;
@@ -284,16 +286,18 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
                                     <div className="text-5xl drop-shadow-lg">{currentItem.place.emoji}</div>
                                     <h3 className="text-xl font-black">{currentItem.place.name}</h3>
                                 </div>
-                                
-                                <div className="bg-primary/5 border border-primary/10 rounded-2xl p-4 flex flex-col gap-3 max-w-[400px] mx-auto w-full">
+
+                                <div className="bg-primary/5 border border-primary/10 rounded-2xl p-5 flex flex-col gap-3 max-w-[400px] mx-auto w-full shadow-inner">
                                     <div className="space-y-1 text-center">
-                                        <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Current State</div>
-                                        <div className="text-md font-bold text-primary">{currentItem.state}</div>
-                                    </div>
-                                    <div className="h-px bg-primary/10 w-full" />
-                                    <div className="space-y-1 text-center">
-                                        <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Aura / Fortune ({currentItem.fortune})</div>
-                                        <div className="text-sm">{getFortuneInterpretation(currentItem.fortune).label}</div>
+                                        <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Atmospheric Aura ({currentItem.fortune})</div>
+                                        <div className="flex items-center justify-center gap-2">
+                                            <div className="text-sm font-medium">{getFortuneInterpretation(currentItem.fortune).label}</div>
+                                            {currentItem.deltaFortune !== 0 && (
+                                                <span className={`text-[10px] font-black ${currentItem.deltaFortune > 0 ? 'text-green-500' : 'text-red-500'}`}>
+                                                    {currentItem.deltaFortune > 0 ? '+' : ''}{currentItem.deltaFortune}
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -303,7 +307,7 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
                             <div className="w-full flex flex-col items-center gap-4">
                                 {/* Character Identity Header */}
                                 <div className="flex flex-col items-center">
-                                    <div 
+                                    <div
                                         className="size-14 rounded-full shadow-xl border-2 border-background ring-2 ring-primary/20 relative overflow-hidden"
                                         style={{ backgroundColor: currentItem.character.color }}
                                     >
@@ -395,7 +399,7 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 {/* Interpretation Footer Card */}
                                 <div className="grid grid-cols-2 gap-2.5 w-full max-w-[440px] px-2 mb-2">
                                     <div className="bg-primary/5 rounded-xl p-2.5 border border-primary/10">
@@ -421,9 +425,9 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
 
                 {/* Left/Right Controls overlay */}
                 <div className="absolute inset-y-0 left-2 flex items-center pointer-events-none">
-                    <Button 
-                        variant="ghost" 
-                        size="icon" 
+                    <Button
+                        variant="ghost"
+                        size="icon"
                         onClick={handlePrev}
                         disabled={currentIndex === 0}
                         className="rounded-full bg-background/50 backdrop-blur border border-white/10 shadow-lg pointer-events-auto hover:bg-primary/20 hover:text-primary disabled:opacity-0 transition-opacity"
@@ -432,9 +436,9 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
                     </Button>
                 </div>
                 <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none">
-                    <Button 
-                        variant="ghost" 
-                        size="icon" 
+                    <Button
+                        variant="ghost"
+                        size="icon"
                         onClick={handleNext}
                         disabled={currentIndex === items.length - 1}
                         className="rounded-full bg-background/50 backdrop-blur border border-white/10 shadow-lg pointer-events-auto hover:bg-primary/20 hover:text-primary disabled:opacity-0 transition-opacity"
@@ -443,12 +447,12 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
                     </Button>
                 </div>
             </CardContent>
-            
+
             {/* Dots Indicator */}
             <div className="p-4 flex justify-center gap-1.5 bg-background/50 backdrop-blur-md border-t border-white/5">
                 {items.map((_, idx) => (
-                    <div 
-                        key={idx} 
+                    <div
+                        key={idx}
                         className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentIndex ? 'w-6 bg-primary' : 'w-1.5 bg-primary/20'}`}
                     />
                 ))}
@@ -459,5 +463,5 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
 
 const swipeConfidenceThreshold = 10000;
 const swipePower = (offset: number, velocity: number) => {
-  return Math.abs(offset) * velocity;
+    return Math.abs(offset) * velocity;
 };

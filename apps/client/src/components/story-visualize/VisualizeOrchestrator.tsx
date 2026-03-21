@@ -650,10 +650,10 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                                 top: isHeaderCollapsed ? '2rem' : '120px',
                             }}
                         >
-                            <SceneFlowCard 
-                                data={storyData} 
-                                currentEventIndex={currentEventIndex} 
-                                onClose={() => setIsSceneFlowOpen(false)} 
+                            <SceneFlowCard
+                                data={storyData}
+                                currentEventIndex={currentEventIndex}
+                                onClose={() => setIsSceneFlowOpen(false)}
                             />
                         </motion.div>
                     )}

@@ -79,4 +79,4 @@ export function getEvolutionInterpretation(level: number): InterpretationDetails
         label: "Transformation",
         examples: ["Complete rebirth into a better self", "Self-sacrifice for the greater good"]
     };
-}
+}
