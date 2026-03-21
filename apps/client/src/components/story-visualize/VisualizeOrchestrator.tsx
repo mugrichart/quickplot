@@ -11,12 +11,13 @@ import { CharacterControls } from './CharacterControls'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ChevronDown, ChevronUp, Maximize2, Minimize2, PanelBottomClose, PanelTopClose, Plus, Pencil, Sparkles } from 'lucide-react'
+import { ChevronDown, ChevronUp, Maximize2, Minimize2, PanelBottomClose, PanelTopClose, Plus, Pencil, Sparkles, Navigation } from 'lucide-react'
 
 import { PlaceStatesChart } from './PlaceStatesChart'
 import { MapImageUpload } from './MapImageUpload'
 import { StoryReference } from './StoryReference'
 import { SceneSuggestionsCard } from './SceneSuggestionsCard'
+import { SceneFlowCard } from './SceneFlowCard'
 import { AddPlaceDialog } from './AddPlaceDialog'
 import { AddCharacterDialog } from './AddCharacterDialog'
 import { EditBeatDialog } from './EditBeatDialog'
@@ -54,6 +55,7 @@ export function VisualizeOrchestrator({ initialData }: Props) {
     const [editFocusValue, setEditFocusValue] = useState("")
 
     const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false)
+    const [isSceneFlowOpen, setIsSceneFlowOpen] = useState(false)
     const [editingEventIndex, setEditingEventIndex] = useState<number | null>(null)
 
     const [currentStructure, setCurrentStructure] = useState<keyof typeof storySteps>("heroJourney")
@@ -185,7 +187,7 @@ export function VisualizeOrchestrator({ initialData }: Props) {
 
     const handleUpdateEvent = useCallback((eventId: string, updates: { label: string; summary?: string }) => {
         setEvents(prev => {
-            const updated = prev.map(ev => 
+            const updated = prev.map(ev =>
                 ev.id === eventId ? { ...ev, label: updates.label, summary: updates.summary } : ev
             )
             saveStory({ ...initialData, places, characters, events: updated })
@@ -425,10 +427,25 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                                 variant={isSuggestionsOpen ? "secondary" : "outline"}
                                 size="sm"
                                 className="gap-2 border-primary/20 hover:bg-primary/10 transition-none"
-                                onClick={() => setIsSuggestionsOpen(prev => !prev)}
+                                onClick={() => {
+                                    setIsSuggestionsOpen(prev => !prev)
+                                    if (!isSuggestionsOpen) setIsSceneFlowOpen(false)
+                                }}
                             >
                                 <Sparkles className="size-4 text-primary" />
                                 <span>Beats</span>
+                            </Button>
+                            <Button
+                                variant={isSceneFlowOpen ? "secondary" : "outline"}
+                                size="sm"
+                                className="gap-2 border-primary/20 hover:bg-primary/10 transition-none"
+                                onClick={() => {
+                                    setIsSceneFlowOpen(prev => !prev)
+                                    if (!isSceneFlowOpen) setIsSuggestionsOpen(false)
+                                }}
+                            >
+                                <Navigation className="size-4 text-primary" />
+                                <span>Flow</span>
                             </Button>
                             <div className="h-10 w-px bg-white/5" />
                             <Popover>
@@ -612,10 +629,31 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                                 top: isHeaderCollapsed ? '2rem' : '120px',
                             }}
                         >
-                            <SceneSuggestionsCard 
+                            <SceneSuggestionsCard
+                                data={storyData}
+                                currentEventIndex={currentEventIndex}
+                                onClose={() => setIsSuggestionsOpen(false)}
+                            />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                {/* 7. Scene Flow Card Panel */}
+                <AnimatePresence>
+                    {isSceneFlowOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 20 }}
+                            className="absolute z-40 right-6 pointer-events-none"
+                            style={{
+                                top: isHeaderCollapsed ? '2rem' : '120px',
+                            }}
+                        >
+                            <SceneFlowCard 
                                 data={storyData} 
                                 currentEventIndex={currentEventIndex} 
-                                onClose={() => setIsSuggestionsOpen(false)} 
+                                onClose={() => setIsSceneFlowOpen(false)} 
                             />
                         </motion.div>
                     )}
