@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { StoryData } from '@/types/story'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { X, ChevronLeft, ChevronRight, Activity, MapPin, Navigation, Orbit, ArrowRight, Sparkles } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, Activity, MapPin, Navigation, Orbit, ArrowRight, Sparkles, Edit3 } from 'lucide-react'
 import { heroJourneyDetails, getFortuneInterpretation, getEvolutionInterpretation } from '@/lib/constants'
 import { Badge } from '@/components/ui/badge'
 import { motion, AnimatePresence, Variants } from 'framer-motion'
@@ -11,10 +11,12 @@ interface Props {
     data: StoryData
     currentEventIndex: number
     onClose: () => void
+    onWrite?: (index: number) => void
 }
 
 type FlowItem =
     | { type: 'intro'; beatName: string; beatDesc: string }
+    | { type: 'outro'; beatName: string }
     | { type: 'place'; place: StoryData['places'][0]; state: string; fortune: number; prevFortune: number; deltaFortune: number }
     | { 
         type: 'character'; 
@@ -32,7 +34,7 @@ type FlowItem =
         deltaEvolution: number 
     };
 
-export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
+export function SceneFlowCard({ data, currentEventIndex, onClose, onWrite }: Props) {
     const [currentIndex, setCurrentIndex] = useState(0)
     const [direction, setDirection] = useState(1)
 
@@ -118,7 +120,11 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
             [entityItems[i], entityItems[j]] = [entityItems[j], entityItems[i]];
         }
 
-        return [...introItems, ...entityItems]
+        return [
+            ...introItems, 
+            ...entityItems,
+            { type: 'outro', beatName: beat.name } as FlowItem
+        ]
     }, [data, currentEvent, currentEventIndex])
 
     if (!currentEvent || items.length === 0) return null
@@ -267,15 +273,44 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
                         className="absolute inset-x-0 top-0 flex flex-col items-center p-4 cursor-grab active:cursor-grabbing"
                     >
                         {currentItem.type === 'intro' && (
-                            <div className="text-center space-y-4 pt-10">
-                                <div className="inline-flex items-center justify-center size-14 rounded-full bg-primary/10 mb-2">
-                                    <Orbit className="size-6 text-primary" />
+                            <div className="w-full flex flex-col items-center justify-center text-center space-y-6 pt-10">
+                                <div className="p-4 bg-primary/10 rounded-full">
+                                    <Sparkles className="size-8 text-primary animate-pulse" />
                                 </div>
-                                <div>
-                                    <h2 className="text-[10px] font-black uppercase tracking-widest text-primary mb-1">Current Beat</h2>
-                                    <h3 className="text-2xl font-black text-foreground drop-shadow-md leading-tight">{currentItem.beatName}</h3>
+                                <div className="space-y-1">
+                                    <div className="text-[10px] font-black uppercase tracking-widest text-primary/60">Current Beat Overview</div>
+                                    <h2 className="text-3xl font-black tracking-tight leading-tight">{currentItem.beatName}</h2>
+                                    <p className="text-muted-foreground text-sm max-w-[300px] leading-relaxed italic mx-auto">
+                                        "{currentItem.beatDesc}"
+                                    </p>
                                 </div>
-                                <p className="text-xs text-muted-foreground leading-relaxed px-4">{currentItem.beatDesc}</p>
+                            </div>
+                        )}
+
+                        {currentItem.type === 'outro' && (
+                            <div className="w-full flex flex-col items-center justify-center text-center space-y-8 pt-12">
+                                <div className="p-5 bg-primary/10 rounded-full shadow-inner relative">
+                                    <Sparkles className="size-10 text-primary animate-pulse" />
+                                    <div className="absolute -top-1 -right-1 bg-green-500 rounded-full p-1 border-2 border-background">
+                                        <Activity className="size-2 text-white" />
+                                    </div>
+                                </div>
+                                
+                                <div className="space-y-2">
+                                    <h3 className="text-xl font-black italic text-muted-foreground">"Inspiration Gathered"</h3>
+                                    <h2 className="text-2xl font-black tracking-tight max-w-[280px]">Ready to bring {currentItem.beatName} to life?</h2>
+                                </div>
+
+                                {onWrite && (
+                                    <Button 
+                                        onClick={() => onWrite(currentEventIndex)}
+                                        variant="default"
+                                        className="gap-3 rounded-full px-10 py-6 shadow-2xl bg-primary hover:scale-110 transition-all text-primary-foreground font-bold text-lg"
+                                    >
+                                        <Edit3 className="size-6" />
+                                        Write Now
+                                    </Button>
+                                )}
                             </div>
                         )}
 

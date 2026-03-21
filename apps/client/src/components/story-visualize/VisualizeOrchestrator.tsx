@@ -654,6 +654,7 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                                 data={storyData}
                                 currentEventIndex={currentEventIndex}
                                 onClose={() => setIsSceneFlowOpen(false)}
+                                onWrite={setEditingEventIndex}
                             />
                         </motion.div>
                     )}
