@@ -171,31 +171,62 @@ export function SceneFlowCard({ data, currentEventIndex, onClose }: Props) {
         const startLoc = item.prevLocation?.name || "their starting point";
         const endLoc = item.location?.name || "their destination";
         
-        let fortuneWords = "";
-        const fDelta = item.deltaFortune;
-        if (fDelta > 0) fortuneWords = `found a surge of fortune (+${fDelta})`;
-        else if (fDelta < 0) fortuneWords = `suffered a loss in fortune (${fDelta})`;
-        else fortuneWords = "maintained a steady fortune";
+        const getFortuneWords = (delta: number) => {
+            if (delta > 0) return `found a surge of fortune (+${delta})`;
+            if (delta < 0) return `suffered a loss in fortune (${delta})`;
+            return "maintained a steady fortune";
+        };
 
-        let evolutionWords = "";
-        const eDelta = item.deltaEvolution;
-        if (eDelta > 0) evolutionWords = `felt a sense of growth (+${eDelta})`;
-        else if (eDelta < 0) evolutionWords = `experienced a setback in development (${eDelta})`;
-        else evolutionWords = "remained steadfast in their resolve";
+        const getEvolutionWords = (delta: number) => {
+            if (delta > 0) return `felt a sense of growth (+${delta})`;
+            if (delta < 0) return `experienced a setback in development (${delta})`;
+            return "remained steadfast in their resolve";
+        };
 
-        const fTiming = item.timingTypeFortune === 'prev' ? `while at ${startLoc}` : 
-                        item.timingTypeFortune === 'trip' ? `during the journey` : 
-                        `after arriving at ${endLoc}`;
-        
-        const eTiming = item.timingTypeEvolution === 'prev' ? `at ${startLoc}` : 
-                        item.timingTypeEvolution === 'trip' ? `while traveling` : 
-                        `at ${endLoc}`;
+        const fWords = getFortuneWords(item.deltaFortune);
+        const eWords = getEvolutionWords(item.deltaEvolution);
+        const fTiming = item.timingTypeFortune;
+        const eTiming = item.timingTypeEvolution;
 
         if (!item.moved) {
-            return `${charName} stayed at ${endLoc}. They ${fortuneWords} and ${evolutionWords} during this period.`;
+            return `${charName} stayed at ${endLoc}. They ${fWords} and ${eWords} during this period.`;
         }
 
-        return `${charName} traveled from ${startLoc} to ${endLoc}. They ${fortuneWords} ${fTiming}, while their spirit ${evolutionWords} ${eTiming}.`;
+        let narrative = "";
+
+        // Stage 1: At Start
+        const startEvents: string[] = [];
+        if (fTiming === 'prev') startEvents.push(fWords);
+        if (eTiming === 'prev') startEvents.push(eWords);
+        
+        if (startEvents.length > 0) {
+            narrative += `${charName} ${startEvents.join(' and ')} while at ${startLoc}. `;
+        }
+
+        // Stage 2: The Trip
+        const tripEvents: string[] = [];
+        if (fTiming === 'trip') tripEvents.push(fWords);
+        if (eTiming === 'trip') tripEvents.push(eWords);
+
+        const travelVerb = startEvents.length > 0 ? "Then, they headed" : `${charName} headed`;
+        
+        if (tripEvents.length > 0) {
+            narrative += `${travelVerb} to ${endLoc}, ${tripEvents.join(' and ')} during the journey. `;
+        } else {
+            narrative += `${travelVerb} to ${endLoc}. `;
+        }
+
+        // Stage 3: Arrival
+        const endEvents: string[] = [];
+        if (fTiming === 'next') endEvents.push(fWords);
+        if (eTiming === 'next') endEvents.push(eTiming === fTiming ? eWords : `they also ${eWords}`);
+        
+        if (endEvents.length > 0) {
+            const arrivalPhrase = (startEvents.length > 0 || tripEvents.length > 0) ? "Upon reaching" : "After reaching";
+            narrative += `${arrivalPhrase} ${endLoc}, they ${endEvents.join(' and ')}.`;
+        }
+
+        return narrative.trim();
     }
 
     return (
