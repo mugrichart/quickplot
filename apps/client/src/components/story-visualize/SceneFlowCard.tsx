@@ -7,6 +7,18 @@ import { heroJourneyDetails, getFortuneInterpretation, getEvolutionInterpretatio
 import { Badge } from '@/components/ui/badge'
 import { motion, AnimatePresence, Variants } from 'framer-motion'
 
+// Simple deterministic pseudo-random generator based on seed string
+const createSeededRandom = (seed: string) => {
+    let h = 0;
+    for (let i = 0; i < seed.length; i++) {
+        h = Math.imul(31, h) + seed.charCodeAt(i) | 0;
+    }
+    return () => {
+        h = Math.imul(48271, h) | 0;
+        return (h & 0x7fffffff) / 0x7fffffff;
+    };
+};
+
 interface Props {
     data: StoryData
     currentEventIndex: number
@@ -50,6 +62,7 @@ export function SceneFlowCard({ data, currentEventIndex, onClose, onWrite }: Pro
 
         const beatIndex = Math.floor(currentEventIndex / SCENES_PER_BEAT) % heroJourneyDetails.length
         const beat = heroJourneyDetails[beatIndex]
+        const seededRandom = createSeededRandom(currentEvent.id)
 
         const introItems: FlowItem[] = [
             { type: 'intro', beatName: beat.name, beatDesc: beat.description }
@@ -90,8 +103,10 @@ export function SceneFlowCard({ data, currentEventIndex, onClose, onWrite }: Pro
 
             if (moved && prevLoc && loc) {
                 const types: ('prev' | 'trip' | 'next')[] = ['prev', 'trip', 'next'];
-                timingTypeFortune = types[Math.floor(Math.random() * types.length)];
-                timingTypeEvolution = types[Math.floor(Math.random() * types.length)];
+                // Use a specific seed for each character in this event to keep their individual timing stable
+                const charRandom = createSeededRandom(currentEvent.id + c.id);
+                timingTypeFortune = types[Math.floor(charRandom() * types.length)];
+                timingTypeEvolution = types[Math.floor(charRandom() * types.length)];
             } else if (loc) {
                 timingTypeFortune = 'next';
                 timingTypeEvolution = 'next';
@@ -114,9 +129,9 @@ export function SceneFlowCard({ data, currentEventIndex, onClose, onWrite }: Pro
             })
         })
 
-        // Shuffle entity items
+        // Shuffle entity items deterministically
         for (let i = entityItems.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
+            const j = Math.floor(seededRandom() * (i + 1));
             [entityItems[i], entityItems[j]] = [entityItems[j], entityItems[i]];
         }
 
@@ -132,14 +147,14 @@ export function SceneFlowCard({ data, currentEventIndex, onClose, onWrite }: Pro
     const handleNext = () => {
         if (currentIndex < items.length - 1) {
             setDirection(1)
-            setCurrentIndex(prev => prev + 1)
+            setCurrentIndex((prev: number) => prev + 1)
         }
     }
 
     const handlePrev = () => {
         if (currentIndex > 0) {
             setDirection(-1)
-            setCurrentIndex(prev => prev - 1)
+            setCurrentIndex((prev: number) => prev - 1)
         }
     }
 
@@ -488,7 +503,7 @@ export function SceneFlowCard({ data, currentEventIndex, onClose, onWrite }: Pro
 
             {/* Dots Indicator */}
             <div className="p-4 flex justify-center gap-1.5 bg-background/50 backdrop-blur-md border-t border-white/5">
-                {items.map((_, idx) => (
+                {items.map((_: any, idx: number) => (
                     <div
                         key={idx}
                         className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentIndex ? 'w-6 bg-primary' : 'w-1.5 bg-primary/20'}`}
