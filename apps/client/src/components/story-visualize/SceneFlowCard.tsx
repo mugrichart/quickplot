@@ -199,14 +199,16 @@ export function SceneFlowCard({ data, currentEventIndex, onClose, onWrite }: Pro
         const startLoc = item.prevLocation?.name || "their starting point";
         const endLoc = item.location?.name || "their destination";
 
-        const getFortuneWords = (delta: number) => {
+        const getFortuneWords = (deltaArg: number) => {
+            const delta = Math.round(deltaArg);
             if (delta === 0) return "maintained a steady fortune";
             const inter = getDeltaInterpretation('fortune', delta, 'generic');
             const verb = delta > 0 ? "experienced a" : "suffered an";
             return `${verb} ${inter.label.toLowerCase()} (${delta > 0 ? '+' : ''}${delta})`;
         };
 
-        const getEvolutionWords = (delta: number) => {
+        const getEvolutionWords = (deltaArg: number) => {
+            const delta = Math.round(deltaArg);
             if (delta === 0) return "remained steadfast in their resolve";
             const inter = getDeltaInterpretation('evolution', delta, 'generic');
             const verb = delta > 0 ? "made a" : "faced a";
