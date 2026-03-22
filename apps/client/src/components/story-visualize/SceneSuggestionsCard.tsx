@@ -63,7 +63,7 @@ export function SceneSuggestionsCard({ data, currentEventIndex, onClose }: Props
                                     <div className="space-y-2">
                                         <div className="text-[9px] font-black text-primary uppercase tracking-tighter border-b border-primary/10 pb-0.5 flex justify-between">
                                             <span>External Fortune</span>
-                                            <span className="opacity-60">{fortuneVal}</span>
+                                            <span className="opacity-60">{Math.round(fortuneVal)}</span>
                                         </div>
                                         <div className="grid grid-cols-3 gap-3">
                                             {lenses.map(l => {
@@ -83,7 +83,7 @@ export function SceneSuggestionsCard({ data, currentEventIndex, onClose }: Props
                                     <div className="space-y-2">
                                         <div className="text-[9px] font-black text-emerald-500 uppercase tracking-tighter border-b border-emerald-500/10 pb-0.5 flex justify-between">
                                             <span>Internal Evolution</span>
-                                            <span className="opacity-60">{evolutionVal}</span>
+                                            <span className="opacity-60">{Math.round(evolutionVal)}</span>
                                         </div>
                                         <div className="grid grid-cols-3 gap-3">
                                             {lenses.map(l => {

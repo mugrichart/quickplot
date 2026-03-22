@@ -326,12 +326,12 @@ export function SceneFlowCard({ data, currentEventIndex, onClose, onWrite }: Pro
 
                                 <div className="bg-primary/5 border border-primary/10 rounded-2xl p-5 flex flex-col gap-3 max-w-[400px] mx-auto w-full shadow-inner">
                                     <div className="space-y-1 text-center">
-                                        <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Atmospheric Aura ({currentItem.fortune})</div>
+                                        <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Atmospheric Aura ({Math.round(currentItem.fortune)})</div>
                                         <div className="flex items-center justify-center gap-2">
                                             <div className="text-sm font-medium">{getFortuneInterpretation(currentItem.fortune).label}</div>
                                             {currentItem.deltaFortune !== 0 && (
                                                 <span className={`text-[10px] font-black ${currentItem.deltaFortune > 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                                    {currentItem.deltaFortune > 0 ? '+' : ''}{currentItem.deltaFortune}
+                                                    {currentItem.deltaFortune > 0 ? '+' : ''}{Math.round(currentItem.deltaFortune)}
                                                 </span>
                                             )}
                                         </div>
@@ -365,21 +365,21 @@ export function SceneFlowCard({ data, currentEventIndex, onClose, onWrite }: Pro
                                     <div className="grid grid-cols-[80px_1fr_60px_1fr] items-center gap-2 bg-muted/10 p-2 rounded-xl border border-white/5 relative">
                                         <div className="text-[8px] font-black uppercase text-muted-foreground/40 px-1">Fortune</div>
                                         <div className="text-right font-mono font-bold text-muted-foreground/60 relative">
-                                            {currentItem.prevFortune}
+                                            {Math.round(currentItem.prevFortune)}
                                             {currentItem.timingTypeFortune === 'prev' && (
-                                                <sup className="text-[8px] ml-0.5 text-primary/60">{currentItem.deltaFortune >= 0 ? '+' : ''}{currentItem.deltaFortune}</sup>
+                                                <sup className="text-[8px] ml-0.5 text-primary/60">{currentItem.deltaFortune >= 0 ? '+' : ''}{Math.round(currentItem.deltaFortune)}</sup>
                                             )}
                                         </div>
                                         <div className="flex justify-center relative">
                                             <ArrowRight className="size-3 text-muted-foreground/20" />
                                             {currentItem.timingTypeFortune === 'trip' && (
-                                                <div className="absolute -top-3 text-[8px] font-black text-primary">{currentItem.deltaFortune >= 0 ? '+' : ''}{currentItem.deltaFortune}</div>
+                                                <div className="absolute -top-3 text-[8px] font-black text-primary">{currentItem.deltaFortune >= 0 ? '+' : ''}{Math.round(currentItem.deltaFortune)}</div>
                                             )}
                                         </div>
                                         <div className="text-left font-mono font-black text-foreground relative">
-                                            {currentItem.fortune}
+                                            {Math.round(currentItem.fortune)}
                                             {currentItem.timingTypeFortune === 'next' && (
-                                                <sup className="text-[8px] ml-0.5 text-primary">{currentItem.deltaFortune >= 0 ? '+' : ''}{currentItem.deltaFortune}</sup>
+                                                <sup className="text-[8px] ml-0.5 text-primary">{currentItem.deltaFortune >= 0 ? '+' : ''}{Math.round(currentItem.deltaFortune)}</sup>
                                             )}
                                         </div>
                                     </div>
@@ -388,21 +388,21 @@ export function SceneFlowCard({ data, currentEventIndex, onClose, onWrite }: Pro
                                     <div className="grid grid-cols-[80px_1fr_60px_1fr] items-center gap-2 bg-muted/10 p-2 rounded-xl border border-white/5 relative">
                                         <div className="text-[8px] font-black uppercase text-muted-foreground/40 px-1">Evolution</div>
                                         <div className="text-right font-mono font-bold text-muted-foreground/60 relative">
-                                            {currentItem.prevEvolution}
+                                            {Math.round(currentItem.prevEvolution)}
                                             {currentItem.timingTypeEvolution === 'prev' && (
-                                                <sup className="text-[8px] ml-0.5 text-emerald-500/60">{currentItem.deltaEvolution >= 0 ? '+' : ''}{currentItem.deltaEvolution}</sup>
+                                                <sup className="text-[8px] ml-0.5 text-emerald-500/60">{currentItem.deltaEvolution >= 0 ? '+' : ''}{Math.round(currentItem.deltaEvolution)}</sup>
                                             )}
                                         </div>
                                         <div className="flex justify-center relative">
                                             <ArrowRight className="size-3 text-muted-foreground/20" />
                                             {currentItem.timingTypeEvolution === 'trip' && (
-                                                <div className="absolute -top-3 text-[8px] font-black text-emerald-500">{currentItem.deltaEvolution >= 0 ? '+' : ''}{currentItem.deltaEvolution}</div>
+                                                <div className="absolute -top-3 text-[8px] font-black text-emerald-500">{currentItem.deltaEvolution >= 0 ? '+' : ''}{Math.round(currentItem.deltaEvolution)}</div>
                                             )}
                                         </div>
                                         <div className="text-left font-mono font-black text-foreground relative">
-                                            {currentItem.evolution}
+                                            {Math.round(currentItem.evolution)}
                                             {currentItem.timingTypeEvolution === 'next' && (
-                                                <sup className="text-[8px] ml-0.5 text-emerald-500">{currentItem.deltaEvolution >= 0 ? '+' : ''}{currentItem.deltaEvolution}</sup>
+                                                <sup className="text-[8px] ml-0.5 text-emerald-500">{currentItem.deltaEvolution >= 0 ? '+' : ''}{Math.round(currentItem.deltaEvolution)}</sup>
                                             )}
                                         </div>
                                     </div>
@@ -414,18 +414,18 @@ export function SceneFlowCard({ data, currentEventIndex, onClose, onWrite }: Pro
                                     <div className="grid grid-cols-2 gap-2 shrink-0">
                                         <div className="bg-primary/5 rounded-xl p-3 border border-primary/10 space-y-1">
                                             <span className="text-[8px] uppercase font-black text-primary/60 block tracking-tight">
-                                                Jump ({currentItem.deltaFortune >= 0 ? '+' : ''}{currentItem.deltaFortune}):
+                                                Jump ({Math.round(currentItem.deltaFortune) >= 0 ? '+' : ''}{Math.round(currentItem.deltaFortune)}):
                                             </span>
                                             <p className="text-[10px] text-foreground font-bold leading-tight italic">
-                                                "{(['socio', 'econo', 'politico'] as const).map(l => getDeltaInterpretation('fortune', currentItem.deltaFortune, l).examples[0]).join(', ')}"
+                                                "{(['socio', 'econo', 'politico'] as const).map(l => getDeltaInterpretation('fortune', Math.round(currentItem.deltaFortune), l).examples[0]).join(', ')}"
                                             </p>
                                         </div>
                                         <div className="bg-emerald-500/5 rounded-xl p-3 border border-emerald-500/10 space-y-1">
                                             <span className="text-[8px] uppercase font-black text-emerald-500/60 block tracking-tight">
-                                                Jump ({currentItem.deltaEvolution >= 0 ? '+' : ''}{currentItem.deltaEvolution}):
+                                                Jump ({Math.round(currentItem.deltaEvolution) >= 0 ? '+' : ''}{Math.round(currentItem.deltaEvolution)}):
                                             </span>
                                             <p className="text-[10px] text-foreground font-bold leading-tight italic">
-                                                "{(['socio', 'econo', 'politico'] as const).map(l => getDeltaInterpretation('evolution', currentItem.deltaEvolution, l).examples[0]).join(', ')}"
+                                                "{(['socio', 'econo', 'politico'] as const).map(l => getDeltaInterpretation('evolution', Math.round(currentItem.deltaEvolution), l).examples[0]).join(', ')}"
                                             </p>
                                         </div>
                                     </div>
@@ -433,18 +433,18 @@ export function SceneFlowCard({ data, currentEventIndex, onClose, onWrite }: Pro
                                     <div className="grid grid-cols-2 gap-2 grow overflow-y-auto custom-scrollbar pr-1">
                                         <div className="bg-primary/5 rounded-xl p-3 border border-primary/10 space-y-1">
                                             <span className="text-[8px] uppercase font-black text-primary/60 block tracking-tight">
-                                                Fortune Level ({currentItem.fortune}):
+                                                Fortune Level ({Math.round(currentItem.fortune)}):
                                             </span>
                                             <p className="text-[10px] text-foreground font-bold leading-tight italic">
-                                                "{(['socio', 'econo', 'politico'] as const).map(l => getFortuneInterpretation(currentItem.fortune, l).examples[0]).join(', ')}"
+                                                "{(['socio', 'econo', 'politico'] as const).map(l => getFortuneInterpretation(Math.round(currentItem.fortune), l).examples[0]).join(', ')}"
                                             </p>
                                         </div>
                                         <div className="bg-emerald-500/5 rounded-xl p-3 border border-emerald-500/10 space-y-1">
                                             <span className="text-[8px] uppercase font-black text-emerald-500/60 block tracking-tight">
-                                                Evolution Level ({currentItem.evolution}):
+                                                Evolution Level ({Math.round(currentItem.evolution)}):
                                             </span>
                                             <p className="text-[10px] text-foreground font-bold leading-tight italic">
-                                                "{(['socio', 'econo', 'politico'] as const).map(l => getEvolutionInterpretation(currentItem.evolution, l).examples[0]).join(', ')}"
+                                                "{(['socio', 'econo', 'politico'] as const).map(l => getEvolutionInterpretation(Math.round(currentItem.evolution), l).examples[0]).join(', ')}"
                                             </p>
                                         </div>
                                     </div>
