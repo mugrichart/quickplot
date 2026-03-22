@@ -3,7 +3,7 @@ import { StoryData } from '@/types/story'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { X, ChevronLeft, ChevronRight, Activity, MapPin, Navigation, Orbit, ArrowRight, Sparkles, Edit3 } from 'lucide-react'
-import { heroJourneyDetails, getFortuneInterpretation, getEvolutionInterpretation, getDeltaInterpretation, getLevelInterpretation, Lens } from '@/lib/constants'
+import { heroJourneyDetails, getFortuneInterpretation, getEvolutionInterpretation, getDeltaInterpretation, getLevelInterpretation, Lens, SCENES_PER_BEAT } from '@/lib/constants'
 import { Badge } from '@/components/ui/badge'
 import { motion, AnimatePresence, Variants } from 'framer-motion'
 
@@ -48,8 +48,8 @@ export function SceneFlowCard({ data, currentEventIndex, onClose, onWrite }: Pro
     const items = useMemo<FlowItem[]>(() => {
         if (!currentEvent) return []
 
-        const stepIndex = currentEventIndex % heroJourneyDetails.length
-        const beat = heroJourneyDetails[stepIndex]
+        const beatIndex = Math.floor(currentEventIndex / SCENES_PER_BEAT) % heroJourneyDetails.length
+        const beat = heroJourneyDetails[beatIndex]
 
         const introItems: FlowItem[] = [
             { type: 'intro', beatName: beat.name, beatDesc: beat.description }

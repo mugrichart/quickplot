@@ -7,6 +7,8 @@ import {
     Interpretation
 } from './interpretations';
 
+export const SCENES_PER_BEAT = 5;
+
 export const storySteps = {
     heroJourney: [
         10, // The Ordinary World

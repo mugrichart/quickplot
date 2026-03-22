@@ -24,7 +24,7 @@ import { EditBeatDialog } from './EditBeatDialog'
 import { AnimatePresence, motion } from 'framer-motion'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { storySteps } from '@/lib/constants'
+import { storySteps, SCENES_PER_BEAT, heroJourneyDetails } from '@/lib/constants'
 
 interface Props {
     initialData: StoryData
@@ -79,12 +79,17 @@ export function VisualizeOrchestrator({ initialData }: Props) {
         if (currentEventIndex + 1 >= events.length) {
             // Generate chaos
             const newEventIndex = events.length
+            const steps = storySteps[currentStructure]
+            const beatIndex = Math.floor(newEventIndex / SCENES_PER_BEAT) % steps.length
+            const beatWeight = steps[beatIndex]
+            const isNewBeat = newEventIndex % SCENES_PER_BEAT === 0
+
             const newEvent: StoryEvent = {
                 id: `event-${Date.now()}`,
-                label: `Unnamed ...`,
+                label: isNewBeat ? heroJourneyDetails[beatIndex].name : `Scene ${newEventIndex % SCENES_PER_BEAT + 1}`,
                 timestamp: Date.now(),
                 occurrences: { good: 0, bad: 0 },
-                placeStates: {} as Record<string, string>, // Optional string state if needed
+                placeStates: {} as Record<string, string>,
                 placeFortunes: {} as Record<string, number>,
                 characterLocations: {} as Record<string, string>,
                 characterFortunes: {} as Record<string, number>,
@@ -93,34 +98,30 @@ export function VisualizeOrchestrator({ initialData }: Props) {
 
             places.forEach(p => {
                 newEvent.placeFortunes[p.id] = Math.floor(Math.random() * 201) - 100
-                newEvent.placeStates[p.id] = "Chaotic Anomaly" // Placeholder state name
+                newEvent.placeStates[p.id] = "Chaotic Anomaly" 
             })
 
             characters.forEach(c => {
                 const randomPlace = places[Math.floor(Math.random() * places.length)]
                 newEvent.characterLocations[c.id] = randomPlace ? randomPlace.id : ''
 
-                // Story Structure Logic for Fortune and Evolution
-                const steps = storySteps[currentStructure]
-                const stepIndex = newEventIndex % steps.length
+                // Chaos around the beat
+                const variationCap = 15 // +/- 15 variation
+                const variation = (Math.random() * (variationCap * 2)) - variationCap
 
-                const fortuneRoll = Math.random() * 5 // 0-4.999
+                const fortuneRoll = Math.random() * 5 
                 let fortune: number
                 if (fortuneRoll <= 4.8) {
-                    // Follow structure
-                    fortune = steps[stepIndex]
+                    fortune = Math.max(-100, Math.min(100, beatWeight + variation))
                 } else {
-                    // Outlier / Chaos
                     fortune = Math.floor(Math.random() * 201) - 100
                 }
 
-                const evolutionRoll = Math.random() * 5 // 0-4.999
+                const evolutionRoll = Math.random() * 5 
                 let evolution: number
                 if (evolutionRoll <= 4.8) {
-                    // Follow structure
-                    evolution = steps[stepIndex]
+                    evolution = Math.max(-100, Math.min(100, beatWeight + variation))
                 } else {
-                    // Outlier / Chaos
                     evolution = Math.floor(Math.random() * 201) - 100
                 }
 
@@ -144,6 +145,34 @@ export function VisualizeOrchestrator({ initialData }: Props) {
         if (events.length === 0) return
         setCurrentEventIndex(prev => prev > 0 ? prev - 1 : events.length - 1)
     }, [events.length])
+
+    const handleNextBeat = useCallback(() => {
+        // Go to start of next beat
+        const currentBeatStart = Math.floor(currentEventIndex / SCENES_PER_BEAT) * SCENES_PER_BEAT
+        const nextBeatStart = currentBeatStart + SCENES_PER_BEAT
+        
+        if (nextBeatStart < events.length) {
+            setCurrentEventIndex(nextBeatStart)
+        } else if (events.length > 0) {
+            // Generate scenes until we hit the next beat? Or just go to next and it will generate.
+            // For simplicity, let's just go one by one or we might need to generate 5 at once.
+            // The user wants navigation to next beat. If we generate 5, they'll be there.
+            handleNext()
+        }
+    }, [currentEventIndex, events.length, handleNext])
+
+    const handlePrevBeat = useCallback(() => {
+        const isCurrentlyAtBeatStart = currentEventIndex % SCENES_PER_BEAT === 0
+        const currentBeatIndex = Math.floor(currentEventIndex / SCENES_PER_BEAT)
+        
+        let targetIndex: number
+        if (isCurrentlyAtBeatStart) {
+            targetIndex = Math.max(0, (currentBeatIndex - 1) * SCENES_PER_BEAT)
+        } else {
+            targetIndex = currentBeatIndex * SCENES_PER_BEAT
+        }
+        setCurrentEventIndex(targetIndex)
+    }, [currentEventIndex])
 
     useEffect(() => {
         let interval: NodeJS.Timeout
@@ -402,6 +431,8 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                                     onToggleSpeed={toggleSpeed}
                                     onPrev={handlePrev}
                                     onNext={handleNext}
+                                    onPrevBeat={handlePrevBeat}
+                                    onNextBeat={handleNextBeat}
                                 />
                                 <div className="h-4 w-px bg-white/10 mx-1" />
                                 <Badge variant="outline" className="text-[11px] py-0 border-none bg-transparent font-mono tabular-nums h-6 font-bold text-primary">

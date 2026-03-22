@@ -2,7 +2,7 @@ import { StoryData } from '@/types/story'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { X, Sparkles } from 'lucide-react'
-import { heroJourneyDetails, getFortuneInterpretation, getEvolutionInterpretation } from '@/lib/constants'
+import { heroJourneyDetails, getFortuneInterpretation, getEvolutionInterpretation, SCENES_PER_BEAT } from '@/lib/constants'
 import { Badge } from '@/components/ui/badge'
 
 interface Props {
@@ -15,8 +15,8 @@ export function SceneSuggestionsCard({ data, currentEventIndex, onClose }: Props
     const currentEvent = data.events[currentEventIndex]
     
     // We assume heroJourney structure directly here, mapping by 12 steps
-    const stepIndex = currentEventIndex % heroJourneyDetails.length
-    const beat = heroJourneyDetails[stepIndex]
+    const beatIndex = Math.floor(currentEventIndex / SCENES_PER_BEAT) % heroJourneyDetails.length
+    const beat = heroJourneyDetails[beatIndex]
 
     if (!currentEvent) return null
 
