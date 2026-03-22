@@ -113,9 +113,8 @@ export function VisualizeOrchestrator({ initialData }: Props) {
             })
 
             characters.forEach(c => {
-                const lastLocId = lastEvent?.characterLocations[c.id]
                 const randomPlace = places[Math.floor(Math.random() * places.length)]
-                newEvent.characterLocations[c.id] = lastLocId || (randomPlace ? randomPlace.id : '')
+                newEvent.characterLocations[c.id] = randomPlace ? randomPlace.id : ''
 
                 const prevFortune = lastEvent?.characterFortunes[c.id] ?? c.initialFortune ?? 0
                 const prevEvolution = lastEvent?.characterEvolution[c.id] ?? c.initialEvolution ?? 0
