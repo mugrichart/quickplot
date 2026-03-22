@@ -173,6 +173,13 @@ export function VisualizeOrchestrator({ initialData }: Props) {
         }
         setCurrentEventIndex(targetIndex)
     }, [currentEventIndex])
+    
+    // Check for existing map on mount
+    useEffect(() => {
+        fetch('/api/map', { method: 'HEAD' }).then(res => {
+            if (res.ok) setMapImageUrl('/api/map')
+        })
+    }, [])
 
     useEffect(() => {
         let interval: NodeJS.Timeout

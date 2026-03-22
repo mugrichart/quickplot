@@ -29,11 +29,28 @@ export function MapImageUpload({
 }: Props) {
     const fileInputRef = useRef<HTMLInputElement>(null)
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
         if (file) {
-            const url = URL.createObjectURL(file)
-            onImageUpload(url)
+            const formData = new FormData()
+            formData.append('map', file)
+            
+            try {
+                const res = await fetch('/api/map', {
+                    method: 'POST',
+                    body: formData
+                })
+                const data = await res.json()
+                if (data.success) {
+                    // Cache bust with timestamp
+                    onImageUpload(`/api/map?t=${Date.now()}`)
+                }
+            } catch (err) {
+                console.error('Failed to upload map:', err)
+                // Fallback to local URL if upload fails (optional)
+                const url = URL.createObjectURL(file)
+                onImageUpload(url)
+            }
         }
     }
 
@@ -56,7 +73,14 @@ export function MapImageUpload({
                             <Button
                                 variant="ghost"
                                 size="icon-xs"
-                                onClick={() => onImageUpload(null)}
+                                onClick={async () => {
+                                    try {
+                                        await fetch('/api/map', { method: 'DELETE' })
+                                        onImageUpload(null)
+                                    } catch (e) {
+                                        console.error('Failed to delete map', e)
+                                    }
+                                }}
                                 className="hover:text-destructive"
                             >
                                 <X className="size-3" />
