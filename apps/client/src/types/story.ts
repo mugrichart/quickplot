@@ -2,6 +2,9 @@ export interface Character {
   id: string;
   name: string;
   color: string;
+  initialFortune?: number;
+  initialEvolution?: number;
+  initialPlaceId?: string;
 }
 
 export interface Place {

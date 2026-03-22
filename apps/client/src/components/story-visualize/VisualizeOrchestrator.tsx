@@ -77,12 +77,18 @@ export function VisualizeOrchestrator({ initialData }: Props) {
 
     const handleNext = useCallback(() => {
         if (currentEventIndex + 1 >= events.length) {
-            // Generate chaos
+            // Generate new cumulative state
             const newEventIndex = events.length
             const steps = storySteps[currentStructure]
             const beatIndex = Math.floor(newEventIndex / SCENES_PER_BEAT) % steps.length
-            const beatWeight = steps[beatIndex]
             const isNewBeat = newEventIndex % SCENES_PER_BEAT === 0
+
+            // Calculate current beat's contribution to delta
+            // Linear progression: each scene in a beat contributes 1/5 of the beat's transition
+            const currentBeatWeight = steps[beatIndex]
+            const prevBeatWeight = beatIndex > 0 ? steps[beatIndex - 1] : 0
+            const beatDelta = currentBeatWeight - prevBeatWeight
+            const sceneStep = beatDelta / SCENES_PER_BEAT
 
             const newEvent: StoryEvent = {
                 id: `event-${Date.now()}`,
@@ -96,33 +102,41 @@ export function VisualizeOrchestrator({ initialData }: Props) {
                 characterEvolution: {} as Record<string, number>
             }
 
+            const lastEvent = events[events.length - 1]
+
             places.forEach(p => {
-                newEvent.placeFortunes[p.id] = Math.floor(Math.random() * 201) - 100
+                const prevPlaceFortune = lastEvent?.placeFortunes[p.id] ?? 0
+                // Places have organic slow drift
+                const placeDelta = (Math.random() * 20) - 10 // +/- 10
+                newEvent.placeFortunes[p.id] = Math.max(-100, Math.min(100, prevPlaceFortune + placeDelta))
                 newEvent.placeStates[p.id] = "Chaotic Anomaly" 
             })
 
             characters.forEach(c => {
+                const lastLocId = lastEvent?.characterLocations[c.id]
                 const randomPlace = places[Math.floor(Math.random() * places.length)]
-                newEvent.characterLocations[c.id] = randomPlace ? randomPlace.id : ''
+                newEvent.characterLocations[c.id] = lastLocId || (randomPlace ? randomPlace.id : '')
 
-                // Chaos around the beat
-                const variationCap = 15 // +/- 15 variation
+                const prevFortune = lastEvent?.characterFortunes[c.id] ?? c.initialFortune ?? 0
+                const prevEvolution = lastEvent?.characterEvolution[c.id] ?? c.initialEvolution ?? 0
+
+                // Minor chaos variation per scene
+                const variationCap = 4
                 const variation = (Math.random() * (variationCap * 2)) - variationCap
 
-                const fortuneRoll = Math.random() * 5 
+                const roll = Math.random() * 5 
                 let fortune: number
-                if (fortuneRoll <= 4.8) {
-                    fortune = Math.max(-100, Math.min(100, beatWeight + variation))
-                } else {
-                    fortune = Math.floor(Math.random() * 201) - 100
-                }
-
-                const evolutionRoll = Math.random() * 5 
                 let evolution: number
-                if (evolutionRoll <= 4.8) {
-                    evolution = Math.max(-100, Math.min(100, beatWeight + variation))
+
+                if (roll <= 4.8) {
+                    // Steady progression aligned with story beat
+                    fortune = Math.max(-100, Math.min(100, prevFortune + sceneStep + variation))
+                    evolution = Math.max(-100, Math.min(100, prevEvolution + sceneStep + variation))
                 } else {
-                    evolution = Math.floor(Math.random() * 201) - 100
+                    // Random drama (unexpected delta)
+                    const chaosDelta = (Math.random() * 40) - 20 // +/- 20
+                    fortune = Math.max(-100, Math.min(100, prevFortune + chaosDelta))
+                    evolution = Math.max(-100, Math.min(100, prevEvolution + (Math.random() * 40 - 20)))
                 }
 
                 newEvent.characterFortunes[c.id] = fortune
@@ -282,7 +296,14 @@ export function VisualizeOrchestrator({ initialData }: Props) {
 
     const handleAddCharacter = useCallback((name: string, color: string, initialPlaceId: string, initialFortune: number, initialEvolution: number) => {
         const newId = `char-${Date.now()}`
-        const newChar = { id: newId, name, color }
+        const newChar = { 
+            id: newId, 
+            name, 
+            color,
+            initialFortune,
+            initialEvolution,
+            initialPlaceId
+        }
 
         setCharacters(prev => {
             const updatedChars = [...prev, newChar]
