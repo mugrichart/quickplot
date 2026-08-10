@@ -1,7 +1,7 @@
 # Quickplot
 
 A random-driven storytelling tool designed to eliminate planning
-paralysis and help writers start writing immediately
+paralysis and help writers start writing immediately.
 
 Many writers want to write but get stuck planning plots, characters, and
 story arcs before the first sentence is even written. Quickplot removes
